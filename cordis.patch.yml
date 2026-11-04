@@ -1,0 +1,12 @@
+# 墨卡大师灵动岛 —— bundle 挂载声明
+#
+# 这个包加一枚「技能指南」胶囊兼状态灯：界面在 client.js（由 dsh-client-modules 编译进
+# window.__DSH_BOOT__ 的模块表）；宿主半边 index.js 听会话事件、用 status.js 折叠出状态，
+# 挂一条只读长轮询路由 /memo-island/status。不写配置、不改会话、不回卡片正文。
+- insert:
+    - id: memo-skill-island
+      name: dsh-memo-skill-island
+      config:
+        update:
+          repo: Cognifair/dsh-memo-skill-island
+          assetPattern: "^dsh-memo-skill-island-[0-9]+\\.[0-9]+\\.[0-9]+\\.tgz$"

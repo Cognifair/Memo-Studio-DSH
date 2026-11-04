@@ -1,0 +1,46 @@
+{
+  "name": "dsh-memo-skill-island",
+  "version": "0.1.0",
+  "private": true,
+  "description": "墨卡大师灵动岛：DSH 顶部的技能指南胶囊兼状态指示灯——显示墨卡大师在做什么、是否在等你、做到哪了；点开是当前任务和可复制的技能目录。",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "vendor/glyph-roll/*",
+    "index.js",
+    "status.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "progress.js",
+    "update.js",
+    "update-config.js",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "license": "SEE LICENSE IN THIRD_PARTY_NOTICES.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cognifair/dsh-memo-skill-island.git"
+  },
+  "homepage": "https://github.com/Cognifair/dsh-memo-skill-island"
+}

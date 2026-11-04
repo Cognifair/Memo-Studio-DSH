@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="墨卡大师 · 技能指南">
+  <rect width="64" height="64" rx="15" fill="#1b1b1c"/>
+  <rect x="9.5" y="23.5" width="45" height="17" rx="8.5" fill="none" stroke="#84a9f9" stroke-width="2.6"/>
+  <circle cx="18.5" cy="32" r="2.7" fill="#84a9f9"/>
+  <path d="M31.5 29.5l4.2 4.2 4.2-4.2" fill="none" stroke="#e8ecf5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
