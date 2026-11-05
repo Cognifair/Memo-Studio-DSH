@@ -1,7 +1,35 @@
 # Third-party notices
 
-Glyph Roll and its bundled dependencies retain their MIT notices in vendor/glyph-roll/LICENSE.glyph-roll and LICENSE.svelte.md.
+## GitHub mark — Primer Octicons
 
-The island animation was adapted for the web with reference to the tutorial https://www.sinasamaki.com/dynamic-island/ and https://github.com/sinasamaki/DynamicIsland. The upstream repository does not declare a license as of this release. No MIT license grant is asserted for upstream-derived portions. Public availability of this package does not establish unrestricted redistribution rights for those portions.
+Source: https://github.com/primer/octicons/blob/main/icons/mark-github-16.svg
 
-No additional license grant is made for this initial release; retain the applicable third-party notices.
+MIT License
+
+Copyright (c) 2026 GitHub Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+## Skill avatar sources
+
+- MinerU avatar: https://mineru.net/favicon-96x96.png (linked by https://mineru.net/apiManage/docs).
+- Anki avatar: embedded PNG from https://apps.ankiweb.net/logo.svg (linked by https://apps.ankiweb.net/).
+
+These product logos identify the corresponding integrations. Their trademarks and artwork belong to their respective owners; no endorsement is implied.

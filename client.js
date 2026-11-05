@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 墨卡大师灵动岛 —— 客户端半边。
  *
  * 形态：frame 级浮层（shell.overlay）顶部居中的一枚胶囊「墨卡大师 · 技能指南」，
@@ -2819,20 +2819,28 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var SKILLS = [
       {
         id: 'memo-cardest',
+        repository: 'https://github.com/Cognifair/memo-cardest',
+        features: [
+          { title: { zh: '核心内容制作', en: 'Create and upload cards' }, text: { zh: '制作符合墨墨格式的记忆卡，支持 TXT 交付与 API 上传。', en: 'Create Markji-format cards, deliver TXT files or upload through the API.' } },
+          { title: { zh: '自动细化需求', en: 'Refine your request' }, text: { zh: '只需说“做墨墨记忆卡”，它会逐步帮你明确需求，无需操心提示词工程。', en: 'Just ask for Markji cards. It helps clarify your needs step by step, without prompt engineering.' } },
+          { title: { zh: '自动调度支链', en: 'Coordinate supporting skills' }, text: { zh: '作为支链技能的调度中心，根据材料判断并调用所需技能。', en: 'Coordinates supporting skills, choosing what to call based on your material.' } }
+        ],
+        exampleFile: { zh: '3500个必备考研英语.pdf', en: '3500 Essential English Words.pdf' },
+        examplePrompt: { zh: '帮我把这个变成墨墨记忆卡', en: 'Turn this into Markji cards.' },
         title: '墨卡大师',
         titleEn: 'Memo-Cardest',
         alias: 'Memo-Cardest',
         use: {
-          zh: '把讲义、笔记和教材整理成墨墨记忆卡。',
-          en: 'Turn handouts, notes and textbooks into Markji cards.'
+          zh: '墨卡大师，即 Memo-Cardest 技能。他有以下功能：',
+          en: 'Memo-Cardest · From study material to Markji cards. Start with one sentence.'
         },
         prep: {
           zh: '学习材料，以及你想学什么、怎么考。',
           en: 'Your material, plus what you want to learn and how you want to be tested.'
         },
         example: {
-          zh: '把这份讲义做成 30 张概念卡，先给我 TXT。',
-          en: 'Turn this handout into 30 concept cards and give me the TXT first.'
+          zh: '[3500个必备考研英语.pdf] 帮我把这个变成墨墨记忆卡',
+          en: '[3500 Essential English Words.pdf] Turn this into Markji cards.'
         },
         delivery: {
           zh: '可交付 TXT，也可通过 API 直接写进指定牌组。',
@@ -2845,12 +2853,15 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       {
         id: 'memo-mineruocr',
-        title: 'Memo-MinerUOCR',
+        repository: 'https://github.com/Cognifair/memo-mineruocr',
+        title: '材料转文字',
+        conciseIntro: true,
+        features: [],
         titleEn: 'Memo-MinerUOCR',
         alias: 'memo-mineruocr',
         use: {
-          zh: '把 PDF、扫描件和图片里的文字识别成 Markdown。',
-          en: 'Turn PDFs, scans and photos into Markdown text.'
+          zh: '即技能 Memo-MinerUOCR，可被主技能自动调用，将图片/材料转为文字，尤其擅长大批量材料快速处理，最终的产物为Markdown格式。',
+          en: 'Memo-MinerUOCR can be called automatically by the main skill to convert images and materials into text. It excels at processing large batches quickly and delivers Markdown.'
         },
         prep: {
           zh: '一份 PDF、扫描件或图片，整本书也行。',
@@ -2875,12 +2886,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       {
         id: 'memo-canvas',
+        repository: 'https://github.com/Cognifair/memo-canvas',
         title: '墨兰迪',
+        conciseIntro: true,
         titleEn: 'Memo-Canvas',
         alias: 'Memo-Canvas',
         use: {
-          zh: '把表格、公式和图做成能放进卡片的图片。',
-          en: 'Turn tables, formulas and diagrams into images you can put on a card.'
+          zh: '即 Memo Canvas 技能，可被主技能自动调用，可以根据你的材料中的表格重新渲染出精美的墨墨风格表格、或者LaTeX格式表格。也可以重新绘制你材料中的科学图表、化学有机/无机结构。',
+          en: 'Memo Canvas can be called automatically by the main skill to recreate tables from your materials as polished MaiMemo-style tables or LaTeX tables. It can also redraw scientific diagrams and organic or inorganic chemical structures from your materials.'
         },
         prep: {
           zh: '表格、公式或流程图的截图或内容。',
@@ -2901,12 +2914,15 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       {
         id: 'memo-ankigo',
+        repository: 'https://github.com/Cognifair/memo-ankigo',
         title: '迁墨',
+        conciseIntro: true,
+        features: [],
         titleEn: 'Memo-AnkiGo',
         alias: 'Memo-AnkiGo',
         use: {
-          zh: '把 Anki 的图片挖空卡迁成墨墨的图片遮罩卡。',
-          en: 'Move Anki image-occlusion cards into Markji as native image masks.'
+          zh: '本技能可以自动启动电脑上的Anki来进行墨墨格式的转换，可以完美的转换图片遮罩。当然，也可以直接提供Anki文件。',
+          en: 'This skill can automatically launch Anki on your computer to convert cards to the Markji format, including seamless image-mask conversion. You can also provide an Anki file directly.'
         },
         prep: {
           zh: '本机 Anki 里的牌组；卡片用 Image / Masks / Mode 字段。',
@@ -2925,18 +2941,20 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           en: 'Tested on the 26-handout template; other Image Occlusion variants and study progress are not covered. Several rectangles in one group become separate masks in order.'
         },
         note: {
-          zh: '需要本机 Anki 正在运行。',
-          en: 'Requires Anki running on this machine.'
+          zh: 'AI 会自动启动本机 Anki，无需手动打开或导出文件。',
+          en: 'AI starts Anki on your computer automatically. No manual launch or file export is needed.'
         }
       },
       {
         id: 'memo-cardlink',
+        repository: 'https://github.com/Cognifair/memo-cardlink',
         title: '卡跳跳',
+        conciseIntro: true,
         titleEn: 'Memo-CardLink',
         alias: 'Memo-CardLink',
         use: {
-          zh: '给已有卡片加上能互相跳转的链接。',
-          en: 'Add links so existing cards can jump to each other.'
+          zh: '卡跳跳可以做到类似翻斗研考研牌组的双向引用，也可以生成一个可以用于跳转某一个牌组的某一个卡片的链接——让你可以在电子版材料中实现点击链接直接跳转对应的卡片。',
+          en: 'Memo-CardLink can create bidirectional references like those in the Fandouyan postgraduate exam decks. It can also generate a link to a specific card in a specific deck, letting you jump directly to that card from your digital materials.'
         },
         prep: {
           zh: '要互链的卡片、目录卡或章节。',
@@ -2957,12 +2975,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       {
         id: 'memo-txt',
+        repository: 'https://github.com/Cognifair/memo-txt',
         title: '墨记文档导入',
+        conciseIntro: true,
         titleEn: 'Memo-TXT',
         alias: 'Memo-TXT',
         use: {
-          zh: '把卡片内容整理成墨墨能直接导入的 TXT。',
-          en: 'Turn card content into a TXT that Markji can import directly.'
+          zh: '使用TXT文档导入快速制作牌组，如果制作的牌组不包含多媒体，十分建议使用TXT途径制作，制作速度相当快。',
+          en: 'Quickly create decks through TXT import. For decks without multimedia, TXT is highly recommended for its fast creation speed.'
         },
         prep: {
           zh: '卡片内容，或者一份格式不对的 TXT。',
@@ -2983,12 +3003,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       {
         id: 'memo-qahelper',
-        title: 'Memo-QAhelper',
+        repository: 'https://github.com/Cognifair/memo-qahelper',
+        title: '墨墨小助手',
+        conciseIntro: true,
         titleEn: 'Memo-QAhelper',
         alias: 'memo-qahelper',
         use: {
-          zh: '回答墨墨记忆卡本身怎么用。',
-          en: 'Answer how Markji itself works.'
+          zh: '解答各种墨墨记忆卡的使用问题，包括墨卡大师的使用本身~',
+          en: 'Answer all kinds of questions about using Markji, including Memo-Cardest itself~'
         },
         prep: {
           zh: '一个具体的使用问题。',
@@ -3011,11 +3033,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         id: 'memo-cardest-delete',
         skillId: 'memo-cardest',
         title: '批量删除',
+        conciseIntro: true,
         titleEn: 'Bulk delete',
         alias: '墨卡大师 · DELETE 章节',
         use: {
-          zh: '按清单批量删掉墨墨卡片。',
-          en: 'Delete Markji cards in bulk from a list.'
+          zh: '通过专门创建一个叫做DELETE的章节，将你想要删除的卡片自动移动到那里，只需要最后点击章节的删除就可以删除卡片。',
+          en: 'Automatically move the cards you want to delete into a dedicated chapter named DELETE. Then simply delete that chapter to remove the cards.'
         },
         prep: {
           zh: '要删的牌组章节，或者一份卡片清单。',
@@ -3659,7 +3682,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 .msi-root[data-phase="ask"] .msi-capsule__meta { font: inherit; }
 .msi-root[data-phase="ask"] .msi-capsule__meta::before { content: ' · '; white-space: pre; }
 .msi-copy-live[data-enter="true"] { animation: msi-copy-in 900ms cubic-bezier(.2,.7,.2,1) both; }
-.msi-copy-ghost { position: absolute; top: 0; left: 0; width: max-content; max-width: 100%; pointer-events: none; animation: msi-copy-out 400ms ease-out both; }
+.msi-copy-live[data-enter="true"], .msi-copy-ghost { will-change: filter, opacity; }
+.msi-copy-ghost { position: absolute; top: 0; left: 0; width: max-content; max-width: calc(100vw - 48px); pointer-events: none; animation: msi-copy-out 400ms ease-out both; }
 @keyframes msi-copy-out { from { filter: blur(0); opacity: 1; } to { filter: blur(3px); opacity: 0; } }
 @keyframes msi-copy-in { from { filter: blur(3px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) {
@@ -4166,6 +4190,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 .msi-update__btn:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 1px; }
 .msi-update__btn--primary { background: var(--msi-button); }
 .msi-update__btn--primary:hover { background: var(--msi-line); }
+.msi-update__skeleton { display: flex; flex-direction: column; gap: 14px; padding: 16px 12px; min-height: 180px; border-radius: 8px; background: var(--msi-code); }
+.msi-update__skeleton > span { display: block; height: 12px; border-radius: 4px; background: linear-gradient(100deg, var(--msi-line) 25%, var(--msi-line-2) 50%, var(--msi-line) 75%); background-size: 250% 100%; animation: msi-update-loading 1.6s ease-in-out infinite; }
+@keyframes msi-update-loading { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .msi-update__skeleton > span { animation: none; } }
 @media (max-width: 620px) { .msi-update { left: 4px; right: 4px; } }
 .msi-tasks__label {
   padding: 0 8px 8px;
@@ -4306,6 +4334,42 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   line-height: 1.65;
   color: var(--msi-body);
 }
+.msi-features { display: grid; gap: 16px; margin: 22px 0 0; }
+.msi-features__item { margin: 0; }
+.msi-features dt { font-size: 12.5px; line-height: 1.5; font-weight: 600; color: var(--msi-title); }
+.msi-features dd { margin: 4px 0 0; font-size: 12px; line-height: 1.75; color: var(--msi-muted); }
+.msi-example__heading { display: flex; align-items: center; gap: 6px; margin: 24px 0 18px; font-size: 14px; line-height: 1.5; font-weight: 600; color: var(--msi-title); }
+.msi-example__heading svg { width: 19px; height: 19px; flex-shrink: 0; }
+.msi-example-card { display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; min-height: 44px; padding: 10px 14px; border: 1px solid transparent; border-radius: 12px; background: #282828; color: var(--msi-body); font: inherit; text-align: left; cursor: pointer; }
+.msi-root[data-theme="light"] .msi-example-card { background: #F2F3F5; }
+.msi-example-card:hover { border-color: var(--msi-line-2); }
+.msi-example-card:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 3px; }
+.msi-example-card__body { display: grid; gap: 9px; min-width: 0; flex: 1; }
+.msi-example-card__file { justify-self: start; max-width: 100%; box-sizing: border-box; padding: 3px 7px; border: 1px solid var(--msi-line-2); border-radius: 5px; font-size: 11px; color: var(--msi-muted); overflow-wrap: anywhere; }
+.msi-example-card__prompt { flex: 1; min-width: 0; font-size: 12px; font-weight: 400; line-height: 1.6; overflow-wrap: anywhere; }
+.msi-example-card__action { display: inline-flex; flex-shrink: 0; color: var(--msi-muted); }
+.msi-example-card__action svg { width: 16px; height: 16px; }
+.msi-example--card .msi-example__heading { margin: 20px 0 12px; font-size: 12px; font-weight: 500; }
+.msi-example--card .msi-example__heading svg { width: 16px; height: 16px; }
+.msi-example-card[data-state="ok"] .msi-example-card__action { color: var(--msi-accent); }
+.msi-skill-hero { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.msi-skill-hero__icon { width: 52px; height: 52px; flex: 0 0 52px; object-fit: cover; border-radius: 12px; }
+.msi-skill-hero__symbol { display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; flex: 0 0 52px; border-radius: 12px; background: #282828; color: #ECECEC; }
+.msi-skill-symbol { width: 28px; height: 28px; }
+.msi-root[data-theme="light"] .msi-skill-hero__symbol { background: #F0F0F0; color: #242424; }
+.msi-skill-hero__main { min-width: 0; }
+.msi-skill-hero .msi-detail__title { font-size: 15px; font-weight: 600; }
+.msi-skill-hero__heading { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; row-gap: 2px; }
+.msi-skill-hero__original-name { font-size: 12px; font-weight: 400; line-height: 1.4; color: var(--msi-muted); }
+.msi-skill-hero__actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 7px; }
+.msi-skill-hero__try, .msi-skill-hero__github { display: inline-flex; justify-content: center; align-items: center; box-sizing: border-box; min-height: 26px; padding: 4px 14px; border-radius: 7px; font: inherit; font-size: 11px; font-weight: 500; text-decoration: none; cursor: pointer; }
+.msi-skill-hero__try { border: 1px solid transparent; background: #D0D0D0; color: #191919; }
+.msi-skill-hero__github { border: 1px solid var(--msi-line-2); background: transparent; color: var(--msi-body); }
+.msi-skill-hero__try:hover { background: #E0E0E0; }
+.msi-skill-hero__github:hover { background: var(--msi-code); }
+.msi-skill-description__preview { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; margin: 0; font-size: 12.5px; line-height: 1.8; color: var(--msi-body); }
+.msi-skill-description__toggle { display: inline-flex; align-items: center; gap: 5px; padding: 5px 0; margin-top: 3px; border: 0; background: transparent; color: var(--msi-muted); font: inherit; font-size: 11.5px; cursor: pointer; }
+.msi-skill-hero__actions > :focus-visible, .msi-skill-description__toggle:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 3px; }
 .msi-detail__block { margin-top: 16px; }
 .msi-detail__label {
   margin-bottom: 4px;
@@ -4379,6 +4443,13 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   line-height: 1.6;
   color: var(--msi-soft);
 }
+.msi-repository .msi-example__heading { margin: 20px 0 12px; font-size: 12px; font-weight: 500; }
+.msi-repository .msi-example__heading svg { width: 16px; height: 16px; }
+.msi-repository__link { display: inline-flex; align-items: center; gap: 7px; padding: 7px 11px; border-radius: 8px; background: var(--msi-code); color: var(--msi-body); text-decoration: none; font-size: 11px; font-weight: 400; border: 1px solid transparent; }
+.msi-repository__link svg { width: 15px; height: 15px; }
+.msi-repository__link:hover { border-color: var(--msi-line-2); }
+.msi-repository__link:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 3px; }
+.msi-repository__arrow { margin-left: 6px; color: var(--msi-muted); }
 .msi-more {
   margin-top: 20px;
   padding-top: 12px;
@@ -4674,18 +4745,25 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     function useUpdateInfo() {
       var pair = React.useState({ info: UPDATE_IDLE, checking: false, error: false });
       var ref = React.useRef({ info: UPDATE_IDLE, checking: false, error: false });
+      var queuedForce = React.useRef(false);
       var setState = pair[1];
       function apply(next) { ref.current = next; setState(next); }
       async function refresh(force) {
-        if (ref.current.checking) return;
-        apply({ ...ref.current, checking: true });
+        if (ref.current.checking) { if (force) queuedForce.current = true; return; }
+        apply({ ...ref.current, checking: true, error: false });
+        var controller = new AbortController();
+        var timeout = setTimeout(function () { controller.abort(); }, 20000);
         try {
-          var response = await fetch(updateUrl(force), { cache: 'no-store' });
+          var response = await fetch(updateUrl(force), { cache: 'no-store', signal: controller.signal });
+          if (!response.ok) throw new Error('update_http');
           var body = await response.json();
           if (!body || !body.ok || !body.value || typeof body.value.state !== 'string') throw new Error('invalid_update');
           apply({ info: body.value, checking: false, error: false });
         } catch (error) {
           apply({ ...ref.current, checking: false, error: true });
+        } finally {
+          clearTimeout(timeout);
+          if (queuedForce.current) { queuedForce.current = false; refresh(true); }
         }
       }
       React.useEffect(function () {
@@ -4757,7 +4835,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 
       /* 状态：异常与等待优先；心跳只证明"还在上报"，不据此说"正在上传" */
       var state;
-      if (code === 'disconnected') state = { tone: 'warn', text: t('upload.state.disconnected') };
+      if (code === 'refreshing') state = { tone: 'quiet', text: t('progress.refreshing') };
+      else if (code === 'disconnected') state = { tone: 'warn', text: t('upload.state.disconnected') };
       else if (code === 'read_failed' || code === 'journal_read_failed') state = { tone: 'warn', text: t('upload.state.readFailed') };
       else if (code === 'heartbeat_stale' || code === 'stale') state = { tone: 'warn', text: t('upload.state.stale') };
       else if (health.waitReason === 'rate_limit') state = { tone: 'wait', text: t('upload.state.rateLimited') };
@@ -4827,10 +4906,27 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var STATUS_ROUTE = 'memo-island/status';
 
     /** 路由按页面目录解析（document.baseURI 可能带反向代理前缀），不从源站根开始。 */
+    function motionTrace(event, values) {
+      var trace = window.__memoIslandPerformance;
+      if (!trace || trace.enabled !== true) return;
+      if (!Array.isArray(trace.events)) trace.events = [];
+      if (!trace.observer && typeof PerformanceObserver === 'function') {
+        try {
+          trace.observer = new PerformanceObserver(function (list) {
+            if (trace.enabled !== true) { trace.observer.disconnect(); trace.observer = null; return; }
+            list.getEntries().forEach(function (entry) { motionTrace('long-task', { duration: entry.duration, start: entry.startTime }); });
+          });
+          trace.observer.observe({ type: 'longtask', buffered: false });
+        } catch (_) { /* Diagnostics never affect rendering. */ }
+      }
+      trace.events.push({ event: event, at: performance.now(), ...(values || {}) });
+      if (trace.events.length > 2000) trace.events.splice(0, trace.events.length - 2000);
+    }
+
     var memoSessionSnapshots = new Map();
     function cachedMemoSession(sessionId) {
       var saved = memoSessionSnapshots.get(sessionId);
-      if (!saved || Date.now() - saved.at > 60000) return { sessionId: sessionId, view: IDLE_STATUS, skew: 0, connection: 'connecting' };
+      if (!saved) return { sessionId: sessionId, view: IDLE_STATUS, skew: 0, connection: 'connecting' };
       return { sessionId: sessionId, skew: saved.skew, connection: 'refreshing', view: {
         ...saved.view, running: false, skillsPaused: true,
         health: { ...(saved.view.health || {}), code: 'refreshing' },
@@ -4855,6 +4951,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var pair = React.useState({ view: IDLE_STATUS, skew: 0, connection: 'connecting' });
       var setState = pair[1];
       React.useEffect(function () {
+        motionTrace('session', { cached: memoSessionSnapshots.has(sessionId) });
         setState(cachedMemoSession(sessionId));
         if (!sessionId || typeof fetch !== 'function') return undefined;
         var alive = true, rev = -1, instance = null, controller = null;
@@ -4877,6 +4974,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
               memoSessionSnapshots.delete(sessionId);
               memoSessionSnapshots.set(sessionId, { ...snapshot, at: Date.now() });
               if (memoSessionSnapshots.size > 24) memoSessionSnapshots.delete(memoSessionSnapshots.keys().next().value);
+              motionTrace('status', { phase: body.value.phase });
               setState(snapshot);
             } catch (error) {
               if (!alive) return;
@@ -4933,6 +5031,59 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     }
 
     /** Visual copy only: current status/ARIA and task state are never delayed. */
+    // Brand image extracted from the user-provided Memo-Cardest website.
+    var MEMO_BRAND_IMAGE = 'data:image/webp;base64,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';
+    // Monochrome skill symbols extracted from the supplied website's ecosystem diagram.
+    function SkillAvatar(props) {
+      switch (props.id) {
+        case 'memo-cardest-delete': return h('span', { className: 'msi-skill-hero__symbol', 'aria-hidden': 'true' },
+          h('svg', { className: 'msi-skill-symbol', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' },
+            h('path', { d: 'M7 3h12a2 2 0 0 1 2 2v12M5 7h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2ZM7 14h6' })));
+
+        case 'memo-mineruocr': return h('img', { className: 'msi-skill-hero__icon', src: 'data:image/png;base64,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', alt: '', width: 52, height: 52, style: { objectFit: 'contain' } });
+        case 'memo-canvas': return h('span', { className: 'msi-skill-hero__symbol', 'aria-hidden': 'true' }, h("svg", {"viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "1.6", "strokeLinecap": "round", "strokeLinejoin": "round", "aria-hidden": "true", "className": "msi-skill-symbol"} , h("rect", {"x": "3", "y": "4", "width": "18", "height": "16", "rx": "2"}), h("path", {"d": "M3 10h18M10 4v16M16 10v10"})));
+        case 'memo-txt': return h('span', { className: 'msi-skill-hero__symbol', 'aria-hidden': 'true' }, h("svg", {"viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "1.6", "strokeLinecap": "round", "strokeLinejoin": "round", "aria-hidden": "true", "className": "msi-skill-symbol"} , h("path", {"d": "M14 3H5v18h14V8l-5-5Z M14 3v5h5M8 13h8M8 17h6"})));
+        case 'memo-ankigo': return h('img', { className: 'msi-skill-hero__icon', src: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE7mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgOS4xLWMwMDIgNzkuYTZhNjM5NiwgMjAyNC8wMy8xMi0wNzo0ODoyMyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI1LjkgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAyNC0xMC0wN1QwNjo0NTowNSswNzowMCIgeG1wOk1vZGlmeURhdGU9IjIwMjQtMTAtMDlUMTc6NTE6MTErMDc6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMjQtMTAtMDlUMTc6NTE6MTErMDc6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiBwaG90b3Nob3A6Q29sb3JNb2RlPSIzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmY2ZjMwMzE3LWEyYmEtNDQ0ZS1iYWM5LTE1M2IwZmM1MzQ3YSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpmNmYzMDMxNy1hMmJhLTQ0NGUtYmFjOS0xNTNiMGZjNTM0N2EiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpmNmYzMDMxNy1hMmJhLTQ0NGUtYmFjOS0xNTNiMGZjNTM0N2EiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmY2ZjMwMzE3LWEyYmEtNDQ0ZS1iYWM5LTE1M2IwZmM1MzQ3YSIgc3RFdnQ6d2hlbj0iMjAyNC0xMC0wN1QwNjo0NTowNSswNzowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDI1LjkgKFdpbmRvd3MpIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtE8NioAADyjSURBVHja7Z0HfFvV+fd/Wp6ybHkngQwySUII2QTaUjgJEAJhlB0os4Uyy35pgUJLKaOlQCmUFiibkjBCAhmcAP0DGZAFWQ0ZZJDhbcmSLVuS9Z4j6zo3xk7s5J6r4ef3+QjLDr7yPeN7n+c55zyPJRKJgEQikeIhCwGIRCIRgEgkEgGIRCKRCEAkEokARIqPTuR11nQ0F9uA/Aw0jxTvhzgQ6WEFMuyIuOT/0wjrriAs3zfCsiEA67owUBGCpZYzV5BakEQAInVJk7g3IwfhyfkIT3chPFa879vVawgQVXth+8YH63Lx9d062BZ/zHKaqXVJBCBSuzqT155QiuBvihE80QJY9f/WDEvUmonIt6K/0PIfS+xnkb3fRyziF+1try0sooY9cMwug+OBOSx3LbU2iQBEimoarz1+OBoWCJcqU/fjSFhAx4KIVQDFpkGnk5K92SygFZbf2BBJ0/+jcNfq/oeMSzywfbCQuULUAyQCUDfUadwzaBACHwg3a4AOHJo1YzXwozq87kZk/KYC9sc/Yq4G6hESAagb6AReZ+mHxn/2RtOV8nth6TQJK8XRRSvnkIAkrKOQteUzo99vQvpDu5F2D8WJSASgFNYU7uk/GvXrtckvYzs6EJiqmJsWFPBLl9/LONF6ZJz/DnPPpp4iEYBSTBfw6tsHI/CIDjx2E62e/YEoLF00LXhdC9va/yHzx/OZq5p6jUQASgFdxStn9kLTOZrlYXCMx0AWtYwH+Z8NyLjjTZb/KPUeiQCUxLqGV/ASBE+Kp7vVVYvI0rLyBj+sO9Yg85h5LLeKepJEAEpS+IRhadRiLUmi6DYAbQn/a2RNfo/lfUQ9SiIAJYmm86qH+6PxjiSET6v0Vtt2pL30Iiu8jHqWRABKcJ3Ja9nRqP8oFu+RMRVLEt9OJHYftgZYK1chq/8C5vJSL5MIQAmoSdybORG+em3yJjl8WhXbrxR1yZYjezgd6SARgBJQv+ZlG+XuZn0wN1Wkh9BaZF44k7nfpB4nEYASRNpen2Yg1N6h0FSQHqybkf7Iq6zgTup5EgEozjqFe0rGw78nNkkTda+PYRySmxflPZbBsfBZVsRoBJAIQHHU9bx8aQFC4/RuSqpLWyXzwLZhNTKPXMhcNJBIBCCzNZV7jhoN/zfdCT6atG0GDcIYWobsnnSglUQAMlm38LLvZObCbuB6dQShKHgbYa35ClklCykdLIkAZI5kXp8x8G/o7u2gBd4ljJYgO5czV4BGB4kApFi/4BVzeiB4msnWj77DEmafkQYhGRtaiuz8BczloxFCIgAp0iTuzZoInz9GBOUAkhNc7qzW7y/S0mnI94mw9K8/vrEEzgJK60EiACnS+bz6xiEIPKF606GEm3wdCDASUBFYmuMdCNdDSFhCPeex3N00WkgEIIN1My/bkIvwIJWpNvRwq4Vt/W44ngzAuiIES4UDkV5piAzJRPPwQoSm5iDcXwMWWvbpxG0ntv7v/grZR3zIcr+jEUMiABmkU7mndBz8u9EmkZfRlo/m1n2NrJ++x/I+3d//fzqvHVGK4AM9EZzW3jXiAKHWz16O7GFzWO46GjkkApAx7tcNwv16UlW6Df3kXQKnez5z1Xb2dxn3ZvRH4ywBo8maNYKW2JHpINJbQiuRNfZ9lreMRg+JAHSIuoGXL8tHaLTCc1/Rk/QrkHXMbJa36mAuICyi0Ueh4RPhquXI7+N1Rk3/uYdyP91VJ/I6i8whLiieKx52rpYX3LG2rRcDJRARD8IQUBOEpUb8OLyQucIEoBSVsDDSj4MvoAeFsRO2Jaa0Cem/f40V3Huo17uIV987EIH79deOpzsmIHS0gNA3NJL2lUzlko7IEZloHpWO5iOz0DzSKb4eTHlumU63Ao4P6mFd7IP140ZYdyXqLnUCUBelbT5UMZk1a6ERllrheuV/ynIM6Zyp3DN0NPxrdW6RFSbvIaKY0A/HkYDNWAGYk3IRPi4Hzf06Gk/aCmfrpG1Tmluv9urMCRDtrob9s2rYXvbAPjeRYEQA6qIu4NW3DUbgURUujRYz+R8yrvsPy/+7LGRoFIRO4l77kQgsKkBobNv4TDxiQt0tsdlk7s1xInxCKYK35yM8roPYYSQk3KnYfi+rJVoxqcvxu9by3PKrHZGMtjArg+OjHUi7Yi7L3UMASjKpOvulv94iOJ0fMZdfxd9/Ma+6bwAafxevuJD+M5che/AHLPfbVBwn8uEh3Ki+Avi/KkLoZ+25Ui0bSaVlE4kBR0kK30hzdCHCEmlbj06AiG9F2vR5LLeMAJQkuo/vUtJgGoDkoHiWFU1SeQ9n85qpR6FhdrwgpIetgNBAAaFNqTA2pJUpoDPCjfBl/dB4QwfWSUTnRpl+lCa2Twz6h+dWpD+7E44beRwOEhOAuqBTuKfHePh3qfyMFcgaNZvlrVR9L1O454ix8G+OozvWCqGvkN3vQ5a7NVnHxRm8dqKwdH5RjNDUDDQX7LX2LEGddZNwmRJiWzSg9X08SjARgLqgc3jNOcPRMFPlZ3wBZ5pZTyJ5nk1AqNyBSHacLCH9jun+AkJbkmUsnMY9Q0oQvLcHgmfp4yyxgHFYBpSTJT2Lfj/bDqS98gIrvJQAlIC6mFf9fgAafwuDl981a6AOts1/YSUDTHYbLEejYYuMUcRjmV4PvkS3hITV2K8IoTsOR9MVbc/cybaTQeNkLUYQ6wf5t1tklstvkDXUjNUyAlAXdCWvfOMwNF1gdABam4TfIf1vL7OCG+JxbzfxsnV5CB+ZADGhYR8k0BK9gM7hboSu6Iumu9quKOniKcle/01vDUUTzIVgCSxFtku1NU4A6oJu4OUr8xEaqQpAwgefJHxwHq/7u56Xf1WA0Jh4x4TivVnxZO7NF9C5rBjBy90ID2/HyrGmCnD255JJCC1Bds5C5goRgOIsuaw6Eb46GS9RsAQfnfDiiVM8j+VWxPM+r+UVn4iJd0I8NizqwbcKWT+axfI+N+uz5ZGHPISmCvfqEWEJDtH/m5yI0iroTil3NUuoSXhkS+HMV+WOEYA6qVgCMl+0zYwFUOuJ+s+QY0uEXaq/4BWzeiB4hj4uEA8ICYvwRGERfqLy86ZyzzAZTBau9Xlt/w65ZG72/SeiJVQB+2d/Z8U/JgDFORYwFv7tOmhYDJpwUZjJzv4czkyjdj4fqq7gla8La+DCOFV5bW3f1cic9g5zv2/kxU/lnt7CtZreD433tInraDXPLN0VOh2FB9Yh89IZzP0KAShOEk/K4aPhX200gLQOroR96dOseEIi3fNlvPK5Pmi6Ok55hVrbeA0yz32buQ9p+4Pc9+RG6JIihC7MRXiwvv0te487EHT20w+L4XQtYK46AlAcdCavPeFo1H9iNIA0X3sr0p9+iRVcn2j3fSmvelxYCjfHIGSqZaD/zPXIuOYtlv+Prvz+ZO51FSF4y2EIXq/fIIjYmavuFtc51IekF7bNjxu8TYQA1En9jNdcOAwNrxttDcgAp3QDNiDjljdZ/uOJeO/a/qc4xYRa23sz0h96lRXcfQDoOIWl8/NeCP5aS1NLcR1D+iHqiq9F5vSZzP0aAchkXcCrbx+MwCNG75MRAGoQAMoUHXuh6Ng3E/X+BYQeFBC6O14xIa0e/S443vsnKzpL+we5eiWsm97ZaGY90HSzftmc4jpqHgSfIcf+McsJE4DMdUWelAcMjS7BrAHoG2Se+i5zz0vkNpjOqx7qj8a74pVrWoN/NeyrdsLxuzyEz89H6HgBn8P1E0UehbAgYiP3Sk37b0L6H15jBfcQgEzUFbzylcPRNN3oPNAa0FYh69hZLG9JorfDJbzqsSPQeGscE5v9wAKT0JH9Io+RkHulvu1jFXBzOHM1EYBM0lW88p1eaDrLYAuo1bVIptw4GoTiERPSJgJi+7Hk9wQd86SNfyNWJglAXZBWhtloAGkTJ9mK+AmX9K/CJb0pTjEhUtzcsJYDy0ZtTiQAdVK/5BXzShE82UgA6WMpAkAlAkDlydQmAkJPCQhdH8/6Y6nu9bTN+2xpx9IzO8mZ1t9fwJkp3LAAAcgEaWekjExZ0ab+V1LWUr+MVz7bB02/jFdMKAWBE83nLL85mAedbmOlMqtUmwNrkXneTOaeQQAyQb/i5Z8XIXScKgAthjNvAXN5krFtfs6rnumLxmtibWMnCHVtDIh2C3UEHAl2uWmyCZZaH2wb6mH9JgjLLtHOmaKRs+X/k4XmwYUI/VSrAaeHhEoLyIjd+wSgTuo6Xr5EdPJ4hQAyfJt7HC0higl10tJpC51GWGs8sH3thXWRAM48AZwVnS1QIBOm5SJ83iAE/qTBS1FfRGOXci78nvVIIwCZoBt4+Yp8hI5RASBpNgsXLE9VJQyzdAmv+ssRaPw1xYTaj+V0FKPZA8e8atj/44P1I2HdVBzq8vYk7s0YioZleQgPU/1AWARnlhi3DQQgxbqRl62Wu2yN3Amt21fRuBTZ7kPpyESRfrMisG/1he4GneZY2Z0fpm9FaCvSnxLQeSYAyxYjSynra8ndzvfsFu5ZqcoHwqFmsCQAdbJTR6J+vTxFrQJA4qnn/xLZhYe6opAouohX3z0QgQe7I4Rknza3JKW36S2PBlgrhaXzaiXsT37Icr8z4285mXuLJsCndGV1NTLPeIe5ZxOAFAPoGNRvdCHcXwWAZNY5AaDihQbsLE0UaWfnoEu4luoxHWnt6N1zWRK5HI53JHTitcn0Gl7xcQmCP1VgBUXjQBuQcfObLP8JApBCncjrrMfA/50Tzb1VACgAa/VyZJXGozCcSp3La64aioZ/6gdsClk67Vp30tLZDce/a2B/XgDo23hnuBR9cKXog38pKDYQ7c9DLaRAAOqETuJe2yjU7xD+dA8VABKDtkwA6DCVyb/jOAEuFRPgJf39JndcxxJq76CrnIjC0nlMuFfbEukPnsZrjxuJ+s+NPkStWVTfI+2t51nh+QQgtQCyj0b97kw0Fxo5iTSY+WHdtQLZvY1KcZBoOpvXnHEUGmbp7zmZ/n6t2GDbQ8hy9Uq8/jCL5X2RqH/7KdxTMB7+SlUAEi7mf59hRScQgBSKca9jDOrL0tHsVgEgH2zbViLriERISK9KZ/HaySNQPz+ZLCHZP/KrHpgVsH9RAcc/amF76yPmakyCsZtxHHwNqgBUBfuyv7HisQQgxQASFtCeDDTnE4AOXnKj3Fj4tyQohCK6M1X7uFeyYu1OOB73wDZzHsstS8Y2VwWg3XDMfY4VTSEAJTWArNtXIrtfqgNIahL3ZosJUdZSjz7+Rze0ZfP2Jud3SH+iHPaHkylLwQ8tz5rTRqBhjtFHMzQAHWoteQJQ52JA0gXbLRObK4oB7ViB7L7dAUBSclvD0ahfHdupK+85YqY11NH5K9kfe+CYUw7HX2axvM9Soa0v5NV3DULgIVWrYJ3J000AOnQAqQ5C74wFoZu7U7tqRzf0baEaPJGWTYKOvX1gCQo34r1K2J+rg/XTVFuJ1PJYKXB5owBah8yrZjD38wQgAlBS6nReO3oU6pfp4kJGpfToMKYjJaDzfpmwdOphXfpRiuxAb8/S/BF8jTHgKtmHtQpZPz4Ua5EA1HkA7RQAKqZleOMlV2qGoWGlVpO9vdWnTgInesLcgoi1vd8VVs6S75F2p2jvxam26bM9yWKMY+HfrPIzvkJ2nw9Z7nYCkHoAfS8AVKICQHLL/gpkHW7kocRk1Jm8lg1Hwxxtv41cuWkBUURrb8u+1o0lou1IjsVy9nnCN8JSWwkHr4btlVrY53Q3C/MiXn3PQAQegMJd6J/D6TgUt5UA1DkAyZ3Q38dOFhsGIO1aBKB93YaeCN7dG023yn1XXfld2Y5e2L4Rr489sL0lALRNtGm3HeC38LLvchDuq+ocWBCWuj+yHq5DuRABqPMAih7FIACZI3n+LhvhEUUI3eZG6EeiwdPTEMmT8QyZtKsBlt0BWLc1wPptHWyzBWzWN8FSmYrHWQ5Gp3JPz3Hw79QDw0D6RMftTqS9/S9W+DMCkIkAUnEWTABoz4qWs2AEoANASZ7DWtgN4jeHqum86uH+aLxDxeqitqdoDTLPfpu53yUAqR/4AkD+7dlo7kmHUUnJMF7HCOtHxixVAmgJnO75zFVLADLhyRsDUC9FACoXAOpFACIZIW1rgwr4aGNWbp59jJX2PtTrEYC66IKpiAGRBUQyUr/gFbN7IDjV6PNfUlpp8q1If/olVnA9AcgcAFE6DlJSaDL35hwLn1fVznLtuquQdcIslvdfApAJUp+Oo/scRiWp1eW88sXeaLpMRbYBbTlffl0MZ+5HzOUjAJmgSdybPgb+8jREXCoAVAfblq+ROaA771khGfKgTDsOPmU5ijSXrgwO/iwrmmTENQlAnQNQxjj4q+2IZKoAkBe2TSuRNUgrp0IiHYy0pXco2vmsWUBGLL8TgLoGoKzx8NdI+hu5q1QDUC1s659gJUOppUkHq5O413Is/AGjx2hb+Mgl+C/gzDAqXEAA6oQmc69zAnwezf81GkA1sK15kpUcRS1NOlhpZZBUl2PehrR//ZsVXm3URQlAnQOQ61gBIP2TwBgAtWzoqoH96ydZ8UhqadLBiHFv+kT4/BI8qlPdHurpdwLQQehk7s0TFlCNKgBVw77yKVY8ilqadJDWz23C+nlUxb4fvfUja549wkqLjLwwAahzAMoXAKpSBaBDrSxA6r6Se9SOhy+oB4XRn6GBbQ0yL3ibuf9DADIfQPoa24Z1sg5AXwoAjaeWJnVVl/KqJ/uh8QZVGw/1D9zPkGMzeq8aAagTOpV7eo+Df1usMyxGA6gS9qVPs+IJ1NKkrmgS92ZOhK9e5Wdo1s9GZPzmdZb/R6OvTwDqhE7jnoFj4P/W6NIm2vX2wLHgH6zoZGppUld0Fa+c2QtN56hYdm9r/SyGM38Bc9UQgOKg03ntqFGoX248gFrM5u1Ie+lFVngZtTSpszqFe4TP7i8zOizQ3gNyB9LeeIEVXqTiPghAndCZvPbEo1G/UEF1yeiS6WakP/IqK7iTWprUWV3NK97rieA0ox+K+w7PFqh9hezeH7LcHQSgOOkKXvnq4Wi6WBWANiDj5jdZ/hPU0qTOaAr39B4L/zaV1o+u9vtXf2PF41TdCwHoANIXz4PxuXWjnbwWmRfOZO43qbVJndEvecXcUgRPUbjvp1XLkD3oA5a7kQBksqbx2h8NQ8NcWcNc0Ue0wuxrZE16j+VxanVSJ6yfaK0vha5Xq2Wu2vohALUjuet5IAIfFSA0RtcZRlXr7MjH7i987C3U+qQD6Ta+R6YGPlzVypeUtjiyFNml81huGQHIJPAIs/aPfdF4rQYIWfxOVSfrkjuFF8PpTNXywCTjdDavOeMoNMyCwkKDmlu3E2kz/sUKz1N9T90eQLIscE8EH5G7SXXgaVZ5oE8PoCZYPA+xHnk0vUgH0p18T1UGmvPN2PfzJbIPm8tydxKAFElWuuiBpt8PQOPdbejvUPV0ac/ProNt819YyQCaXqT9STtwqvK0u27fz2svsMLpZtxXtwOQLP1bguC1QxB4Wt/wsuCdKnerYwbB8h3S//oyK/g1TTFSR5IZOWNHLiyq8/3IN0bU+yIAtQOeIoSmD0XDy20aHWZYPB1pGbIHfsByN9E0I3WkS3jVo0eg8TatJI7KkMB2pP37RVZ4uVn31i0AdB6vvrovmv6QieZinauVlgh/m4oTxqTUkVZmp62VokpfwJnOmauJAGSAzuU1lwhX63ltv4R8goj3dtUB5s4+bczYZ0FKbl3DK3gJgiepSrehhSDkHNmE9D+8xgruMfP+Ug5A0tUqQOicYWh4UwONnPDypaoDD7bDv0bWie+xvE9ompHak5aFQaXlozrfT7cBkKwK4Eb4AmHxvKjzk5Xu5TnIDo8GERthrfkTK82naUbqSDfxsnV5CB+pctOhFldaj4xr32L5z5p9jykBoPN59XV90XR/BpoLYo1q2nL6wXb4WmSeN5O5Z9A0I7W14GV9uDN57aSjUb9g73NLRbqNFrcuBEtgCbKdC5nL9NLgSQ0gGVwejMDfNdcqUWI8+4FPNPhdAfsXf2fFx9N0I3WkW3nZVifCfVTGfnSHoaeLh+Fr8bjPpATQ2bxm6nA0vJeoMZ79WT5NsHgXw5lHVVBJ+xnfpx6Fhg8VHziNwkdFpYuUBZAwS386CIE3MtFcorVjosV49gcfOvdF6ozu5rt9MguD6hpfUiuQNWY2y1tOANqPpvHaH/dB49NuhIfrXJmEjPG0fdAIEzosLTM/rDtWIqu/8LODNMVIHelnvObCYWh4XeVeNQ1siVAQM6EBdBr3DBiAwOw8hIfI76VJKg2eRHa1NOnN591wzHmOFZ1O04u0P8kA9E9Qp3wZXHO/lsBZPJ+5KghAbXQK9xT0Q+M7xQj9uL0JnfhWjyWk/a3xWt4kJZ8u5NV3DkLgTzAh3cZ2pD3/Iiu8Kt73nFAAmsy97sPQ9OThaJrehtYWJL67Bf2KhRe2TQI+E+ex3AqaWqQDiXGv4zj4mvQWiirLR75fDKdrAXPVEYBipmcfND3VF43XaT4qWohjS4bB0xaSlGSe1FVpB07VHrloufZmpD/0Kiu4OxHuO+4AOpvXTDsKDe/pTERlJ34VgGcfUFbDvlzA5yTxZPHQlCJ1VpO4N3sifD5tTKl48Oqtn8/htC5kroRwfeIGoFO5p3QwAp/mIjxYo7NsoERfUtf6M+ZLR0EpsxquR+ZZdK6LdDC6lFc91Q+N18sdyXZEMtQ9L2FZh8zLZzD3vxPl3k0H0EncazsMwae03MuRKHuiVkQygEczY22au7URGfe9zvIfoGlEOhjpYz9QF3yOXldugn2I9chNpPs3FUCyxPHRaFgso/BJFuf5wYZH4Uc/WgbH/R8xl5+mEelgdRGvvmcgAg+oXOXVVr5WIuu491neom4JoCt55X8OQ1M0y75iU9NQ8OiX1KVknWzxulKAp4GmD+lQZMa+Hw1sHti+/SsrGZxobaAcQKdxz5BjUP+1tqtTZZRfQcfZNZN4NxxztyH90vnMVUlTh2SEzufVNwxB4EmVrpdW4WUFskbPZnkruhWApvOqh/qj8a6YE5oU+3laDrZawprVUw7Hp9uQdvmHLHcrTRmSkVJdZkd72FfAvujvrPi4RGwDJQA6iXvtw9CwMnZ2KxkOjGp/Yysgq2FfuQXpF3zAcr+lqUIyWmfw2onCM/hi73NPXeVdYf0cLayfb7oFgKZwz+Fj4d8u3yfBodEfxHjqYNuyARmnC/Cso2lCUqWreOU7vdB0lqpDp7q841/+jRWPT9R2MBRAMk/PUWiYrTf/EvXGY7XArNoqXC1sa79D+hXvs7wvaXqQVEpf6UJlulWpL5HdYy7L3ZPyALqIV987EIH7zWjUQ30y6JOXyd3L25B2nQDPUpoaJDN0Lq+5dCgaXlJo/UR3U++CY9Y/WdGZidwWhgDoMl75XB80XZ3Amwrbi/Gs2oq0nyeqb0xKXV3HyxcXIjRB0d6f1mKbi+DM+Yi5fCkNoCt55RuHoemCGHWtSLB4T9tOlqfUv0XGlA9Y7kaaCiSzFdv53IiWMsuGewraWUph1f/j36zwmkRvj0MC0OW88oXeaLo8EZfYZQxKftVcLZn97TukXSYsnlU0DUjx0lTuGTIa/vUq3C890JYiu2Qeyy1PWQDpYj5xr6/eth/0K1s1sK3ZivTL32d5y2j4k+Kti3nV7wag8T4VizSatS83zT7HiqYkQ3scFIC0IFoiwaetFVYP6x7hav1sFsv7goY9KVF0HS9fUojQeAXuV+u+n+XIHjYnSbaRdBlAp/PaY0ahfkVbky+O4AnLALP2NJF/02pkTXmX5c2n4U5KNN3CyzbnIHyE0XNHu14A1uqHWWlBsrRHlwA0mXudx8JXp038OJ9kj4RgadQOtUrzcwPSb3qL5T9Dw5yUqLqP74q0tViMtoBWI3PKO8w9N+UAdBMvWy8rVMQbPm39543IuHcPHA9+zHKaaYiTuimA9jEKFsGZmQz15zoNIFl/fQgCf4un29V2n5HMbRvLydNIQ5uUDLqaV7zXE8Fpqh7i2jJ8sgSiOwWgSdybMRG+hni5Xm2Tl8kT6huRfiqnCqOkJJNWeFBlAjLt2sIVmyZcsfeTHkBX8MqXD0fTJfFIGK/fLxGAtWodMibNZnkraSiTklGncs9h4+DfobjOXat7txTZhfNYblXSAuhk7s2fAF8V4rDkru8kKnVDShXdwss25SDcX+WBbS1U4od112OstFfSAuh6Xv5VAUJjzHS99HGmStiXfosMluhnWkikLrhh5wo37C3VHoU2Z7ch7V//ZoVXJx2ATuGeHuPh32Xi39OaQlJ+sw6ZV85g7hdoyJJSSawlpuqXD1nFD/bWZICrkHXCLJb336QC0DW84qMSBJkZK1+xFS7ZWDYvbJvXIHOEsHrqabiSUlGX8qrH+6HxZtV5s9oszWck2opxhwCaxL3OiXs3HSoFkP7625H24ous8AoaoqRUlkxbLFeWJXxMmF/h2IN90+OsZGBSAOhcXnPFUDQ8rzr2o7++sHoueJu5/0PDk9QddD6v/tUQBJ42ycOIzrMtSH/sFVZwe8IDSLhfHwv366eqsrZJ6c3PZcgeRDl6SN1Nv+W7AzIQbQKE9IdVR8xhuasTFkBm5KzVWz6JvleBRFIlWS14FOqXm5FDvU08KCsRimu2C6Cp3HPUaPi/UdgorTQWls9gKn1D6s7SqgabsdFX82jqYNv6F1bSLyEBdAGvvn0wAo8obJAogFYh69hZLG8JDUFSd1YsTWtTWytFNYS2Iv3pl1jB9QkHoF/wijk9EDxNxXZxDWri5p8RN/8rGn4kEnAWrzllBBrmQl2Z5rYWQDS08g2yTn6X5S1IKADdzMs25CI8yGgXTE/3z+FMX8hcTTT0SKQW6fbdmXHqoBV0S+Asns9cFQkBoBN4nWUC/FXpaHYb3RDa9b5Fxp1vsPxHaMiRSHt1Iq+z/gh1Yb2FovLzNA+nCRbPQ6xHXkIASPijabGyIUY3QitxF8OZs4DOdpFIP9AU7jliLPyb284ZVdLiQfEqYvgDAE3i3uyJ8PmMbgANZg2wVj7CSotoqJFI7esiXn3PQAQeUJyyQ2cJtYRa1iHzshnM/VK8AdR6BMNgAEXdLx9s2/7MSvrSMCOROtYNvHxZPkKjzdgfhDhuizHTAooCSJbLeZSV9qAhRiJ1rJO4N+34WCjEDFdMF26JfIYcu1n51dsDUJZMFaDKBZNfF8PpTIRdmCRSIusMXjvmGNR/ZdbnadZWGRwLn2VFLC4AkpH4CfDVOhDJUbAKFoXQWmROn8ncr9EQI5H2r0t41WNHoPFW8+JBLZ+zHhnXvMXy/2E6gKS08jsq9wEtgjOb8v2QSAfWr3nZJhfC/VUeDG/HFZNnNEvnsdwy0wGkeCd0tBF9sG7/MyvtQ8OLRNq/9AtDJh1ajUIoCEvdH1kPl+kAuohX/2YgAn9QRVztujuQ9sYLrPAiGmIk0v51Fq89eQTq5+1lhPKgdNRbUb0/qF0A7U0RoM7v1G6wBrY1a5E5ciFzhWmYkUgdS4sHmVUgYu95scyp7zL3B6YBaDL3uo+Fr7qtT6gKQvL9V8ju8yHL3U7DjETqWDfxsnV5CB9pRlBaPz8Xw5m7gLm8pgBI6kZevsqN0NGqb1Tv08oT8jvh+DWnUsskUrvSp+4wIx6kzf96WHc/ykp7mgag83n1jUMQeMLMoJf2/bfI+H+74Xj4U5YToSFHIu2r07hn6Bj416r2UDRpMdstSH/8FVZwiykAEm6YS7hhnr2MUJ6jJBKCpdGOSIb8JghLvbjhuytgf3ohc4Vo2JFI+xgINwgD4UkTC4ZGGbASWWPfZ3nLlANI6le8/P+KEPqRGZTV+51ooV1ro25H2vM7kXar8EE9NPRIpBZdyys+LUbwJ2Z7KZ8hx2bUUY39AmgK9/QfC/+meDRu7IYtesurDI5PymD/cx1sCzlzBWgIkrqzZO6uH6MuKB/WZuYPEgbBSy+ywsuUA0jqBl6+Ih+hY8ysDf/DG0dIwkj7fPn9HjjmVMDx1Hss72MaiqTuqpO5N38CfFVtrRSVbph8swJZo2ezvBXKASRusEjcYHnswwET8tXuj8Dyq35VLgiLX1hGH1TB/owP1i+EZRSkYUnqTjqH15w1HA3vxIwEq8o5qrl7IVgaHmQ9spQDSOpSXvXXfmi8yYyyIZ3EcFjAKNzeLu0a2L/eCcdDXthmfURuGqmb6Gpe8V5PBKeZuTT/HdKfeJkV3KwcQFJ3890+ByLZZp3K7SyLIjHLrD3Tsxa2/5XD8aKA0XsBWLbQahoplXUX312TjkiemYtGh7qBuNMA0ooVtvUFE0xRIEWEdSS+WPRPggCs1RWwz/fA9pYA0nzKR0RKNZ3KPb3Gwf+9SV5IFHJiLm1+nJUMUA4gKe2QajwD0l31VyN7XTU9MCM+2Lbvgf3FWthnCOtovbCOaNMjKel1Hq+++kgEnjPJU4kaIquRecY7zD1brsp1dfNwlwAkdRMvW5OH8DAzcpMYbBk1CxgJakds7ZmnwjpaJNy1pz0tsSM/DWVSsupaXvFJMYInqJ6jWrxJeBdVy5BVdDAP8S4DSF+7KMkgtI/5iBaTyNKeK9kAa/luOF6pg+0DP6xffUQlhEhJJDlHj2/ZH2RVHZTWGHCwGRS7DCCpk7k3bwJ8NS0UTKig9KFYSLHY0b7L/PLfqmBfLl4zhb/79gcsdxMNcVKi63ReO3IU6lfqXSVVD3PNo/gczrSFXdwGc1AAkprCPX3Gwr81hSCkb1S5zB+S7lrbp0cjrDXlsM8RLtvj9bB+Q3mMSImqi3nV7wag8T7VMVtt/m9G+qOvsoI7TAFQzBIqFJZQRTK7Y50hvOaytWfKChB9VgbHEx7Y5lAaEVKi6WZe9r9chAebVF9MWkGOrmx3OSQAScn8JCNR/102mnuZsRMzEVw1oMN9R+t3CxgJV+2deSy3goY/Kd6axL2ZE+Grb+suqXlWwyKsoIeEFXS3aQDSdBmvfK4Pmq424UYTDkgydiTcNavezK2CfZlw1Z6rgf01qv5Biqd+xmvOHYaGtxSnWI7O+SZYPIvhdHd2Od4wAEmdzWvOOAoNs7Q4SsxSsHWXjtbtO9rnuEo5HP/djrSrKIBNipdu5OXfuBE6ygwIrUXmeTOZe4bpAJI6hXuKBYRWZaE5Wn45Uc6PmWoWxeJG+hP8UnWwbd2C9CvpBD/JbOlPzUPRqpgGt1rY1j7BSobHBUCaLuTVdw5C4E/ahJRfupM1pIdRzBJsdUnlCf41yDzpfZa3lKYGySxdwKtvH4zAIwpDJNGQhLz2MmQPExb/urgBSIpxb8ZhaHqqD5quamOmWZC6ger9wkg+JTSLsBr2lZuQfvpclruTpgfJDGkHVlVZQdpq+FakP/sSK7g2rgDSm38DEPiwEKHxenOto2MRqa62CdaEz3yh8JnfpOlBUq3Tee2IUaj/WlUsSFdVtX4JnDkHSt1qCoA0TeWeoUcg8B83wq3+YQiWgCRmNwRRRG521AZBV5cvSaSDlZbrXXXl46+Q3fdDlrstYQCkA9GwUgTv74Wmc/R/tJiM9u4IothTwybcsd+9xgrupylCUil92g4V8SBt0+MGZNz6Jsv/S8IBSJMs/VOA0DWDEHi4nUkZ6Y6xoqXILqZNjCTVuoJXvnw4mi5R4YppUPPDuusxVtorYQGkSeYREW7ZpD5ofFJuG9+XpjIPdDS5mC2VYaR1WgOsZY+w0lKaIiSVmsI9/cbCv2Xv8FMztw5UwichANSeVSTcs5uy0dyzjW/ZKCdpKh18/SGHogmeprzD3HNpmpBUSjsnpvLkwipkHT+L5X2RNADS6zTuGZQvYNQDwYsy0VyitxZiAVx7KrlpmjlcDsenz7Cin9IUIanUNF47YSTqF6t8mG5Exm9fZ/kPJiWANMkESxloPtyF8JmFCF0sLKSx7bkwQMdJxpLJDZPvlyK7ZB7LLadpQlKp/8d316Yhkmu0G6aN5d1wvP8cK5qW1ABqq5O4N02YjicJy+heAaQJ7VkSLTBKvn1G2tGVDci4/U2W/xhNEZJK/ZxX/b0vGq81OmeQBqB6waBHWWnPlAJQW+vIifAY4apdXYrQOelodrdpiLDOXUv4oyDaQPDBuv3PrLQPTRGSYjfsR8IN+z+jV8M0AMkChl/Amd3R6fikB1BbyXr2boSmuxE+TbhqY/RmpdyfIG85ZhklrKumQWgRnFlUPoik2JtwHA9fEwyufKwBSFr0i5Gd3VHm0JQDkF6TuNeZheaRwl07R7hqp+cg3L+9ttpfkrF4SHsarUHm2W8z97s0TUgqdSvfs82J5t5GumEagORDfzGczo6yhaY0gNoBUpaA0EmlCN5ZhNBx7TVazF2zxTOzozYQdsMx5zlWdDpNEZJK3cTL1uUhfKSRaVs1AMmxvKgFQIFuD6C2mso9QwSQphUj+HPZAW3bUB4PaS8xvTkMEiQ8gP9MIiUDgIQFlNNRKKFbA0gvxr3pwlU71Y3wxYUIsljKgraWkeln1UTn5S5gLi/1EEmV9mZLVAKgZumCEYC6oJO4156ByICW2FHwAv3pfX0DA+rjRiuRddz7LG8R9QpJle7juyJ6aBgJIBnPlEFo3kG9MAJQJxSLHbFeCN6fj9BI/b8pLHcSdcO2IP3Pr7CC26gXSCp0GvcMGQP/eoXL8AFhAWV3dB6MANRFncjrbHkIndoTwXsKEBpn9JND14HRQHQdbJv/wkoGUMsfWFO4p68T4UlpwnoVFmy/TDQPEK9esh2bZSbcWOqTsJgUjbDsaYR1ZxMsO4Ow7BI/KxPvt4r3W8W/lYnvg90h9nYjL1stLXyjx7AuMZl/EZw53WYfkJmSKWcHoPHDEgR/qmonqcws90fWI5tau32dyj29xcPg0VIET7cjkmnUdaVl64Ntq3gArG6A5ZsArGsEoDaJJ3q5eHkEoBoOlO0v0aXL2274aXht/FbB/uXfWPH4jv4/ApAB7tlE+PwK8qq0DoolcLrnM1cttfZeyThdHzS9eDiapusHvSyLJNO3aBtNLW0mVmTvhjtAtwdMToXOpn2RcKqHbacA03YBpu1+WJeKr1+Lh8UO8dqTDJtHL+DVtwxG4M9tx5rR4/c7pP/1ZVbwawKQOiso7Tj4GhW4Yq2DYgWyxsxmecuptVt0Oq8dNQr1re0hd9tK+BvU9lpANtKy0GCJ6MpzW4SVlXGgJ7+AUWW9AFMDrFvqYP1UfF0kXhs62gtjcsxn0AAEZuUhPERV+ECvtci8aCZzv0EAUqjrefmX8oS+0QFpXaG3/XZid9K5vObSoWh4qcUSiVqddpi7YTSih1N0EnXh0LNw47we2Nb4YftGunZNsG6KWU67hWvn/VhB3ElY6dnyRICwGJ+Ry+160Kpuu8Vw5i1gLg8BSKEu45XPis79pdFJvjWgbUTGfa+z/Ae6eztP51UP9UfjXWY8uQ/FctpngnXxzKGwlMp9sG4UgFrdCMtGAaU9oWiQHDUCuMLVhy/SElAXHxQFoGad2YR1liMaxCXGoNuByGFy138RQlP1ubRMaruo9S7H7+9Zz/2GJQhABug8Xn3NkQg8YzyAWuJKB8qp0h30c171TF80XhML9sftmIxRFtTer9HD0VbVmRpipaCsZkBbe3BuQvofXmMF9xCAFOsMXjvuGNQvNdoF067XlVK3KWr5PCwsnzvi5HLFAUyW5r1u3l6LQt77/saXVvhSi1fF0hebfq5RV5an94csdwcBSLF0ZU6MTmkQXdoPwFq9HFmlHe0mTWVdyKvvGoTAQylg+RgNqh9O5gRIMaM9ND2wfftXVjL4QP8/AcgAybQfx8JXK2GhYju7fN8dl+LP5TVXDEXD81BYtYFkuPUTzei5FpnnzWTuGQQgE3QS91pGoGGjC+H+BrthWn0063Jkj5jDcld3lzZts9ROAEoCaWNfrvR9iey8hcx1QLgQgAzSL3nF/FIEJxsdiJZnaeTekzXIPPdt5p7ZHdpyMvfmCIvSq3dDaYQlgW8Y66t1yLxqBnM/L+v9Heg4CwHIIGmrNJoJajSAvkXGnW+w/EdSvR3loJ0IX50DkWyFB31JxsMnGi6Q1s9DrEduZ3+PAGRcvOKqoWj4p9FPbM2i+h5pbz7PCi9M9Xa8gZevyEfoGIJPcgJoBbJGzWZ5KwlAJusMXjvmGNR/ZXTMQrcUv/4JVjI0ldvwYl71+wFo/C3BJ7mk7VfbgbRXXmCFl3bldwlABukU7ikYD3+l0QDSZ5b7Ak57ZwJ7yaip3DN8NPyraSQlJ3yE6+URrldeV3+fAGSQZH2yifDVy/iPgtwqUbfuczgdAkChVGu7Ngd6KeicPG5Xa18dbOpgApCBupPvqcxAc4HRANKeMkvgLJjPXNWp1m438PKVMtOk0SuIJNX8abHyVyJr/Pss78uDuQgByEBdx8sXy1LRqgAkOnqC6OilqdRmF/LqOwYh8DDBJznhswaZP3ubud8+2AsRgAzU5bzyhd5oulwVgNYh88oZzP1CqrSXzE0zBv4NNHKSR/oFAgGfswR83juU6xGAjH2aK0lxqfnaW5H+9Eus4PpUaCuZ0fB4+GJpJRIutQapnWEYs1LTY27XWGGNLzvUixKADNQ5vOZnw9Eww/Cej03QMjg+eZYVnZgKbfUrXv5FEUITFaSyJSkYf2h5olp9sG1bjcyjFjBXnRHXJgAZqKncM2w0/GtUAcgL26bHWcnAZG+n83n1jUMQeMLE/T4HskgjHSQSA7rxGbS2te82I/2RV1nBnUZ+BgHIQJ3MvXkT4KtRNYFkhYwlcDo/TuJyMVO454ix8G/uJBgMg/ehXCKWZyfcAqVowntrKruMbZOXySyNwuo5ei7L3WP0ZxGADJQ8x/QT1DWrnFyL4MxKhqoLHelevisUS1uifL+PHj7aUrHcr2VDJMOOiFu8CtNa6oeNz0LzUPG+p3h/mHgVHwgwcpJK9xGxxF+xrIbWRMjJcyjgkSXItcT7MubzP2RcPpO5X1f1mQQg4yeYljhLCYC+RPZh4km0Mxnb5mpe8W5PBM80Kejc2v5fI2vyeyzvo87+IuPedEcLoIrF134ZiIwQUBqehuZSAaq+TjT3PtBE1sr86MoDJaTFpJUy0ifWb4SldgvS7yqH4znVxRkJQAbrZl62IRfhQaommZhMk8Rk4snWLufwmnOGo2Gm2a7XRmTc+zrL/71R15UWlACTM2Y99RZgGiegdIwL4bFOhPt0Iaa1v7iT7keGgHifZPkdWWk1sH+9A467PLDPN8vNJwAZrCt45cuHo+kSBS5GdNKKCfUbMaH+mExtMol7MybC1xC7ibAZCdglCHbB8d4/WdFZZrrgAko54tUnHc2DMtB8dDaax+QI907C6WDjT1ry+lhyOssBBkn0/5EuYWcsLwmd3XA8VQfrnHkst8zssUEAMlhahQxVNcKScSn+Jl62XhbCM2PJXfsMP6w7HmOlvROpHaT1JNy4wnREBgvLaZSA0wQBqt7CxSsRsOoh3L0slZ8vc4vXw/pdNWzza2F/8QOWuynebUIAMlin89oRo1D/tdFHCzTLoQHWykdYaVGytMdFvPregQjcb8ZRizaHI11G7VUxC07StRMQKpF1vcRN5InvS8RLgqmHsKp6iZ/nxu7Puje2FLHLn4kHXlNEwFd+bYJlZxOs24OwbA/Bslt+bfmZxfdpgq2gEoAM1sncmz8Bviqjn/aaBSQGk38RnDmfJsFS/BTu6TMW/q0mfVxrXGk1Mk9/h7nn0GhMfBGADBbjXsdx8DXpoWH0BFsCZ/F85qpI5HaQifqPhT8grR4zVr00l3c70l58kRVeQSORANRtdSsv2yqDjgYHXFsBtApZP5rF8j5P5DbQltzNifu0wKce1t2PstKeNAIJQN1av+AVH/ZA8FQFbphWdeDqGcz9r0S9/zN57aSjUb/AjGKCeutqMZx5C5jLQyOQANStdSmv+ms/NN5kdIUM7Um/BemPvcIKbk/Ee5/MvbmySKMCF7Rd/mh107q62ZBEAEpZnctrLh2KhpeMtoC06yXyUvwdfE+ZPMpgxkFT7TN2IO3VF1jhJTTyCEAkRE/FHzUa/m9iFoBhZ4O0CVcH2+avkTkw0RLUX8Yrn+2Dpl+aAR/NupLHBv7Eerhp1BGASDGdwj1F4+Ev3ztXDKuQEY0BSdduKbLdiXQo9Wxec8ZRaJhl9D0fSEvgdM9nrloadQQgUkyMezPGwV8ld7YqWAmL9ttyZB85h+X+LxHudzL3uo6Fz6OHpFrXq8UVXYvMC2cy95s04ghApDa6kZetdiM83Gh3RCvVvA6Zl89g7n8nwr3exvdsz0bz4WbsdtY+owyOhc+yIkYjjQBEake/4BWzeiB4htGTUrveNqT949+s8Jp436eWiN+M/T6adSWhvgjOjIXMFaaRRgAitaOLedWDA9B4t6ozYYmw6e4sXnPKCDTMNTu/zwpkjZzN8r6mUUYAInWgM3ntT49G/cdtJ4+REPoczjRhBQTjcX+TuTfnWPi8Ku6vg3uOQm4r0p95iRX8ikYYAYjUyQmqqk7YKmT9ZBbL+7943N+tfM82mRnQzP0+iZhig0QASljdxXfXpCOSp6pW/E6kzfwXKzzX7PtSFd/an+Uj36dqaWoCEEnVRI2eCVMQI9GqZPj/yHo4zbyni3j1PQMReMCsel6a9UNL7gQgUhd1Aa++ZTACf4bCGMlSZPecx3J3m3E/03jtj0ei/r9mtZ8GH1pyJwCRDkJn8Npxx6B+qTrvBJYNyLj5TZb/hOp7OZV7eo6Df6f+s81yvT6H005L7gQgUhelr3+uaoLKPL8Ps9IClfcxiXszJ8JXr7dKzGrD5cgeMYflrqbRRAAiHYRu4WWbcxA+QlUcSL5ZgaxjZrO8VSr+fpnhcQL8PhlsNivuowW3v0XGXW+w/IdpFBGASAep83j1tUci8HcVloMGBFXpKGRa1fHwexyI5JgIn2gOJVku5klWPJJGEAGIdAg6mXuLJsBXrmLJWluOl9aVLNnMmavRyOvfxvd8n43mXmYst+vvR77/As40HqdNliQCUMpIFqs7Fr6aNERyVRxZ0CyGzUh/9FVWcIcR15QlYkaifqN0Hc2yfPQu5XJkD5/DctfS6CEAkQyQVi3V6BStuokb7cvFcOYuYC7voVxsEvc6x8FfIU/cm2X56K2fTUj/3Wus4H4aNQQgkkE6k9eeeDTqF6qyJrTJWwX7l39jxeMP9jqncE+P8fDvillWpsFHi4/Vwrb2CVYynEYMAYhkoOQy9gT4PRI+qhJ2ae7dRmT89nWW/2BXf/9cXnPJUDS83AIE09yufZb1P0OO7WOW00wjhgBEMlhanSwzLIv/IeOm/7D8JzsLxyMRWOxG6Gi9NWWS29UaE1uO7KPmsNw1NFIIQCQFOp3Xjh6F+mV7557xO4n1E1oGpXfDcWdHietlGtU8hC6WWwR0v2uBSbmc9bCjuA8BiGSC7uR7qjLQnK84gVcr3OQu6R1I+4sP1k9CsJSJD8xMR/OwYoSuKUbwhLYgMLMtdHGrr/7GisfR6CAAkRTrIl5990AEHoQJZ6k64+rFVuXSzLR6pLS4j4BiwxdwZn/KcmgQEoBIqjWJe7Mmwuc308pAC11sejdNs8BMSKPaIXzkeyqpQyIAmaxf8oq5pQieYrLbo+9kS7zuXe96rkDW6NksbwWNCAIQtYKJOpl7CyfAVxGPuEuc1ep2rkfGL95i+f+k0UAiAMVBV/LK/xyGpvMU7YxOVPpEgZso5YRIBKBuq0ncmz0RPp9+Yqby/Wpxn3I4/vsMKzqBRgCJABRnXcyr7huAxt+lOoC0XdXVsC9/ihWPoZ4nEYASRL/hu+vtiGSaVNgvbpaPT3hef2YlfanHSQSgBNI0XjthJOoXpyKANPg0wFq5HFnFHe3IJhGAqBXiqCt45auHo+niVApIa26X3Gi4BNkuAZ8Q9TSJAJSAkgnLfoI6uWHQYmYKDNXwiVk+PQg+JAJQgmsy97qPha9a77ok4W3IkRSRrqQHtm9XI3MIuV0kAlCSaCr3DB0NfzQNabKtjOn/3t1wfPAcK5pKPUoiACWZzuC1449B/ZJkgpA+edl3SH/qZVZwI/UkiQCUpJrGa48fifrPksEd08NnHTIvncHcr1APkghAyW8JtZZ0TlAItSbCD8ESWIGsAXNZ7k7qORIBKEU0hXt6j4V/m+aOyb6K914hLZWHBsSdSJvxL1Z4HvUWiQCUgpIlcoajYZUL4f7y+3gu0+v3KQVhqVuNzB+rKgdNIgCREkgX8OrbBiPwqOaSmZlMTH6e/KpZPVuR/sz3cFxHS+wkAlA3kswj1A+Nb5QgyPReUWzvjZHJ5Nu9Zhkcn2xD2kVzWe4e6g0SAaibagr3HCGsoQWaW6ZzkZosiFgPwjqSI6C5GZawFRFb26X/HUh7ZSfSbp7PXNXU+iQCECmqU7mndymCDxyGpovbrpK1uE2WKFg0KyZm0chAcgSx7ITyZwI69rbWUw1sa3Yh7cFq2N+iQoEkAhCpQ53I66w5CB/nRujiPIRPyEV4cFevIYPKNbAvr4T9FQ9s7y5grhpqWRIBiNRlncy9RXZECjLQPCQdkRFpaD5M+FQ5NkRyRU83hmCpFa+qRlg2B2BdLuDzvXhVc+YKUOuRCEAkEokARCKRSAQgEolEACKRSCQCEIlEShn9fyNsHaEw5JQfAAAAAElFTkSuQmCC', alt: '', width: 52, height: 52, style: { objectFit: 'contain' } });
+        case 'memo-qahelper': return h('span', { className: 'msi-skill-hero__symbol', 'aria-hidden': 'true' }, h("svg", {"viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "1.6", "strokeLinecap": "round", "strokeLinejoin": "round", "aria-hidden": "true", "className": "msi-skill-symbol"} , h("path", {"d": "M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6 3V6a2 2 0 0 1 2-2Z M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4M12 15v.2"})));
+        case 'memo-cardlink': return h('span', { className: 'msi-skill-hero__symbol', 'aria-hidden': 'true' }, h("svg", {"viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "1.7", "strokeLinecap": "round", "aria-hidden": "true", "className": "msi-skill-symbol"} , h("path", {"d": "m10 13 4-4M8 16l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M13 8l1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"})));
+        default: return h('img', { className: 'msi-skill-hero__icon', src: MEMO_BRAND_IMAGE, alt: '', width: 52, height: 52 });
+      }
+    }
+    function MemoSkillIntro(props) {
+      var expanded = React.useState(false);
+      var skill = props.skill, lang = props.lang;
+      var features = skill.features || [
+        { title: { zh: '准备什么', en: 'What to provide' }, text: skill.prep },
+        { title: { zh: '交付内容', en: 'What you get' }, text: skill.delivery }
+      ].filter(function (f) { return !!f.text; });
+      var description = skill.conciseIntro ? pick(skill.use, lang) : pick(skill.use, lang) + ' ' + features.map(function (f) {
+        return pick(f.title, lang) + '：' + pick(f.text, lang);
+      }).join(' ');
+      return h('section', { className: 'msi-skill-intro' },
+        h('div', { className: 'msi-skill-hero' },
+          h(SkillAvatar, { id: skill.id }),
+          h('div', { className: 'msi-skill-hero__main' },
+            h('div', { className: 'msi-skill-hero__heading' },
+              h('h2', { className: 'msi-detail__title' }, lang === 'en' ? skill.titleEn : skill.title),
+              lang !== 'en' ? h('span', { className: 'msi-skill-hero__original-name', lang: 'en' },
+                skill.id === 'memo-cardest-delete' ? 'Memo-Cardest' : skill.titleEn) : null),
+            h('div', { className: 'msi-skill-hero__actions' },
+              h('button', { type: 'button', className: 'msi-skill-hero__try', onClick: props.onTry,
+                title: lang === 'en' ? 'Copy example prompt' : '复制示例提示词', 'aria-live': 'polite' },
+                props.copyState ? props.copyLabel : lang === 'en' ? 'Try it' : '去试试'),
+              h('a', { className: 'msi-skill-hero__github', href: skill.repository, target: '_blank', rel: 'noopener noreferrer' }, 'GitHub ↗')))),
+        h('div', { id: 'msi-skill-description', className: 'msi-skill-description' },
+          expanded[0] ? h(React.Fragment, null,
+            h('p', { className: 'msi-detail__use' }, pick(skill.use, lang)),
+            features.length > 0 && h('dl', { className: 'msi-features' }, features.map(function (f, i) {
+              return h('div', { key: i, className: 'msi-features__item' }, h('dt', null, pick(f.title, lang)), h('dd', null, pick(f.text, lang)));
+            }))) : h('p', { className: 'msi-skill-description__preview' }, description)),
+        h('button', { type: 'button', className: 'msi-skill-description__toggle', 'aria-expanded': expanded[0], 'aria-controls': 'msi-skill-description', onClick: function () { expanded[1](!expanded[0]); } },
+          lang === 'en' ? (expanded[0] ? 'Collapse' : 'Expand') : (expanded[0] ? '收起' : '展开'),
+          h('svg', { viewBox: '0 0 16 16', width: 12, height: 12, fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, 'aria-hidden': 'true' }, h('path', { d: expanded[0] ? 'm3 10 5-5 5 5' : 'm3 6 5 5 5-5' })))
+      );
+    }
+
     function CapsuleCopy(props) {
       var previous = React.useRef(props);
       var pair = React.useState(null);
@@ -4949,9 +5100,11 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         // changes may fade; identical status/copy must remain still.
         if (!query.matches && old.transitionKey !== props.transitionKey &&
             (old.display.phase !== props.display.phase || old.display.text !== props.display.text || old.display.trailing !== props.display.trailing)) {
-          // Remove outgoing brand immediately; all incoming copy keeps blur-in.
+          // Never overlay a previous conversation on the incoming conversation.
+          // Same-session crossfades and every incoming blur-in remain unchanged.
+          motionTrace('copy', { crossSession: old.sessionId !== props.sessionId, fromPhase: old.display.phase, toPhase: props.display.phase });
           setTransition({ old: old, key: props.transitionKey,
-            hideOutgoing: props.display.bubble === 'alert' || old.display.phase === 'idle' || /^Memo Studio(?:\s|$)/i.test(old.display.text) });
+            hideOutgoing: old.sessionId !== props.sessionId || props.display.bubble === 'alert' || old.display.phase === 'idle' || /^Memo Studio(?:\s|$)/i.test(old.display.text) });
           timer = setTimeout(stop, 900);
         } else setTransition(null);
         return function () {
@@ -5098,6 +5251,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         d.trailing = view.health.code === 'refreshing' ? t('progress.refreshing') : view.health.code === 'disconnected' ? t('progress.disconnected') : view.health.code === 'heartbeat_stale' ? t('progress.stale') : view.health.code === 'snapshot_only' ? t('progress.snapshot') : t('progress.read_failed');
         d.pulse = 'none'; d.light = 'yellow';
       }
+      if (view.health && view.health.code === 'refreshing') d.pulse = 'none';
       if (d.attention) d.bubble = 'alert';
       d.step = phase === 'done' ? 4 : (STAGE_STEP[view.stage] !== undefined ? STAGE_STEP[view.stage] : 0);
       return d;
@@ -5275,6 +5429,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       };
     }
 
+    // Visual time must not fast-forward across a host rendering stall.
+    // Normal frame intervals are unchanged; resume from the last visible shape.
+    function islandVisualDelta(elapsed, firstFrame) {
+      return firstFrame ? 1 / 60 : Math.min(.032, Math.max(0, elapsed));
+    }
+
     function useIslandSpring(detached) {
       var state = React.useState({ x: -.2, nudge: 0, stretch: 0, bubbleWidth: 1, scale: ISLAND_MERGED_SCALE, visible: false });
       var motion = state[0];
@@ -5289,7 +5449,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         var widthTarget = detached ? 50 * ISLAND_REFERENCE.scale : 0;
         var changed = mounted.current;
         mounted.current = true;
-        var phase = changed ? 'push' : 'return';
+        // Outward nudge belongs to detachment only. Merging continues toward
+        // rest without a fresh outward excursion; interrupted velocity is retained.
+        var phase = changed && detached ? 'push' : 'return';
         var p = physics.current;
         // AnimatedVisibility creates the incoming content at width*1.5 and scale .7.
         // If exit is interrupted before disposal, keep the existing values and velocities.
@@ -5306,19 +5468,22 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           p.scale *= islandAbsorb(p.x);
         }
         var frame = 0;
-        var last = 0;
+        var last = performance.now();
+        var firstFrame = true;
         function jump() {
           window.cancelAnimationFrame(frame);
           physics.current = { x: target, v: 0, nudge: 0, nudgeVelocity: 0, stretch: widthTarget, stretchVelocity: 0, bubbleWidth: 1, bubbleVelocity: 0, scale: 1, scaleVelocity: 0, visible: detached };
           setMotion({ x: target, nudge: 0, stretch: widthTarget, bubbleWidth: 1, scale: detached ? 1 : ISLAND_MERGED_SCALE, visible: detached });
         }
         function tick(time) {
-          var dt = last ? Math.max(0, (time - last) / 1000) : 1 / 60;
+          var elapsed = Math.max(0, (time - last) / 1000);
+          var dt = islandVisualDelta(elapsed, firstFrame);
+          motionTrace(firstFrame ? 'first-frame' : 'frame', { dt: dt, elapsed: elapsed });
+          firstFrame = false;
           last = time;
           var p = physics.current;
           // Substeps only synchronize the two-stage sequence; each spring step is analytic.
-          // Bound catch-up work after a suspended window; analytic steps still
-          // consume the full elapsed time rather than prolonging the motion.
+          // Integrate the bounded visual delta, preserving continuity after host stalls.
           var steps = Math.min(250, Math.ceil(dt / .008));
           for (var i = 0; i < steps; i += 1) {
             var step = dt / steps;
@@ -5391,7 +5556,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         var p = physics.current;
         var dampingRatio = open ? .75 : 1;
         var frame = 0;
-        var last = 0;
+        var last = performance.now();
+        var firstFrame = true;
         function jump() {
           window.cancelAnimationFrame(frame);
           p.value = target;
@@ -5399,7 +5565,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           setValue(target);
         }
         function tick(time) {
-          var dt = last ? Math.max(0, (time - last) / 1000) : 1 / 60;
+          var elapsed = Math.max(0, (time - last) / 1000);
+          var dt = islandVisualDelta(elapsed, firstFrame);
+          motionTrace(firstFrame ? 'first-frame' : 'frame', { dt: dt, elapsed: elapsed });
+          firstFrame = false;
           last = time;
           var next = advanceIslandSpring(p.value, p.velocity, target, 200, dampingRatio, dt);
           p.value = next.value;
@@ -5434,9 +5603,13 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           return undefined;
         }
         var frame = 0;
-        var last = 0;
+        var last = performance.now();
+        var firstFrame = true;
         function tick(time) {
-          var dt = last ? Math.max(0, (time - last) / 1000) : 1 / 60;
+          var elapsed = Math.max(0, (time - last) / 1000);
+          var dt = islandVisualDelta(elapsed, firstFrame);
+          motionTrace(firstFrame ? 'first-frame' : 'frame', { dt: dt, elapsed: elapsed });
+          firstFrame = false;
           last = time;
           var next = advanceIslandSpring(p.value, p.velocity, target, 300, .8, dt);
           p.value = next.value;
@@ -5607,7 +5780,95 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       return { mode: preference[0], resolved: preference[0] === 'system' ? system[0] : preference[0], cycle: cycle };
     }
 
+    var StableCapsuleCopy = React.memo(CapsuleCopy);
+
+    // Only this subtree renders on geometry frames; panel and skill content stay idle.
+    function IslandSurface(props) {
+      var display = props.display, memoView = props.memoView, sessionId = props.sessionId;
+      var open = props.open, setOpen = props.setOpen, t = props.t, statusLine = props.statusLine;
+      var detached = display.bubble !== null;
+      var motion = useIslandSpring(detached);
+      var capsuleRef = React.useRef(null);
+      var widthState = React.useState(0);
+      var capsuleWidth = widthState[0];
+      var setCapsuleWidth = widthState[1];
+      React.useLayoutEffect(function () {
+        var node = capsuleRef.current;
+        if (!node) return undefined;
+        // Measure intrinsic content independently of the animated button:
+        // 28px horizontal padding + 2px border. Never feed its spring back
+        // into ResizeObserver as a new target.
+        var frame = 0;
+        function measure() {
+          frame = 0;
+          var width = node.getBoundingClientRect().width + 30;
+          motionTrace('measure', { width: width });
+          setCapsuleWidth(function (old) { return Math.abs(old - width) >= .5 ? width : old; });
+        }
+        function schedule() { if (!frame) frame = window.requestAnimationFrame(measure); }
+        measure();
+        var observer = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
+        if (observer) observer.observe(node);
+        window.addEventListener('resize', schedule);
+        if (document.fonts) document.fonts.addEventListener('loadingdone', schedule);
+        return function () {
+          if (observer) observer.disconnect();
+          window.cancelAnimationFrame(frame);
+          window.removeEventListener('resize', schedule);
+          if (document.fonts) document.fonts.removeEventListener('loadingdone', schedule);
+        };
+      }, []);
+
+      var islandWidth = useWidthSpring(capsuleWidth);
+
+      var previousBubble = React.useRef({ glyph: display.bubble || 'alert', ratio: display.progress });
+      var bubble = display.bubble ? { glyph: display.bubble, ratio: display.progress } : previousBubble.current;
+      React.useLayoutEffect(function () {
+        if (display.bubble) previousBubble.current = bubble;
+        props.surfaceWidth.current = islandWidth > 0 ? islandWidth : 160;
+        var root = props.rootRef.current;
+        if (root) {
+          var morph = capsuleWidth > 0 ? 'true' : 'false';
+          if (root.dataset.morph !== morph) root.dataset.morph = morph;
+        }
+      });
+      return h(React.Fragment, null,
+        capsuleWidth > 0 ? h(IslandMorph, {
+          width: islandWidth, detached: detached, open: open, motion: motion,
+          label: (display.bubble === 'ring' ? display.bubbleLabel : t('bubble.open') + ' · ' + display.text),
+          glyph: bubble.glyph,
+          ratio: bubble.ratio,
+          onActivate: function () { setOpen(true); }
+        }) : null,
+        h('button', {
+          type: 'button',
+          // Frame-varying variables belong only to the capsule, never the
+          // root: inheriting them into the full panel invalidates unrelated styles.
+          style: {
+            width: islandWidth > 0 ? islandWidth + 'px' : undefined,
+            '--msi-nudge': motion.nudge + 'px',
+            '--msi-stretch': motion.stretch + 'px',
+            '--msi-body-width': Math.max(0, islandWidth + motion.stretch) + 'px'
+          },
+          className: 'msi-capsule' + (display.bubble === 'ring' || display.phase === 'ask' ? ' msi-capsule--optical' : ''),
+          'aria-expanded': open ? 'true' : 'false',
+          'aria-controls': 'msi-panel',
+          title: display.phase === 'idle' ? t('panel.title') : statusLine,
+          'aria-label': statusLine,
+          onClick: function () { setOpen(!open); }
+        },
+          h('span', { className: 'msi-capsule__layout', ref: capsuleRef },
+          h('span', { className: 'msi-capsule__dot', 'aria-hidden': 'true' }),
+          h(StableCapsuleCopy, { transitionKey: sessionId + ':' + display.phase, sessionId: sessionId, display: display, view: memoView }),
+          h('span', {
+            className: 'msi-capsule__chev' + (open ? ' is-open' : ''),
+            'aria-hidden': 'true'
+          }, '▾'))
+        ));
+    }
+
     function Island(props) {
+      motionTrace('island-render');
       var theme = useIslandTheme();
       var i18n = props.i18n;
       var t = i18n.t;
@@ -5644,38 +5905,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var sessionId = useActiveSession();
       var memo = useMemoStatus(sessionId);
       var memoView = memo.connection === 'disconnected' ? { ...memo.view, phase: 'progress_unavailable', running: false, health: { ...(memo.view.health || {}), code: 'disconnected' }, progress: memo.view.progress ? { ...memo.view.progress, etaMs: null } : null } : memo.view;
-      var ticking = memoView.phase === 'working' || memoView.phase === 'upload';
+      var ticking = memo.connection !== 'refreshing' && (memoView.phase === 'working' || memoView.phase === 'upload');
       var now = useNow(ticking) + memo.skew;
       var display = describeStatus(memoView, t, now);
       // 小圆球分离出来的两种情况：需要你注意（! ：问你问题、等批准、出错）和上传中（圆环进度）
       var detached = display.bubble !== null;
-      var motion = useIslandSpring(detached);
-      rootStyle['--msi-nudge'] = motion.nudge + 'px';
-      rootStyle['--msi-stretch'] = motion.stretch + 'px';
-      var capsuleRef = React.useRef(null);
-      var widthState = React.useState(0);
-      var capsuleWidth = widthState[0];
-      var setCapsuleWidth = widthState[1];
-      React.useLayoutEffect(function () {
-        var node = capsuleRef.current;
-        if (!node) return undefined;
-        // Measure intrinsic content independently of the animated button:
-        // 28px horizontal padding + 2px border. Never feed its spring back
-        // into ResizeObserver as a new target.
-        function measure() { setCapsuleWidth(node.getBoundingClientRect().width + 30); }
-        measure();
-        var observer = typeof ResizeObserver === 'function' ? new ResizeObserver(measure) : null;
-        if (observer) observer.observe(node);
-        window.addEventListener('resize', measure);
-        return function () {
-          if (observer) observer.disconnect();
-          window.removeEventListener('resize', measure);
-        };
-      }, []);
-
-      var islandWidth = useWidthSpring(capsuleWidth);
-      rootStyle['--msi-body-width'] = Math.max(0, islandWidth + motion.stretch) + 'px';
-
+      var surfaceWidth = React.useRef(160);
       var taskState = React.useState(TASKS[0].id);
       var selectedId = taskState[0];
       var setSelectedId = taskState[1];
@@ -5798,7 +6033,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var grow = usePanelSpring(open);
       var panelWidth = Math.min(660, window.innerWidth - 32);
       var panelHeight = Math.min(window.innerHeight * .72, 640);
-      var startWidth = islandWidth > 0 ? islandWidth : 160;
+      var startWidth = surfaceWidth.current;
       var settled = Math.max(0, Math.min(1, grow));
       var panelVisible = open || grow > .01;
       var panelStyle = {
@@ -5963,7 +6198,6 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 
       return h('div', {
         className: 'msi-root', ref: rootRef, style: rootStyle,
-        'data-morph': capsuleWidth > 0 ? 'true' : 'false',
         'data-light': display.light,
         'data-pulse': display.pulse,
         'data-theme': theme.resolved,
@@ -5972,31 +6206,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         h('style', null, STYLE),
         /* 读屏：状态变了就播报一句，不抢焦点 */
         h('span', { className: 'msi-sr', role: 'status', 'aria-live': 'polite' }, display.phase === 'idle' ? '' : t('status.label') + '：' + statusLine),
-        capsuleWidth > 0 ? h(IslandMorph, {
-          width: islandWidth, detached: detached, open: open, motion: motion,
-          label: (display.bubble === 'ring' ? display.bubbleLabel : t('bubble.open') + ' · ' + display.text),
-          glyph: display.bubble || 'alert',
-          ratio: display.progress,
-          onActivate: function () { setOpen(true); }
-        }) : null,
-        h('button', {
-          type: 'button',
-          style: islandWidth > 0 ? { width: islandWidth + 'px' } : undefined,
-          className: 'msi-capsule' + (display.bubble === 'ring' || display.phase === 'ask' ? ' msi-capsule--optical' : ''),
-          'aria-expanded': open ? 'true' : 'false',
-          'aria-controls': 'msi-panel',
-          title: display.phase === 'idle' ? t('panel.title') : statusLine,
-          'aria-label': statusLine,
-          onClick: function () { setOpen(!open); }
-        },
-          h('span', { className: 'msi-capsule__layout', ref: capsuleRef },
-          h('span', { className: 'msi-capsule__dot', 'aria-hidden': 'true' }),
-          h(CapsuleCopy, { transitionKey: sessionId + ':' + display.phase, sessionId: sessionId, display: display, view: memoView }),
-          h('span', {
-            className: 'msi-capsule__chev' + (open ? ' is-open' : ''),
-            'aria-hidden': 'true'
-          }, '▾'))
-        ),
+        h(IslandSurface, { display: display, memoView: memoView, sessionId: sessionId,
+          open: open, setOpen: setOpen, t: t, statusLine: statusLine, rootRef: rootRef, surfaceWidth: surfaceWidth }),
         h('section', {
           id: 'msi-panel',
           className: 'msi-panel',
@@ -6019,7 +6230,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
             h('div', { className: 'msi-current__row' },
               h('span', { className: 'msi-current__dot', 'aria-hidden': 'true' }),
               h('span', { className: 'msi-current__status' }, display.text),
-              h('span', { className: 'msi-current__meta' }, [routeLabel, elapsedLabel].filter(Boolean).join(' · '))
+              h('span', { className: 'msi-current__meta' }, [memo.connection === 'refreshing' ? t('progress.refreshing') : routeLabel, elapsedLabel].filter(Boolean).join(' · '))
             ),
             h('ol', { className: 'msi-steps' },
               [0, 1, 2, 3, 4].map(function (index) {
@@ -6144,7 +6355,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                   'aria-haspopup': 'dialog',
                   'aria-expanded': updateOpen ? 'true' : 'false',
                   title: t('update.available') + ' · ' + (updateInfo.latest || ''),
-                  onClick: function () { setUpdateOpen(!updateOpen); }
+                  onClick: checkUpdates
                 }, h('svg', { className: 'msi-profile__update-icon', viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false' },
                   h('path', { d: 'M12 3v12m-4-4 4 4 4-4M5 15v5h14v-5' })
                 ), h('span', null, t('update.short')))
@@ -6156,6 +6367,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                   role: 'dialog',
                   tabIndex: -1,
                   'aria-label': t('update.title'),
+                  'aria-busy': updateStatus.checking ? 'true' : 'false',
                   onKeyDown: function (event) {
                     if (event.key === 'Escape') {
                       event.preventDefault();
@@ -6165,17 +6377,20 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                   }
                 },
                   h('div', { className: 'msi-update__head' }, t('update.title')),
-                  h('div', { className: 'msi-update__versions' },
+                  updateStatus.checking ? h('div', { className: 'msi-update__skeleton', 'aria-hidden': 'true' },
+                    [72, 94, 85, 98, 64, 88].map(function (width, index) {
+                      return h('span', { key: index, style: { width: width + '%' } });
+                    })) : h('div', { className: 'msi-update__versions' },
                     t('update.current') + ' ' + (updateInfo.current || '—') + ' · ' + t('update.latest') + ' ' + (updateInfo.latest || '—')),
                   h('p', { className: 'msi-update__msg' }, updateMessage(updateInfo, updateStatus.checking, updateStatus.error, t)),
-                  updateInfo.notes ? h('pre', { className: 'msi-update__notes' }, updateInfo.notes) : null,
-                  updateInfo.installMode === 'link' ? h('p', { className: 'msi-update__hint' }, t('update.dev')) : null,
+                  !updateStatus.checking && !updateStatus.error && updateInfo.notes ? h('pre', { className: 'msi-update__notes' }, updateInfo.notes) : null,
+                  !updateStatus.checking && updateInfo.installMode === 'link' ? h('p', { className: 'msi-update__hint' }, t('update.dev')) : null,
                   h('div', { className: 'msi-update__actions' },
                     h('button', {
                       type: 'button', className: 'msi-update__btn',
                       onClick: function () { closeUpdate(true); }
                     }, t('update.later')),
-                    updateInfo.state === 'available' && updateInfo.asset
+                    updateStatus.checking || updateStatus.error ? null : updateInfo.state === 'available' && updateInfo.asset
                       ? h('a', {
                         className: 'msi-update__btn msi-update__btn--primary',
                         href: updateInfo.asset.url, target: '_blank', rel: 'noopener noreferrer',
@@ -6189,7 +6404,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                         }, t('update.open'))
                         : null
                   ),
-                  updateInfo.state === 'available' ? h('p', { className: 'msi-update__hint' }, t('update.install')) : null
+                  !updateStatus.checking && !updateStatus.error && updateInfo.state === 'available' ? h('p', { className: 'msi-update__hint' }, t('update.install')) : null
                 )
                 : null,
               h('input', {
@@ -6204,26 +6419,20 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
             )
             ),
             h('div', { className: 'msi-detail' },
-              h('h2', { className: 'msi-detail__title' }, (lang === 'en' && skill.titleEn) ? skill.titleEn : (skill.title || skill.alias || '')),
-              h('p', { className: 'msi-detail__use' }, pick(skill.use, lang)),
-              h('div', { className: 'msi-detail__block' },
-                h('div', { className: 'msi-detail__label' }, t('detail.provide')),
-                h('p', { className: 'msi-detail__text' }, pick(skill.prep, lang))
+              h(MemoSkillIntro, { key: skill.id, skill: skill, lang: lang, onTry: copyExample, copyState: copyState, copyLabel: copyLabel }),
+              h('div', { className: 'msi-example msi-example--card' },
+                h('h3', { className: 'msi-example__heading' },
+                  h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true' },
+                    h('path', { d: 'M9 18h6M10 21h4M8.5 14.5a6 6 0 1 1 7 0c-1 .8-1.5 1.5-1.5 3.5h-4c0-2-.5-2.7-1.5-3.5ZM12 1v1M3 4l1 1M1 11h2M21 11h2M20 4l1-1' })),
+                  lang === 'en' ? 'Try it like this' : '试试这样用'),
+                h('button', { type: 'button', className: 'msi-example-card', onClick: copyExample,
+                  'aria-label': copyLabel + '：' + pick(skill.example, lang), 'data-state': copyState },
+                  h('span', { className: 'msi-example-card__prompt' }, pick(skill.example, lang)),
+                  h('span', { className: 'msi-example-card__action', 'aria-hidden': 'true' },
+                    h('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' },
+                      h('path', { d: copyState === 'ok' ? 'm5 12 4 4 10-10' : copyState === 'error' ? 'M12 7v6M12 17h.01' : 'M9 9h11v11H9zM5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1' }))),
+                  h('span', { className: 'msi-sr', 'aria-live': 'polite' }, copyState ? copyLabel : ''))
               ),
-              h('div', { className: 'msi-example' },
-                h('div', { className: 'msi-example__head' },
-                  h('span', { className: 'msi-example__label' }, t('detail.example')),
-                  h('button', {
-                    type: 'button',
-                    className: 'msi-copy',
-                    'data-state': copyState,
-                    'aria-live': 'polite',
-                    onClick: copyExample
-                  }, copyLabel)
-                ),
-                h('p', { className: 'msi-example__text' }, pick(skill.example, lang))
-              ),
-              skill.delivery ? h('p', { className: 'msi-detail__delivery' }, pick(skill.delivery, lang)) : null,
               skill.note ? h('p', { className: 'msi-detail__note' }, pick(skill.note, lang)) : null,
               skill.warning ? h('p', { className: 'msi-detail__warning' }, pick(skill.warning, lang)) : null,
               h('details', { className: 'msi-more' },

@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.7 — 2026-11-05
+
+影响面：同步用户最终本地版本（client.js、THIRD_PARTY_NOTICES.md、tests/client.test.mjs、tests/motion-timing.test.mjs、package.json、README.md）
+
+- 按本地正在使用的最终版本上传，不回滚本地：客户端 299911 字节。
+- 同步最后的胶囊、状态、上传视图与动效修正；新增第三方图标/头像来源声明。
+- 67 项离线测试通过；本地与仓库 `client.js` 哈希一致。
+
 ## v0.1.6 — 2026-11-05
 
 影响面：客户端胶囊文案（client.js、package.json、README.md）

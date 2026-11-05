@@ -26,14 +26,14 @@ test('unknown counts have no fake ring; stale state suppresses breathing', () =>
   assert.equal(stale.progress, 16 / 96); assert.equal(stale.pulse, 'none');
 });
 
-function harness() {
+function harness(clock = Date) {
   const start = source.indexOf('    var memoSessionSnapshots') >= 0
     ? source.indexOf('    var memoSessionSnapshots')
     : source.indexOf('    function statusUrl(');
   const end = source.indexOf('\n    /**', source.indexOf('    function useMemoStatus('));
   let state, effect, count = 0;
   const requests = [], timers = new Map();
-  const context = vm.createContext({ URL, AbortController, Date, IDLE_STATUS: { phase: 'idle', rev: -1 }, STATUS_ROUTE: 'memo-island/status',
+  const context = vm.createContext({ URL, AbortController, Date: clock, motionTrace() {}, IDLE_STATUS: { phase: 'idle', rev: -1 }, STATUS_ROUTE: 'memo-island/status',
     document: { baseURI: 'http://fixture.local/proxy/' }, window: { location: { href: 'http://fixture.local/proxy/' } },
     React: { useState(initial) { state ??= initial; return [state, value => { state = typeof value === 'function' ? value(state) : value; }]; }, useEffect(fn) { effect = fn; } },
     setTimeout(fn, ms) { timers.set(++count, { fn, ms }); return count; }, clearTimeout(id) { timers.delete(id); },
@@ -68,4 +68,46 @@ test('late response from old session cannot overwrite newly selected session', a
   respond(old, { phase: 'done', rev: 99, progress: { uploaded: 96, total: 96 } });
   await flush(); assert.equal(h.state().view.progress.uploaded, 2);
   assert.equal(new URL(h.requests[2].url).searchParams.get('sessionId'), 'session-two'); disposeB();
+});
+
+
+test('old cached sessions retain geometry but pause live activity and ETA', async () => {
+  let now = 0;
+  const h = harness({ now: () => now });
+  let dispose = h.mount('a');
+  respond(h.requests[0], { phase: 'upload', rev: 1, running: true, progress: { uploaded: 5, total: 10, etaMs: 1000 } });
+  await flush(); dispose();
+  now = 120000;
+  dispose = h.mount('b');
+  assert.equal(h.state().view.phase, 'idle'); dispose();
+  dispose = h.mount('a');
+  assert.equal(h.state().view.phase, 'upload');
+  assert.equal(h.state().connection, 'refreshing');
+  assert.equal(h.state().view.running, false);
+  assert.equal(h.state().view.skillsPaused, true);
+  assert.equal(h.state().view.progress.etaMs, null);
+  assert.equal(new URL(h.requests.at(-1).url).searchParams.get('rev'), '-1');
+  dispose();
+});
+
+test('cache is bounded to 24 sessions and evicted sessions never borrow another view', async () => {
+  const h = harness();
+  for (let i = 0; i < 25; i++) {
+    const dispose = h.mount('s' + i);
+    respond(h.requests.at(-1), { phase: 'ask', rev: 1 });
+    await flush(); dispose();
+  }
+  let dispose = h.mount('s0');
+  assert.equal(h.state().view.phase, 'idle'); dispose();
+  dispose = h.mount('s24');
+  assert.equal(h.state().view.phase, 'ask'); dispose();
+});
+
+
+test('refreshing snapshot preserves ring count without a running pulse', () => {
+  const d = describe({ phase: 'upload', running: false,
+    progress: { uploaded: 5, total: 10, etaMs: null }, health: { code: 'refreshing' } }, t, Date.now());
+  assert.equal(d.progress, .5);
+  assert.equal(d.bubble, 'ring');
+  assert.equal(d.pulse, 'none');
 });
