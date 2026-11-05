@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.6 — 2026-11-05
+
+影响面：客户端胶囊文案（client.js、package.json、README.md）
+
+- 恢复并上传本地最新 GPT 修复：上传数字与标签保持垂直居中，标签空白不被吞。
+- 离开品牌文案时不再保留旧 ghost，避免 “Memo Studio” 重叠残影；等待提示仍保留过渡。
+- 60 项离线测试通过；本地与仓库 `client.js` 哈希一致。
+
 ## v0.1.5 — 2026-11-05
 
 影响面：本地最新客户端恢复（client.js、tests/client.test.mjs、package.json、README.md）

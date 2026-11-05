@@ -3704,6 +3704,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 }
 .msi-elapsed { display: inline-flex; align-items: center; vertical-align: middle; line-height: normal; }
 .msi-elapsed > span { display: inline-flex; align-items: center; }
+/* Label and animated numbers share a vertical center; preserve text spacing. */
+.msi-capsule__text--upload { display: inline-flex; align-items: center; }
+.msi-upload-label { white-space: pre; }
 .msi-upload-digits {
   display: inline-flex;
   align-items: center;
@@ -4946,7 +4949,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         // changes may fade; identical status/copy must remain still.
         if (!query.matches && old.transitionKey !== props.transitionKey &&
             (old.display.phase !== props.display.phase || old.display.text !== props.display.text || old.display.trailing !== props.display.trailing)) {
-          setTransition({ old: old, key: props.transitionKey });
+          // Remove outgoing brand immediately; all incoming copy keeps blur-in.
+          setTransition({ old: old, key: props.transitionKey,
+            hideOutgoing: props.display.bubble === 'alert' || old.display.phase === 'idle' || /^Memo Studio(?:\s|$)/i.test(old.display.text) });
           timer = setTimeout(stop, 900);
         } else setTransition(null);
         return function () {
@@ -4966,7 +4971,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var active = transition && transition.key === props.transitionKey;
       return h('span', { className: 'msi-capsule__copy', 'aria-hidden': 'true' },
         h('span', { key: props.transitionKey, className: 'msi-copy-live', 'data-enter': active ? 'true' : 'false' }, content(props)),
-        active ? h('span', { key: 'ghost:' + transition.key, className: 'msi-copy-ghost' },
+        active && props.display.bubble !== 'alert' && !transition.hideOutgoing ? h('span', { key: 'ghost:' + transition.key, className: 'msi-copy-ghost' },
           // Plain text avoids mounting a second digit animation for the outgoing copy.
           h('span', { className: 'msi-capsule__text' }, transition.old.display.text),
           transition.old.display.trailing ? h('span', { className: 'msi-capsule__meta' }, transition.old.display.trailing) : null
@@ -4980,14 +4985,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         ? String(progress.uploaded) + '/' + String(progress.total) : '';
       var position = ratio ? props.text.indexOf(ratio) : -1;
       if (position < 0) return h('span', { className: 'msi-capsule__text' }, props.text);
-      return h('span', { className: 'msi-capsule__text', 'aria-label': props.text },
-        props.text.slice(0, position),
+      return h('span', { className: 'msi-capsule__text msi-capsule__text--upload', 'aria-label': props.text },
+        h('span', { className: 'msi-upload-label' }, props.text.slice(0, position)),
         h('span', { className: 'msi-upload-digits', 'aria-hidden': 'true' },
           h(ElapsedDigits, { value: String(progress.uploaded) }),
           h('span', { 'aria-hidden': 'true' }, '/'),
           h(ElapsedDigits, { value: String(progress.total) })
         ),
-        props.text.slice(position + ratio.length)
+        h('span', { className: 'msi-upload-label' }, props.text.slice(position + ratio.length))
       );
     }
 

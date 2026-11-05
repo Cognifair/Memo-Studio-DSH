@@ -1,4 +1,4 @@
-﻿# Memo Studio v0.1.5
+﻿# Memo Studio v0.1.6
 
 DSH 桌面端插件：技能指南、会话状态、技能启用指示与 API 上传进度。
 
