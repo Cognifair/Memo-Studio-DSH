@@ -3047,7 +3047,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var NS = 'memo-skill-island';
     var STRINGS = {
       zh: {
-        'capsule': 'Memo Studio · 技能指南',
+        'capsule': 'Memo Studio',
         'panel.title': 'Memo Studio',
         'brand': 'Memo Studio',
         'bubble.open': '查看任务状态',
@@ -3071,6 +3071,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         "progress.rate_limit": "限流等待",
         "progress.network_wait": "等待网络",
         "progress.complete": "全部核验通过 · 待客户端预览",
+        "progress.previewShort": "待预览",
+        "progress.refreshing": "正在刷新",
         "progress.task": "任务 {n}：{state}",
         "eta.configured": "按配置估算 {t}",
         "eta.lower_bound": "理论至少 {t}",
@@ -3216,7 +3218,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'copyFailed': '复制失败，请手动选中',
       },
       en: {
-        'capsule': 'Markji Master · Skill guide',
+        'capsule': 'Memo Studio',
         'panel.title': 'Memo Studio',
         'brand': 'Markji Master',
         'bubble.open': 'Show task status',
@@ -3240,6 +3242,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         "progress.rate_limit": "Rate-limit wait",
         "progress.network_wait": "Waiting for network",
         "progress.complete": "All verified · preview in app",
+        "progress.previewShort": "Preview pending",
+        "progress.refreshing": "Refreshing",
         "progress.task": "Task {n}: {state}",
         "eta.configured": "Configured estimate {t}",
         "eta.lower_bound": "At least {t} (theoretical)",
@@ -3574,7 +3578,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   pointer-events: auto;
   display: inline-flex;
   flex: 0 0 auto;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 7px;
   width: max-content;
@@ -3605,6 +3609,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 }
 /* Optical offsets only: relative positioning preserves measured capsule width,
  * flex gaps and the background spring. Keep arrow rotation independent. */
+.msi-capsule__layout {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  width: max-content;
+  max-width: calc(100vw - 62px);
+}
 .msi-capsule--optical .msi-capsule__dot,
 .msi-capsule--optical .msi-capsule__text {
   position: relative;
@@ -3639,6 +3651,20 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 @keyframes msi-shimmer {
   0% { background-position: 100% 0; }
   70%, 100% { background-position: 0% 0; }
+}
+.msi-capsule__copy { display: inline-flex; position: relative; min-width: 0; }
+.msi-copy-live, .msi-copy-ghost { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+.msi-root[data-phase="ask"] .msi-copy-live,
+.msi-root[data-phase="ask"] .msi-copy-ghost { gap: 0; }
+.msi-root[data-phase="ask"] .msi-capsule__meta { font: inherit; }
+.msi-root[data-phase="ask"] .msi-capsule__meta::before { content: ' · '; white-space: pre; }
+.msi-copy-live[data-enter="true"] { animation: msi-copy-in 900ms cubic-bezier(.2,.7,.2,1) both; }
+.msi-copy-ghost { position: absolute; top: 0; left: 0; width: max-content; max-width: 100%; pointer-events: none; animation: msi-copy-out 400ms ease-out both; }
+@keyframes msi-copy-out { from { filter: blur(0); opacity: 1; } to { filter: blur(3px); opacity: 0; } }
+@keyframes msi-copy-in { from { filter: blur(3px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .msi-copy-live[data-enter] { animation: none !important; filter: none; opacity: 1; }
+  .msi-copy-ghost { display: none; }
 }
 .msi-root > button.msi-capsule::before {
   content: '';
@@ -3728,6 +3754,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   background: transparent;
   border-color: transparent;
   box-shadow: none;
+  /* Clip all copy (including blur and outgoing overlays) to the animated
+   * body, not the immediately resized intrinsic button. Negative insets
+   * preserve the existing optical offsets while the body is stretched. */
+  clip-path: inset(0 calc((100% - var(--msi-body-width)) / 2) round 16px);
 }
 .msi-morph {
   position: absolute;
@@ -4606,10 +4636,16 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var pair = React.useState(currentSessionId());
       var setValue = pair[1];
       React.useEffect(function () {
-        function sync() { setValue(currentSessionId()); }
+        var frame = 0;
+        function sync() {
+          // Dock unmount/mount can report null between two sessions in one frame.
+          window.cancelAnimationFrame(frame);
+          frame = window.requestAnimationFrame(function () { setValue(currentSessionId()); });
+        }
         activeSessions.listeners.push(sync);
         sync();
         return function () {
+          window.cancelAnimationFrame(frame);
           var index = activeSessions.listeners.indexOf(sync);
           if (index >= 0) activeSessions.listeners.splice(index, 1);
         };
@@ -4788,6 +4824,16 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var STATUS_ROUTE = 'memo-island/status';
 
     /** 路由按页面目录解析（document.baseURI 可能带反向代理前缀），不从源站根开始。 */
+    var memoSessionSnapshots = new Map();
+    function cachedMemoSession(sessionId) {
+      var saved = memoSessionSnapshots.get(sessionId);
+      if (!saved || Date.now() - saved.at > 60000) return { sessionId: sessionId, view: IDLE_STATUS, skew: 0, connection: 'connecting' };
+      return { sessionId: sessionId, skew: saved.skew, connection: 'refreshing', view: {
+        ...saved.view, running: false, skillsPaused: true,
+        health: { ...(saved.view.health || {}), code: 'refreshing' },
+        progress: saved.view.progress ? { ...saved.view.progress, etaMs: null } : saved.view.progress
+      } };
+    }
     function statusUrl(sessionId, rev, instance) {
       var base = new URL(document.baseURI || window.location.href);
       base.search = '';
@@ -4806,7 +4852,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var pair = React.useState({ view: IDLE_STATUS, skew: 0, connection: 'connecting' });
       var setState = pair[1];
       React.useEffect(function () {
-        setState({ view: IDLE_STATUS, skew: 0, connection: 'connecting' });
+        setState(cachedMemoSession(sessionId));
         if (!sessionId || typeof fetch !== 'function') return undefined;
         var alive = true, rev = -1, instance = null, controller = null;
         var timer = 0, requestTimer = 0, resumePause = null;
@@ -4824,7 +4870,11 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
               if (!alive) return;
               if (!body || !body.ok || !body.value || typeof body.value.phase !== 'string') throw new Error('invalid_status');
               rev = body.value.rev; instance = body.value.instanceId || null;
-              setState({ view: body.value, connection: 'connected', skew: typeof body.now === 'number' ? body.now - Date.now() : 0 });
+              var snapshot = { sessionId: sessionId, view: body.value, connection: 'connected', skew: typeof body.now === 'number' ? body.now - Date.now() : 0 };
+              memoSessionSnapshots.delete(sessionId);
+              memoSessionSnapshots.set(sessionId, { ...snapshot, at: Date.now() });
+              if (memoSessionSnapshots.size > 24) memoSessionSnapshots.delete(memoSessionSnapshots.keys().next().value);
+              setState(snapshot);
             } catch (error) {
               if (!alive) return;
               clearTimeout(requestTimer); disconnected(); await pause(5000);
@@ -4834,7 +4884,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         loop();
         return function () { alive = false; clearTimeout(timer); clearTimeout(requestTimer); if (resumePause) resumePause(); if (controller) controller.abort(); };
       }, [sessionId]);
-      return pair[0];
+      // Do not paint the previous session while waiting for the effect cleanup.
+      return pair[0].sessionId === sessionId ? pair[0] : cachedMemoSession(sessionId);
     }
 
     /** 每秒走一次的时钟：只在需要显示已用时 / 剩余时间时开。 */
@@ -4875,6 +4926,51 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       }, [props.value]);
       return h('span', { className: 'msi-elapsed', 'aria-label': props.value },
         h('span', { ref: host, 'aria-hidden': 'true' })
+      );
+    }
+
+    /** Visual copy only: current status/ARIA and task state are never delayed. */
+    function CapsuleCopy(props) {
+      var previous = React.useRef(props);
+      var pair = React.useState(null);
+      var transition = pair[0], setTransition = pair[1];
+      React.useLayoutEffect(function () {
+        var query = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var old = previous.current;
+        previous.current = props;
+        var timer = 0;
+        function stop() { clearTimeout(timer); setTransition(null); }
+        function changed() { if (query.matches) stop(); }
+        if (query.addEventListener) query.addEventListener('change', changed);
+        // Compare the visible result, not session identity alone. Cross-session
+        // changes may fade; identical status/copy must remain still.
+        if (!query.matches && old.transitionKey !== props.transitionKey &&
+            (old.display.phase !== props.display.phase || old.display.text !== props.display.text || old.display.trailing !== props.display.trailing)) {
+          setTransition({ old: old, key: props.transitionKey });
+          timer = setTimeout(stop, 900);
+        } else setTransition(null);
+        return function () {
+          clearTimeout(timer);
+          if (query.removeEventListener) query.removeEventListener('change', changed);
+        };
+      }, [props.transitionKey]);
+      React.useLayoutEffect(function () { previous.current = props; });
+      function content(copy) {
+        return [
+          h(UploadCapsuleText, { key: 'text:' + copy.transitionKey, text: copy.display.text, view: copy.view }),
+          copy.display.trailing ? h('span', { key: 'meta', className: 'msi-capsule__meta' },
+            copy.display.phase === 'working' ? h(ElapsedDigits, { key: copy.sessionId + ':' + copy.view.startedAt, value: copy.display.trailing }) : copy.display.trailing
+          ) : null
+        ];
+      }
+      var active = transition && transition.key === props.transitionKey;
+      return h('span', { className: 'msi-capsule__copy', 'aria-hidden': 'true' },
+        h('span', { key: props.transitionKey, className: 'msi-copy-live', 'data-enter': active ? 'true' : 'false' }, content(props)),
+        active ? h('span', { key: 'ghost:' + transition.key, className: 'msi-copy-ghost' },
+          // Plain text avoids mounting a second digit animation for the outgoing copy.
+          h('span', { className: 'msi-capsule__text' }, transition.old.display.text),
+          transition.old.display.trailing ? h('span', { className: 'msi-capsule__meta' }, transition.old.display.trailing) : null
+        ) : null
       );
     }
 
@@ -4946,7 +5042,8 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         d.bubbleLabel = fill(t('bubble.progress'), { sent: progress.uploaded, total: progress.total });
       } else if (phase === 'ask') {
         d.light = 'yellow'; d.pulse = 'fast'; d.attention = true;
-        d.text = t('phase.ask') + (view.ask && view.ask.header ? ' · ' + view.ask.header : '');
+        d.text = t('phase.ask');
+        d.trailing = view.ask && view.ask.header ? view.ask.header : '';
         d.next = t('next.ask');
       } else if (phase === 'approval') {
         d.light = 'yellow'; d.pulse = 'fast'; d.attention = true;
@@ -4981,7 +5078,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         d.attention = false;
         d.light = ['done', 'upload', 'verifying'].indexOf(phase) >= 0 ? 'green' : 'yellow';
         d.pulse = view.running && ['upload', 'verifying'].indexOf(phase) >= 0 ? 'slow' : 'none';
-        d.trailing = phase === 'done' ? t('progress.complete') : phase === 'upload' ? '' : t('phase.' + phase);
+        d.trailing = phase === 'done' ? t('progress.previewShort') : phase === 'upload' ? '' : t('phase.' + phase);
         if (p.etaMs && (phase === 'upload' || phase === 'verifying')) {
           var estimate = etaText(p.etaMs, t);
           d.trailing = (phase === 'verifying' ? t('phase.verifying') + ' · ' : '') + (p.etaBasis === 'configured' ? fill(t('eta.configured'), { t: estimate }) : p.etaBasis === 'lower_bound' ? fill(t('eta.lower_bound'), { t: estimate }) : estimate);
@@ -4990,8 +5087,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       } else if (phase === 'progress_unavailable') {
         d.text = t('phase.progress_unavailable'); d.light = 'yellow'; d.pulse = 'none';
       }
-      if (view.health && view.health.code !== 'ok') {
-        d.trailing = view.health.code === 'disconnected' ? t('progress.disconnected') : view.health.code === 'heartbeat_stale' ? t('progress.stale') : view.health.code === 'snapshot_only' ? t('progress.snapshot') : t('progress.read_failed');
+      // Revalidating a cached session is transport state, not new capsule copy.
+      // Keep health available in the panel without flashing "Refreshing" here.
+      if (view.health && view.health.code !== 'ok' && view.health.code !== 'refreshing') {
+        d.trailing = view.health.code === 'refreshing' ? t('progress.refreshing') : view.health.code === 'disconnected' ? t('progress.disconnected') : view.health.code === 'heartbeat_stale' ? t('progress.stale') : view.health.code === 'snapshot_only' ? t('progress.snapshot') : t('progress.read_failed');
         d.pulse = 'none'; d.light = 'yellow';
       }
       if (d.attention) d.bubble = 'alert';
@@ -5209,11 +5308,13 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           setMotion({ x: target, nudge: 0, stretch: widthTarget, bubbleWidth: 1, scale: detached ? 1 : ISLAND_MERGED_SCALE, visible: detached });
         }
         function tick(time) {
-          var dt = last ? Math.min((time - last) / 1000, .032) : 1 / 60;
+          var dt = last ? Math.max(0, (time - last) / 1000) : 1 / 60;
           last = time;
           var p = physics.current;
           // Substeps only synchronize the two-stage sequence; each spring step is analytic.
-          var steps = Math.ceil(dt / .008);
+          // Bound catch-up work after a suspended window; analytic steps still
+          // consume the full elapsed time rather than prolonging the motion.
+          var steps = Math.min(250, Math.ceil(dt / .008));
           for (var i = 0; i < steps; i += 1) {
             var step = dt / steps;
             var slide = advanceIslandSpring(p.x, p.v, target, 200, detached ? .75 : 1, step);
@@ -5293,7 +5394,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           setValue(target);
         }
         function tick(time) {
-          var dt = last ? Math.min((time - last) / 1000, .032) : 1 / 60;
+          var dt = last ? Math.max(0, (time - last) / 1000) : 1 / 60;
           last = time;
           var next = advanceIslandSpring(p.value, p.velocity, target, 200, dampingRatio, dt);
           p.value = next.value;
@@ -5330,7 +5431,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         var frame = 0;
         var last = 0;
         function tick(time) {
-          var dt = last ? Math.min((time - last) / 1000, .032) : 1 / 60;
+          var dt = last ? Math.max(0, (time - last) / 1000) : 1 / 60;
           last = time;
           var next = advanceIslandSpring(p.value, p.velocity, target, 300, .8, dt);
           p.value = next.value;
@@ -5553,7 +5654,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       React.useLayoutEffect(function () {
         var node = capsuleRef.current;
         if (!node) return undefined;
-        function measure() { setCapsuleWidth(node.getBoundingClientRect().width); }
+        // Measure intrinsic content independently of the animated button:
+        // 28px horizontal padding + 2px border. Never feed its spring back
+        // into ResizeObserver as a new target.
+        function measure() { setCapsuleWidth(node.getBoundingClientRect().width + 30); }
         measure();
         var observer = typeof ResizeObserver === 'function' ? new ResizeObserver(measure) : null;
         if (observer) observer.observe(node);
@@ -5565,6 +5669,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       }, []);
 
       var islandWidth = useWidthSpring(capsuleWidth);
+      rootStyle['--msi-body-width'] = Math.max(0, islandWidth + motion.stretch) + 'px';
 
       var taskState = React.useState(TASKS[0].id);
       var selectedId = taskState[0];
@@ -5871,22 +5976,21 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         }) : null,
         h('button', {
           type: 'button',
-          ref: capsuleRef,
-          className: 'msi-capsule' + (display.bubble === 'ring' ? ' msi-capsule--optical' : ''),
+          style: islandWidth > 0 ? { width: islandWidth + 'px' } : undefined,
+          className: 'msi-capsule' + (display.bubble === 'ring' || display.phase === 'ask' ? ' msi-capsule--optical' : ''),
           'aria-expanded': open ? 'true' : 'false',
           'aria-controls': 'msi-panel',
           title: display.phase === 'idle' ? t('panel.title') : statusLine,
+          'aria-label': statusLine,
           onClick: function () { setOpen(!open); }
         },
+          h('span', { className: 'msi-capsule__layout', ref: capsuleRef },
           h('span', { className: 'msi-capsule__dot', 'aria-hidden': 'true' }),
-          h(UploadCapsuleText, { key: sessionId + ':' + (memoView.taskId || memoView.startedAt || ''), text: display.text, view: memoView }),
-          display.trailing ? h('span', { className: 'msi-capsule__meta' },
-            display.phase === 'working' ? h(ElapsedDigits, { key: sessionId + ':' + memoView.startedAt, value: display.trailing }) : display.trailing
-          ) : null,
+          h(CapsuleCopy, { transitionKey: sessionId + ':' + display.phase, sessionId: sessionId, display: display, view: memoView }),
           h('span', {
             className: 'msi-capsule__chev' + (open ? ' is-open' : ''),
             'aria-hidden': 'true'
-          }, '▾')
+          }, '▾'))
         ),
         h('section', {
           id: 'msi-panel',

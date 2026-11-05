@@ -27,7 +27,9 @@ test('unknown counts have no fake ring; stale state suppresses breathing', () =>
 });
 
 function harness() {
-  const start = source.indexOf('    function statusUrl(');
+  const start = source.indexOf('    var memoSessionSnapshots') >= 0
+    ? source.indexOf('    var memoSessionSnapshots')
+    : source.indexOf('    function statusUrl(');
   const end = source.indexOf('\n    /**', source.indexOf('    function useMemoStatus('));
   let state, effect, count = 0;
   const requests = [], timers = new Map();

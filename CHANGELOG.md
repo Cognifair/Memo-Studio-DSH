@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.5 — 2026-11-05
+
+影响面：本地最新客户端恢复（client.js、tests/client.test.mjs、package.json、README.md）
+
+- 恢复 2026-11-05 13:44 的本地最新备份：会话切换、复制模糊与等待提示等改动回到客户端。
+- 测试夹具同步包含 `memoSessionSnapshots`，60 项离线测试通过。
+- 仓库名与更新地址继续指向 `Memo-Studio-DSH`。
+
 ## v0.1.4 — 2026-11-05
 
 影响面：GitHub 仓库改名与更新地址（README、INSTALL、package.json、update-config.js、install.ps1）
