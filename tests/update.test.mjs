@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 更新检查：纯逻辑 + 模拟 GitHub 响应。
  * 不打网络、不读本地文件，全部通过注入的 fetch 控制。
  */
@@ -195,7 +195,7 @@ test('真实 v0.1.0 响应：当前版本相同时判定已最新，旧版本时
   assert.equal(releases[0].prerelease, false);
 
   const config = resolveUpdateConfig({});
-  assert.equal(config.repo, 'Cognifair/dsh-memo-skill-island');
+  assert.equal(config.repo, 'Cognifair/Memo-Studio-DSH');
   assert.match(config.assetPattern, /tgz/);
 
   const same = createUpdateChecker({

@@ -1,6 +1,6 @@
 ﻿{
   "name": "dsh-memo-skill-island",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -46,9 +46,9 @@
   "license": "SEE LICENSE IN THIRD_PARTY_NOTICES.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Cognifair/dsh-memo-skill-island.git"
+    "url": "https://github.com/Cognifair/Memo-Studio-DSH.git"
   },
-  "homepage": "https://github.com/Cognifair/dsh-memo-skill-island",
+  "homepage": "https://github.com/Cognifair/Memo-Studio-DSH",
   "keywords": [
     "dsh",
     "dsh-plugin",

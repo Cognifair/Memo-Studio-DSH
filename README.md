@@ -1,14 +1,14 @@
-﻿# Memo Studio v0.1.3
+# Memo Studio v0.1.4
 
 DSH 桌面端插件：技能指南、会话状态、技能启用指示与 API 上传进度。
 
-> 技术包名/仓库仍是 `dsh-memo-skill-island`，避免破坏已安装用户的更新与安装路径；产品名是 **Memo Studio**。
+> 技术包名仍是 `dsh-memo-skill-island`，避免破坏已安装用户的安装与更新路径；GitHub 仓库已改名为 `Memo-Studio-DSH`，产品名是 **Memo Studio**。
 
 ## 安装
 
-**推荐：** 从 [Releases](https://github.com/Cognifair/dsh-memo-skill-island/releases/latest) 下载 `install.cmd` 和 `install.ps1`，双击 `install.cmd`。脚本会下载最新正式版、校验 SHA256、解压到固定目录，并复制一条 `plugin_manager install_bundle` 命令；把它粘贴到 DSH 桌面端即可。
+**推荐：** 从 [Releases](https://github.com/Cognifair/Memo-Studio-DSH/releases/latest) 下载 `install.cmd` 和 `install.ps1`，双击 `install.cmd`。脚本会下载最新正式版、校验 SHA256、解压到固定目录，并复制一条 `plugin_manager install_bundle` 命令；把它粘贴到 DSH 桌面端即可。
 
-完整步骤、手动安装、卸载与边界见 [INSTALL.md](https://github.com/Cognifair/dsh-memo-skill-island/blob/main/INSTALL.md)。
+完整步骤、手动安装、卸载与边界见 [INSTALL.md](https://github.com/Cognifair/Memo-Studio-DSH/blob/main/INSTALL.md)。
 
 npm 包名已准备为 `dsh-memo-skill-island`，**目前尚未发布**；发布后可以直接在 DSH 里说「把 dsh-memo-skill-island 装上」。在那之前请使用 Releases 安装脚本。
 
@@ -22,7 +22,7 @@ npm 包名已准备为 `dsh-memo-skill-island`，**目前尚未发布**；发布
 
 ## 更新
 
-启动后后台检查 Cognifair/dsh-memo-skill-island 的正式 GitHub Release；有新版本时通过界面入口查看更新。第一版提供发布页/下载入口，不自动覆盖本地开发目录或强制重启。当前版本没有新版提示属于正常情况。
+启动后后台检查 Cognifair/Memo-Studio-DSH 的正式 GitHub Release；有新版本时通过界面入口查看更新。第一版提供发布页/下载入口，不自动覆盖本地开发目录或强制重启。当前版本没有新版提示属于正常情况。
 
 ## 验证与边界
 

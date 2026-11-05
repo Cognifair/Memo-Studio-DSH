@@ -6,20 +6,20 @@
       "name": "墨卡大师灵动岛 v0.1.0",
       "draft": false,
       "prerelease": false,
-      "html_url": "https://github.com/Cognifair/dsh-memo-skill-island/releases/tag/v0.1.0",
+      "html_url": "https://github.com/Cognifair/Memo-Studio-DSH/releases/tag/v0.1.0",
       "body": "墨卡大师灵动岛首个公开版本。\r\n\r\n- 技能指南与示例复制。\r\n- 会话状态、技能启用指示与上传清单进度。\r\n- GitHub 正式 Release 更新检查与下载入口。",
       "assets": [
         {
           "name": "dsh-memo-skill-island-0.1.0.tgz",
           "size": 112748,
           "digest": "sha256:aa91f620c8c4bc4fcb901610f844f3cf1b482127cd2abf97ac1bc54da9bd75fe",
-          "browser_download_url": "https://github.com/Cognifair/dsh-memo-skill-island/releases/download/v0.1.0/dsh-memo-skill-island-0.1.0.tgz"
+          "browser_download_url": "https://github.com/Cognifair/Memo-Studio-DSH/releases/download/v0.1.0/dsh-memo-skill-island-0.1.0.tgz"
         },
         {
           "name": "SHA256SUMS.txt",
           "size": 99,
           "digest": "sha256:de80c8eef2613a33c396919760bea1ea0ec7cd4abde3732f357c30d38234d2f0",
-          "browser_download_url": "https://github.com/Cognifair/dsh-memo-skill-island/releases/download/v0.1.0/SHA256SUMS.txt"
+          "browser_download_url": "https://github.com/Cognifair/Memo-Studio-DSH/releases/download/v0.1.0/SHA256SUMS.txt"
         }
       ]
     }

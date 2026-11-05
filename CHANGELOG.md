@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.4 — 2026-11-05
+
+影响面：GitHub 仓库改名与更新地址（README、INSTALL、package.json、update-config.js、install.ps1）
+
+- GitHub 仓库从 `dsh-memo-skill-island` 改名为 `Memo-Studio-DSH`；GitHub 旧地址会重定向。
+- 更新检查默认仓库、Release 链接、安装器下载地址和 package repository/homepage 全部指向新仓库。
+- npm 包名保持 `dsh-memo-skill-island`，不破坏已有安装与 `plugin_manager` 路径。
+
 ## v0.1.3 — 2026-11-05
 
 影响面：界面产品名（client.js、locale、README、package.json）

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 墨卡大师灵动岛 —— 更新配置（唯一的发布信息来源）。
  *
  * 仓库地址、发布渠道、安装包匹配规则都集中在这里，别处不再硬编码。
@@ -10,7 +10,7 @@
 /** 默认值。repo 留空是刻意的：确认仓库后才由配置填上。 */
 export const DEFAULT_UPDATE_CONFIG = {
   /** GitHub 仓库，形如 "owner/name"；空串 = 未配置，不检查。 */
-  repo: 'Cognifair/dsh-memo-skill-island',
+  repo: 'Cognifair/Memo-Studio-DSH',
   /** GitHub API 根。企业/GHES 可换。 */
   apiBase: 'https://api.github.com',
   /** 安装包文件名正则（字符串）；空串 = 不挑安装包，只给 Release 页面。 */

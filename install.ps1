@@ -5,7 +5,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$repo = "Cognifair/dsh-memo-skill-island"
+$repo = "Cognifair/Memo-Studio-DSH"
 $api = if ($Tag -eq "latest") {
     "https://api.github.com/repos/$repo/releases/latest"
 } else {

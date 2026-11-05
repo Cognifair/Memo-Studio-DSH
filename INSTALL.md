@@ -4,7 +4,7 @@
 
 ## 方式 A：安装脚本（推荐）
 
-1. 从 [Releases](https://github.com/Cognifair/dsh-memo-skill-island/releases/latest) 下载 `install.cmd` 与 `install.ps1`，放在同一个文件夹；
+1. 从 [Releases](https://github.com/Cognifair/Memo-Studio-DSH/releases/latest) 下载 `install.cmd` 与 `install.ps1`，放在同一个文件夹；
 2. 双击 `install.cmd`，或在 PowerShell 运行：
 
    ```powershell
