@@ -1,5 +1,12 @@
 # 更新记录
 
+## v0.1.3 — 2026-11-05
+
+影响面：界面产品名（client.js、locale、README、package.json）
+
+- 胶囊与面板产品名从 “Memo Studio（DSH）” 改为 “Memo Studio”；DSH 作为宿主平台在安装说明中保留。
+- 技术包名/仓库仍为 `dsh-memo-skill-island`。
+
 ## v0.1.2 — 2026-11-05
 
 影响面：产品命名与最新开发版同步（client.js、index.js、status.js、progress.js、update.js、locale、README、INSTALL.md）

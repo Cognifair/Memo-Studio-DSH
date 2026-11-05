@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 墨卡大师灵动岛 —— 客户端半边。
  *
  * 形态：frame 级浮层（shell.overlay）顶部居中的一枚胶囊「墨卡大师 · 技能指南」，
@@ -3047,9 +3047,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var NS = 'memo-skill-island';
     var STRINGS = {
       zh: {
-        'capsule': 'Memo Studio（DSH） · 技能指南',
-        'panel.title': 'Memo Studio（DSH）',
-        'brand': 'Memo Studio（DSH）',
+        'capsule': 'Memo Studio · 技能指南',
+        'panel.title': 'Memo Studio',
+        'brand': 'Memo Studio',
         'bubble.open': '查看任务状态',
         'bubble.progress': '上传进度 {sent}/{total}',
         "progress.uploaded": "已上传 {n}/{total}",
@@ -3076,7 +3076,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         "eta.lower_bound": "理论至少 {t}",
         "progress.compat": "兼容检测",
 
-        'status.label': 'Memo Studio（DSH）状态',
+        'status.label': 'Memo Studio 状态',
         'stage.start': '启动',
         'stage.sync': '同步技能',
         'stage.help': '介绍功能',
@@ -3217,7 +3217,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       en: {
         'capsule': 'Markji Master · Skill guide',
-        'panel.title': 'Memo Studio（DSH）',
+        'panel.title': 'Memo Studio',
         'brand': 'Markji Master',
         'bubble.open': 'Show task status',
         'bubble.progress': 'Upload progress {sent}/{total}',
