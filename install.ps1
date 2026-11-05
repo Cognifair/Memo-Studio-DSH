@@ -12,6 +12,7 @@ $api = if ($Tag -eq "latest") {
     "https://api.github.com/repos/$repo/releases/tags/$Tag"
 }
 
+Write-Host "Memo Studio（DSH）安装器" -ForegroundColor Cyan
 Write-Host "查询 $repo 的 Release..." -ForegroundColor Cyan
 $release = Invoke-RestMethod -Uri $api -Headers @{ "User-Agent" = "memo-island-installer" }
 $version = $release.tag_name.TrimStart("v")

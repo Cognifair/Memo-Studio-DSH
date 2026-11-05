@@ -7,7 +7,7 @@
  *
  * 三条纪律：
  *   1. 只走插槽注册，不碰 DOM、不挂 body、不改官方节点；
- *   2. 配色是一套固定的深色皮肤（顶部那组 --msi-* 变量），收起更暗、展开稍亮，不随宿主主题变；
+ *   2. 配色支持浅色、深色与跟随系统，通过个人菜单切换并在本机保存；
  *   3. 只读静态目录：不记调用、不统计、不读会话、不连账户 —— 点开只是看，复制只是写剪贴板。
  *
  * 技能文案集中在下面的 TASKS / SKILLS 两段里，要改内容只动这两段。
@@ -3047,9 +3047,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var NS = 'memo-skill-island';
     var STRINGS = {
       zh: {
-        'capsule': '墨卡大师 · 技能指南',
-        'panel.title': '技能指南',
-        'brand': '墨卡大师',
+        'capsule': 'Memo Studio（DSH） · 技能指南',
+        'panel.title': 'Memo Studio（DSH）',
+        'brand': 'Memo Studio（DSH）',
         'bubble.open': '查看任务状态',
         'bubble.progress': '上传进度 {sent}/{total}',
         "progress.uploaded": "已上传 {n}/{total}",
@@ -3076,7 +3076,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         "eta.lower_bound": "理论至少 {t}",
         "progress.compat": "兼容检测",
 
-        'status.label': '墨卡大师状态',
+        'status.label': 'Memo Studio（DSH）状态',
         'stage.start': '启动',
         'stage.sync': '同步技能',
         'stage.help': '介绍功能',
@@ -3136,6 +3136,66 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'next.transport': '网络连接失败，发一条消息重试。',
         'next.turn': '这一轮出错了，发一条消息重试。',
         'tasks.label': '按任务浏览',
+        'upload.verified': '核验通过',
+        'upload.planned': '待上传',
+        'upload.written': '待核验',
+        'upload.failed': '失败',
+        'upload.uncertain': '不确定',
+        'upload.mismatch': '不一致',
+        'upload.skipped': '跳过',
+        'upload.state.disconnected': '连接中断 · 显示上次记录',
+        'upload.state.readFailed': '进度读取失败 · 显示上次记录',
+        'upload.state.stale': '执行状态未知 · 心跳已过期',
+        'upload.state.rateLimited': '限流等待',
+        'upload.state.networkWait': '等待网络',
+        'upload.state.paused': '已暂停',
+        'upload.state.waitingUser': '等你在对话里回复',
+        'upload.state.allVerified': '全部核验通过',
+        'upload.state.uploading': '正在上传',
+        'upload.state.verifying': '核验中',
+        'upload.state.scriptOnline': '上传脚本在线',
+        'upload.state.idle': '暂无进展',
+        'upload.previewNote': '客户端预览另计',
+        'upload.justNow': '刚刚读取',
+        'upload.secondsAgo': '{n} 秒前读取',
+        'upload.minutesAgo': '{n} 分钟前读取',
+        'upload.hoursAgo': '{n} 小时前读取',
+        'upload.daysAgo': '{n} 天前读取',
+        'upload.details': '查看详情',
+        'upload.detailsHide': '收起详情',
+        'upload.exc.uncertain': '{n} 张结果不确定，等待核查',
+        'upload.exc.failed': '{n} 张写入失败',
+        'upload.exc.mismatch': '{n} 张回读不一致',
+        'upload.exc.skipped': '{n} 张被跳过（目标未完成）',
+        'upload.row.source': '进度来源',
+        'upload.row.readAt': '上次成功读取',
+        'upload.row.lastProgress': '最后进展',
+        'upload.row.heartbeat': '心跳',
+        'upload.row.lifecycle': '执行状态',
+        'upload.row.conflict': '记录冲突',
+        'upload.row.readback': '仅回读确认',
+        'upload.yes': '是',
+        'update.short': '更新',
+        'update.check': '检查更新',
+        'update.title': '更新',
+        'update.current': '当前',
+        'update.latest': '最新',
+        'update.available': '有新版本可用',
+        'update.later': '稍后',
+        'update.open': '打开发布页',
+        'update.download': '下载安装包',
+        'update.checking': '正在检查…',
+        'update.failed': '检查失败，请稍后重试',
+        'update.uptodate': '已是最新版本',
+        'update.unconfigured': '尚未配置发布仓库',
+        'update.no_release': '仓库里没有正式版本',
+        'update.no_asset': '新版本没有提供可用的安装包',
+        'update.rate_limited': 'GitHub 限流，稍后再试',
+        'update.offline': '网络不可用',
+        'update.timeout': '请求超时',
+        'update.bad_response': '发布信息异常',
+        'update.dev': '本地开发安装（link）：这里只提示版本，不会覆盖源码。',
+        'update.install': '拿到安装包后用 plugin_manager 安装；开发安装请手动合并改动。',
         'run.active': '本轮已启用 · 回复结束后停止',
         'run.paused': '本轮已启用 · 等待你的回复',
         'run.unknown': '本轮已启用 · 连接中断，状态未知',
@@ -3143,6 +3203,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'profile.upload': '上传头像',
         'profile.rename': '改变名字',
         'profile.site': '进入官网',
+        'theme.system': '显示模式：跟随系统',
+        'theme.light': '显示模式：浅色',
+        'theme.dark': '显示模式：深色',
+        'theme.next': '点击切换为：',
         'profile.avatar': '点一下选本地图片，只存在这台机器上；双击头像可清除',
         'detail.provide': '准备什么',
         'detail.more': '更多说明',
@@ -3153,7 +3217,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       },
       en: {
         'capsule': 'Markji Master · Skill guide',
-        'panel.title': 'Skill guide',
+        'panel.title': 'Memo Studio（DSH）',
         'brand': 'Markji Master',
         'bubble.open': 'Show task status',
         'bubble.progress': 'Upload progress {sent}/{total}',
@@ -3241,6 +3305,66 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'next.transport': 'The connection failed; send a message to retry.',
         'next.turn': 'This turn failed; send a message to retry.',
         'tasks.label': 'Browse by task',
+        'upload.verified': 'Verified',
+        'upload.planned': 'To send',
+        'upload.written': 'To verify',
+        'upload.failed': 'Failed',
+        'upload.uncertain': 'Uncertain',
+        'upload.mismatch': 'Mismatched',
+        'upload.skipped': 'Skipped',
+        'upload.state.disconnected': 'Disconnected · showing last record',
+        'upload.state.readFailed': 'Progress read failed · showing last record',
+        'upload.state.stale': 'Execution unknown · heartbeat expired',
+        'upload.state.rateLimited': 'Rate-limit wait',
+        'upload.state.networkWait': 'Waiting for network',
+        'upload.state.paused': 'Paused',
+        'upload.state.waitingUser': 'Waiting for your reply',
+        'upload.state.allVerified': 'All verified',
+        'upload.state.uploading': 'Uploading',
+        'upload.state.verifying': 'Verifying',
+        'upload.state.scriptOnline': 'Upload script online',
+        'upload.state.idle': 'No recent progress',
+        'upload.previewNote': 'client preview not counted',
+        'upload.justNow': 'read just now',
+        'upload.secondsAgo': 'read {n}s ago',
+        'upload.minutesAgo': 'read {n}m ago',
+        'upload.hoursAgo': 'read {n}h ago',
+        'upload.daysAgo': 'read {n}d ago',
+        'upload.details': 'Show details',
+        'upload.detailsHide': 'Hide details',
+        'upload.exc.uncertain': '{n} uncertain, waiting for review',
+        'upload.exc.failed': '{n} failed to write',
+        'upload.exc.mismatch': '{n} differ on read-back',
+        'upload.exc.skipped': '{n} skipped (goal not met)',
+        'upload.row.source': 'Source',
+        'upload.row.readAt': 'Last successful read',
+        'upload.row.lastProgress': 'Last progress',
+        'upload.row.heartbeat': 'Heartbeat',
+        'upload.row.lifecycle': 'Execution state',
+        'upload.row.conflict': 'Record conflict',
+        'upload.row.readback': 'Read-back only',
+        'upload.yes': 'yes',
+        'update.short': 'Update',
+        'update.check': 'Check for updates',
+        'update.title': 'Update',
+        'update.current': 'Current',
+        'update.latest': 'Latest',
+        'update.available': 'A new version is available',
+        'update.later': 'Later',
+        'update.open': 'Open release page',
+        'update.download': 'Download package',
+        'update.checking': 'Checking…',
+        'update.failed': 'Check failed, try again later',
+        'update.uptodate': 'You are up to date',
+        'update.unconfigured': 'Release repository is not configured',
+        'update.no_release': 'No stable release found',
+        'update.no_asset': 'The new release has no usable package',
+        'update.rate_limited': 'GitHub rate limit reached',
+        'update.offline': 'Network unavailable',
+        'update.timeout': 'Request timed out',
+        'update.bad_response': 'Unexpected release response',
+        'update.dev': 'Local link install: this only reports versions and never overwrites the source.',
+        'update.install': 'Install the package with plugin_manager; for a link install merge the changes yourself.',
         'run.active': 'Active this turn · stops when the reply ends',
         'run.paused': 'Active this turn · waiting for your reply',
         'run.unknown': 'Active this turn · connection lost, state unknown',
@@ -3248,6 +3372,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'profile.upload': 'Upload avatar',
         'profile.rename': 'Change name',
         'profile.site': 'Open website',
+        'theme.system': 'Appearance: System',
+        'theme.light': 'Appearance: Light',
+        'theme.dark': 'Appearance: Dark',
+        'theme.next': 'Switch to: ',
         'profile.avatar': 'Click to pick a local image stored on this machine only; double-click to clear',
         'detail.provide': 'What to prepare',
         'detail.more': 'More details',
@@ -3313,6 +3441,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var ICON_UPLOAD = ['M12 16V4', 'M7 9l5-5 5 5', 'M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2'];
     var ICON_EDIT = ['M4 20h4l10-10a2.5 2.5 0 0 0-3.5-3.5L4 16v4z'];
     var ICON_LINK = ['M14 4h6v6', 'M20 4l-9 9', 'M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4'];
+    var ICON_REFRESH = ['M20 12a8 8 0 1 1-2.3-5.6', 'M20 4v4h-4'];
 
     /* 左侧任务行的小图标：24 视框、1.6 描边、不填充，颜色跟 currentColor 走。
        全部用手写 path，不引外部图标库。 */
@@ -3400,6 +3529,40 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   text-align: left;
   -webkit-font-smoothing: antialiased;
 }
+.msi-root {
+  color-scheme: dark;
+  --msi-shimmer: #ffffff;
+  --msi-task-hover: rgba(255, 255, 255, .045);
+  --msi-task-selected: rgba(255, 255, 255, .075);
+}
+.msi-root[data-theme="light"] {
+  color-scheme: light;
+  --msi-capsule-bg: #FFFFFF;
+  --msi-capsule-open-bg: #FFFFFF;
+  --msi-base: #FFFFFF;
+  --msi-bar: #F9FAFB;
+  --msi-panel: #FAFAFC;
+  --msi-code: #ECECF0;
+  --msi-selected: #E2E4E9;
+  --msi-task-hover: #EAECEF;
+  --msi-task-selected: #ECEEF0;
+  --msi-button: #E7E9EE;
+  --msi-line: #D7D9E0;
+  --msi-line-2: #B4B8C3;
+  --msi-scroll: #949AA7;
+  --msi-icon: #626977;
+  --msi-muted: #626977;
+  --msi-soft: #535A67;
+  --msi-icon-light: #343B47;
+  --msi-body: #282D36;
+  --msi-title: #171B22;
+  --msi-accent: #325DB5;
+  --msi-green: #5EC269;
+  --msi-yellow: #C58B32;
+  --msi-red: #B63730;
+  --msi-shimmer: #A1AEC2;
+}
+.msi-root[data-theme="light"] .msi-tasks__group--aux { border-top-color: var(--msi-line); }
 .msi-root > button.msi-capsule {
   position: relative;
   z-index: 1;
@@ -3428,7 +3591,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   border-radius: 16px !important;
   corner-shape: round !important;
   /* 收起时用顶栏色（更暗），展开后换成面板色，看起来是同一块 */
-  background: var(--msi-bar);
+  background: var(--msi-capsule-bg, var(--msi-bar));
   color: var(--msi-body);
   font: inherit;
   font-size: 12px;
@@ -3439,6 +3602,18 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
   transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+/* Optical offsets only: relative positioning preserves measured capsule width,
+ * flex gaps and the background spring. Keep arrow rotation independent. */
+.msi-capsule--optical .msi-capsule__dot,
+.msi-capsule--optical .msi-capsule__text {
+  position: relative;
+  left: -15px;
+}
+.msi-capsule--optical .msi-capsule__meta,
+.msi-capsule--optical .msi-capsule__chev {
+  position: relative;
+  left: 21px;
 }
 .msi-capsule__text {
   min-width: 0;
@@ -3453,7 +3628,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   color: transparent;
   background-image: linear-gradient(100deg,
     var(--msi-soft) 0%, var(--msi-soft) 38%,
-    #ffffff 50%,
+    var(--msi-shimmer) 50%,
     var(--msi-soft) 62%, var(--msi-soft) 100%);
   background-size: 250% 100%;
   background-repeat: no-repeat;
@@ -3474,11 +3649,11 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   right: calc(var(--msi-stretch, 0px) * -.5);
   border-radius: 16px;
 }
-.msi-root > button.msi-capsule:hover { border-color: var(--msi-line-2); background: var(--msi-panel); }
+.msi-root > button.msi-capsule:hover { border-color: var(--msi-line-2); background: var(--msi-capsule-open-bg, var(--msi-panel)); }
 .msi-capsule:hover .msi-capsule__chev { color: var(--msi-icon-light); }
 .msi-capsule:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 2px; }
 /* 收起时更暗；展开后跟面板同色，看起来是同一块 */
-.msi-root > button.msi-capsule[aria-expanded="true"] { background: var(--msi-panel); border-color: var(--msi-line-2); }
+.msi-root > button.msi-capsule[aria-expanded="true"] { background: var(--msi-capsule-open-bg, var(--msi-panel)); border-color: var(--msi-line-2); }
 .msi-root[data-light="green"] { --msi-light: var(--msi-green); }
 .msi-root[data-light="yellow"] { --msi-light: var(--msi-yellow); }
 .msi-root[data-light="red"] { --msi-light: var(--msi-red); }
@@ -3503,6 +3678,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 }
 .msi-elapsed { display: inline-flex; align-items: center; vertical-align: middle; line-height: normal; }
 .msi-elapsed > span { display: inline-flex; align-items: center; }
+.msi-upload-digits {
+  display: inline-flex;
+  align-items: center;
+  color: var(--msi-body);
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
 /* 上传进度：胶囊底边内侧一条细线，颜色跟灯 */
 .msi-capsule__bar {
   position: absolute;
@@ -3556,6 +3739,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   pointer-events: none;
   filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .30));
 }
+.msi-root[data-theme="light"] .msi-morph {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .12));
+}
+.msi-root[data-theme="light"]:not([data-morph="true"]) > button.msi-capsule {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+}
 .msi-root > button.msi-badge {
   appearance: none;
   box-sizing: border-box;
@@ -3598,7 +3787,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   flex: 0 0 auto;
   padding: 2px 16px 12px;
   background: var(--msi-bar);
-  border-bottom: 1px solid var(--msi-line);
+  border-bottom: 0;
 }
 .msi-current__row { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .msi-current__dot {
@@ -3614,7 +3803,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--msi-title);
 }
 .msi-current__meta {
@@ -3641,6 +3830,31 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 .msi-step__label { font-size: 11px; color: var(--msi-icon); }
 .msi-step[data-state="current"] .msi-step__label { color: var(--msi-body); font-weight: 500; }
 .msi-current__detail { margin-top: 10px; }
+.msi-upload { margin-top: 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 18px; }
+.msi-upload__counts { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; }
+.msi-upload__count { display: inline-flex; align-items: baseline; gap: 7px; }
+.msi-upload__label { font-size: 12px; color: var(--msi-muted); }
+.msi-upload__value { font-size: 13px; font-weight: 600; line-height: 1.5; color: var(--msi-body); font-variant-numeric: tabular-nums; }
+.msi-upload__state { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; font-size: 11px; line-height: 1.6; color: var(--msi-muted); }
+.msi-upload__read { margin-left: auto; color: var(--msi-icon); font-size: 11px; }
+.msi-upload__exc { grid-column: 1 / -1; margin: 0; font-size: 12px; line-height: 1.6; color: var(--msi-body); }
+.msi-upload__toggle { grid-column: 2; grid-row: 1; align-self: baseline; display: inline-flex; align-items: center; gap: 5px; margin: 0; padding: 2px 0; border: 0; border-radius: 3px; background: transparent; color: var(--msi-muted); font: inherit; font-size: 11px; line-height: 1.5; white-space: nowrap; cursor: pointer; }
+.msi-upload__toggle::after { content: none; }
+.msi-upload__chevron { display: block; flex: 0 0 12px; width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.msi-upload__toggle[aria-expanded="true"] .msi-upload__chevron { transform: rotate(180deg); }
+.msi-upload__toggle:hover { color: var(--msi-body); }
+.msi-upload__toggle:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 3px; }
+.msi-upload__detail { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; margin: 4px 0 0; padding: 10px 0 2px; max-height: 180px; overflow: auto; font-size: 11px; line-height: 1.55; }
+.msi-upload__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: baseline; gap: 10px; min-width: 0; }
+.msi-upload__detail dt { color: var(--msi-muted); }
+.msi-upload__detail dd { margin: 0; color: var(--msi-body); overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+@media (max-width: 620px) {
+  .msi-upload { gap: 8px 12px; }
+  .msi-upload__counts { gap: 5px 12px; }
+  .msi-upload__read { margin-left: 0; }
+  .msi-upload__detail { grid-template-columns: minmax(0, 1fr); }
+}
+
 .msi-current__detail p {
   margin: 0;
   font-size: 12px;
@@ -3667,6 +3881,11 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   box-shadow:
     0 24px 60px rgba(0, 0, 0, .55),
     0 2px 8px rgba(0, 0, 0, .4);
+}
+.msi-root[data-theme="light"] .msi-panel {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, .14),
+    0 2px 6px rgba(0, 0, 0, .08);
 }
 .msi-panel[data-visible="true"] { visibility: visible; }
 .msi-panel[data-open="true"] { pointer-events: auto; }
@@ -3700,7 +3919,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   border-top-left-radius: 27px;
   border-top-right-radius: 27px;
 }
-.msi-panel__title { font-size: 13px; font-weight: 600; color: var(--msi-title); }
+.msi-panel__title { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--msi-title); line-height: 1.2; }
+.msi-panel__brand { font-size: 16px; font-weight: 600; letter-spacing: -.45px; }
+.msi-panel__studio { display: inline-block; position: relative; top: 1px; padding: 2px 5px 3px; border-radius: 4px; background: var(--msi-title); color: var(--msi-base); font-size: 9px; font-weight: 600; letter-spacing: 1px; line-height: 1; }
 .msi-panel__body {
   flex: 1 1 auto;
   min-height: 0;
@@ -3726,6 +3947,11 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   background: var(--msi-bar);
 }
 .msi-side .msi-tasks { border-right: 0; }
+.msi-root[data-theme="light"] .msi-side,
+.msi-root[data-theme="light"] .msi-side .msi-tasks {
+  background: var(--msi-bar);
+}
+
 .msi-profile-wrap {
   position: relative;
   flex: 0 0 auto;
@@ -3823,6 +4049,91 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   color: var(--msi-muted);
 }
 .msi-profile__file { display: none; }
+/* 个人行：头像名字占满，更新按钮固定在右侧，不挤压 */
+.msi-profile-wrap { display: flex; align-items: center; gap: 4px; padding-right: 6px; }
+.msi-profile { flex: 1 1 auto; width: auto; min-width: 0; }
+.msi-profile__update {
+  --msi-update-blue: #4176E6;
+  box-sizing: border-box;
+  display: inline-grid;
+  grid-template-columns: 14px max-content;
+  align-items: center;
+  column-gap: 4px;
+  flex: 0 0 auto;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--msi-update-blue) 20%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--msi-update-blue) 8%, transparent);
+  color: var(--msi-update-blue);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.msi-root[data-theme="dark"] .msi-profile__update { --msi-update-blue: var(--msi-accent); }
+.msi-profile__update:hover { background: color-mix(in srgb, var(--msi-update-blue) 12%, transparent); }
+.msi-profile__update-icon { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.msi-profile__update:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 2px; }
+.msi-update {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: calc(100% + 6px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--msi-line);
+  border-radius: 10px;
+  background: var(--msi-panel);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .45);
+  z-index: 4;
+  outline: none;
+}
+.msi-update:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 2px; }
+.msi-update__head { font-size: 12.5px; font-weight: 600; color: var(--msi-title); }
+.msi-update__versions {
+  font-size: 11px;
+  color: var(--msi-muted);
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+}
+.msi-update__msg { margin: 0; font-size: 12px; color: var(--msi-soft); }
+.msi-update__notes {
+  margin: 0;
+  max-height: 160px;
+  overflow: auto;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--msi-code);
+  color: var(--msi-body);
+  font: inherit;
+  font-size: 11.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.msi-update__hint { margin: 0; font-size: 11px; color: var(--msi-icon); }
+.msi-update__actions { display: flex; justify-content: flex-end; gap: 8px; }
+.msi-update__btn {
+  padding: 5px 12px;
+  border: 1px solid var(--msi-line-2);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--msi-body);
+  font: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.msi-update__btn:hover { background: var(--msi-code); }
+.msi-update__btn:focus-visible { outline: 2px solid var(--msi-accent); outline-offset: 1px; }
+.msi-update__btn--primary { background: var(--msi-button); }
+.msi-update__btn--primary:hover { background: var(--msi-line); }
+@media (max-width: 620px) { .msi-update { left: 4px; right: 4px; } }
 .msi-tasks__label {
   padding: 0 8px 8px;
   font-size: 11px;
@@ -3850,20 +4161,20 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #d3d4d6;
+  color: var(--msi-icon-light);
   font: inherit;
   font-size: 13px;
   text-align: left;
   cursor: pointer;
   transition: background-color .14s ease, color .14s ease;
 }
-.msi-task:hover { background: rgba(255, 255, 255, .045); color: var(--msi-body); }
+.msi-task:hover { background: var(--msi-task-hover); color: var(--msi-body); }
 .msi-task:focus-visible {
   outline: 2px solid var(--msi-accent);
   outline-offset: -2px;
 }
 .msi-task[aria-current="true"] {
-  background: rgba(255, 255, 255, .075);
+  background: var(--msi-task-selected);
   color: var(--msi-title);
   font-weight: 500;
 }
@@ -3888,32 +4199,33 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 }
 /* 运行圈：固定 12px 槽位，未启用只隐藏不塌陷，文字不会因为圈出现而跳动 */
 .msi-task__run {
-  flex: 0 0 auto;
+  display: block;
+  flex: 0 0 12px;
   width: 12px;
   height: 12px;
   margin-left: 6px;
-  border: 1.5px solid rgba(255, 255, 255, .16);
-  border-top-color: var(--msi-accent);
-  border-radius: 50%;
+  padding: 0;
+  border: 0;
+  overflow: visible;
   visibility: hidden;
-  animation: msi-run-spin .9s linear infinite;
+  transform-origin: center;
+  animation: msi-run-spin 1s linear infinite;
 }
+.msi-task__run-track, .msi-task__run-arc {
+  fill: none;
+  stroke-width: 1.5;
+}
+.msi-task__run-track { stroke: var(--msi-line-2); opacity: .45; }
+.msi-task__run-arc { stroke: var(--msi-muted); stroke-linecap: round; }
 .msi-task__run[data-state="running"] { visibility: visible; }
-.msi-task__run[data-state="paused"] {
+.msi-task__run[data-state="paused"], .msi-task__run[data-state="unknown"] {
   visibility: visible;
   animation: none;
-  border-color: rgba(255, 255, 255, .26);
-  border-top-color: rgba(255, 255, 255, .6);
-  transform: rotate(45deg);
 }
-.msi-task__run[data-state="unknown"] {
-  visibility: visible;
-  animation: none;
-  border-color: rgba(255, 255, 255, .12);
-}
+.msi-task__run[data-state="unknown"] .msi-task__run-arc { visibility: hidden; }
 @keyframes msi-run-spin { to { transform: rotate(360deg); } }
 .msi-task[aria-current="true"] .msi-task__name[data-run="true"] {
-  background-image: linear-gradient(100deg, var(--msi-body) 40%, #ffffff 50%, var(--msi-body) 60%);
+  background-image: linear-gradient(100deg, var(--msi-body) 40%, var(--msi-shimmer) 50%, var(--msi-body) 60%);
   background-size: 240% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -3936,7 +4248,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
   border: 0;
 }
 @media (prefers-reduced-motion: reduce) {
-  .msi-task__run { animation: none; border-top-color: rgba(255, 255, 255, .5); }
+  .msi-task__run { animation: none; }
   .msi-task[aria-current="true"] .msi-task__name[data-run="true"] {
     animation: none;
     background: none;
@@ -4305,6 +4617,173 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       return pair[0];
     }
 
+    /* ─── 更新检查（只读；宿主侧带 6 小时缓存，这里不轮询） ─── */
+    var UPDATE_ROUTE = 'memo-island/update';
+    var UPDATE_IDLE = { state: 'idle' };
+
+    function updateUrl(force) {
+      var base = new URL(document.baseURI || window.location.href);
+      base.search = '';
+      base.hash = '';
+      if (base.pathname.charAt(base.pathname.length - 1) !== '/') base.pathname = base.pathname.replace(/[^/]*$/, '');
+      var url = new URL(UPDATE_ROUTE, base);
+      if (force) url.searchParams.set('force', '1');
+      return url.href;
+    }
+
+    /** 打开时问一次；手动检查走 force。失败不改写已有结果，只标 error。 */
+    function useUpdateInfo() {
+      var pair = React.useState({ info: UPDATE_IDLE, checking: false, error: false });
+      var ref = React.useRef({ info: UPDATE_IDLE, checking: false, error: false });
+      var setState = pair[1];
+      function apply(next) { ref.current = next; setState(next); }
+      async function refresh(force) {
+        if (ref.current.checking) return;
+        apply({ ...ref.current, checking: true });
+        try {
+          var response = await fetch(updateUrl(force), { cache: 'no-store' });
+          var body = await response.json();
+          if (!body || !body.ok || !body.value || typeof body.value.state !== 'string') throw new Error('invalid_update');
+          apply({ info: body.value, checking: false, error: false });
+        } catch (error) {
+          apply({ ...ref.current, checking: false, error: true });
+        }
+      }
+      React.useEffect(function () {
+        if (typeof fetch === 'function') refresh(false);
+      }, []);
+      return { state: pair[0], refresh: refresh };
+    }
+
+    /** 状态 → 一句人话；检查中与失败优先，绝不在失败时说“已是最新”。 */
+
+    /* ────────────────────────────────────────────────────────────────
+     * 上传状态详情（派生视图，只读宿主已有字段）
+     *
+     * 默认区：关键数量 → 一句状态 → 相对读取时间 → 异常提示
+     * 展开区：全量计数（含零值）、来源、读取/进展/心跳时间、生命周期
+     * 不新增任何状态存储：全部从 view.progress / view.health / view.source 派生。
+     * ──────────────────────────────────────────────────────────────── */
+    var UPLOAD_FIELDS = [
+      ['verified', 'upload.verified'],
+      ['planned', 'upload.planned'],
+      ['written', 'upload.written'],
+      ['failed', 'upload.failed'],
+      ['uncertain', 'upload.uncertain'],
+      ['mismatch', 'upload.mismatch'],
+      ['skipped', 'upload.skipped']
+    ];
+
+    /** 相对时间：只在 10s / 60s / 1h / 1d 这几个档位变化，不逐秒改文案。 */
+    function agoText(time, now, t) {
+      if (typeof time !== 'number' || !isFinite(time) || time <= 0) return '';
+      var diff = Math.max(0, now - time);
+      if (diff < 10000) return t('upload.justNow');
+      if (diff < 60000) return fill(t('upload.secondsAgo'), { n: Math.floor(diff / 1000) });
+      if (diff < 3600000) return fill(t('upload.minutesAgo'), { n: Math.floor(diff / 60000) });
+      if (diff < 86400000) return fill(t('upload.hoursAgo'), { n: Math.floor(diff / 3600000) });
+      return fill(t('upload.daysAgo'), { n: Math.floor(diff / 86400000) });
+    }
+
+    function absoluteTime(time) {
+      if (typeof time !== 'number' || !isFinite(time) || time <= 0) return '';
+      try { return new Date(time).toLocaleString(); } catch (error) { return ''; }
+    }
+
+    /**
+     * @param {object} view 宿主返回的状态
+     * @param {Function} t 文案
+     * @param {number} now 当前时间（带 skew）
+     */
+    function describeUpload(view, t, now) {
+      var p = view && view.progress;
+      if (!p) return null;
+      var num = function (key) { return Math.max(0, Number(p[key]) || 0); };
+      var health = (view && view.health) || {};
+      var total = num('total');
+      var verified = num('verified');
+      var planned = num('planned');
+      var written = num('written');
+      var failed = num('failed');
+      var uncertain = num('uncertain');
+      var mismatch = num('mismatch');
+      var skipped = num('skipped');
+      var lastProgressAt = typeof health.lastProgressAt === 'number' ? health.lastProgressAt : 0;
+      var heartbeatAt = typeof health.heartbeatAt === 'number' ? health.heartbeatAt : 0;
+      var readAt = typeof health.readAt === 'number' ? health.readAt : (typeof p.readAt === 'number' ? p.readAt : 0);
+      var phase = view.phase || '';
+      var code = health.code || '';
+      var waiting = Boolean(view.ask) || Boolean(view.approval);
+      var moving = lastProgressAt > 0 && now - lastProgressAt < 90000;
+
+      /* 状态：异常与等待优先；心跳只证明"还在上报"，不据此说"正在上传" */
+      var state;
+      if (code === 'disconnected') state = { tone: 'warn', text: t('upload.state.disconnected') };
+      else if (code === 'read_failed' || code === 'journal_read_failed') state = { tone: 'warn', text: t('upload.state.readFailed') };
+      else if (code === 'heartbeat_stale' || code === 'stale') state = { tone: 'warn', text: t('upload.state.stale') };
+      else if (health.waitReason === 'rate_limit') state = { tone: 'wait', text: t('upload.state.rateLimited') };
+      else if (health.waitReason === 'network_wait') state = { tone: 'wait', text: t('upload.state.networkWait') };
+      else if (phase === 'paused' || health.waitReason === 'paused' || health.lifecycle === 'paused') state = { tone: 'wait', text: t('upload.state.paused') };
+      else if (waiting || phase === 'ask' || phase === 'approval') state = { tone: 'wait', text: t('upload.state.waitingUser') };
+      else if (total > 0 && verified === total && failed === 0 && uncertain === 0 && mismatch === 0 && skipped === 0) {
+        state = { tone: 'ok', text: t('upload.state.allVerified') + ' · ' + t('upload.previewNote') };
+      }
+      else if (moving) state = { tone: 'run', text: t('upload.state.uploading') };
+      else if (written > 0) state = { tone: 'run', text: t('upload.state.verifying') };
+      else if (view.running) state = { tone: 'quiet', text: t('upload.state.scriptOnline') };
+      else state = { tone: 'quiet', text: t('upload.state.idle') };
+
+      var counts = [
+        { key: 'verified', label: t('upload.verified'), value: verified },
+        { key: 'planned', label: t('upload.planned'), value: planned }
+      ];
+      if (written > 0) counts.push({ key: 'written', label: t('upload.written'), value: written });
+
+      var exceptions = [];
+      if (uncertain > 0) exceptions.push(fill(t('upload.exc.uncertain'), { n: uncertain }));
+      if (failed > 0) exceptions.push(fill(t('upload.exc.failed'), { n: failed }));
+      if (mismatch > 0) exceptions.push(fill(t('upload.exc.mismatch'), { n: mismatch }));
+      if (skipped > 0) exceptions.push(fill(t('upload.exc.skipped'), { n: skipped }));
+
+      var rows = UPLOAD_FIELDS.map(function (entry) {
+        return { key: entry[0], label: t(entry[1]), value: num(entry[0]) };
+      });
+      var details = rows.map(function (row) { return { label: row.label, value: String(row.value) }; });
+      if (view.source) details.push({ label: t('upload.row.source'), value: t('progress.source.' + view.source) });
+      var readAbsolute = absoluteTime(readAt);
+      if (readAbsolute) details.push({ label: t('upload.row.readAt'), value: readAbsolute });
+      if (lastProgressAt) details.push({ label: t('upload.row.lastProgress'), value: absoluteTime(lastProgressAt) });
+      if (heartbeatAt) details.push({ label: t('upload.row.heartbeat'), value: absoluteTime(heartbeatAt) });
+      if (health.lifecycle) details.push({ label: t('upload.row.lifecycle'), value: String(health.lifecycle) });
+      if (health.conflict === true) details.push({ label: t('upload.row.conflict'), value: t('upload.yes') });
+      if (num('readbackConfirmed') > 0) {
+        details.push({ label: t('upload.row.readback'), value: String(num('readbackConfirmed')) });
+      }
+
+      return {
+        counts: counts,
+        state: state,
+        exceptions: exceptions,
+        readAgo: readAbsolute ? { text: agoText(readAt, now, t), absolute: readAbsolute } : null,
+        staleRead: code === 'read_failed' || code === 'journal_read_failed' || code === 'disconnected',
+        details: details,
+        total: total,
+        allVerified: total > 0 && verified === total && failed === 0 && uncertain === 0 && mismatch === 0 && skipped === 0
+      };
+    }
+
+    function updateMessage(info, checking, error, t) {
+      if (checking) return t('update.checking');
+      if (error) return t('update.failed');
+      var state = info && info.state ? info.state : 'idle';
+      if (state === 'available') return t('update.available');
+      if (state === 'up_to_date') return t('update.uptodate');
+      if (state === 'unconfigured') return t('update.unconfigured');
+      var key = 'update.' + state;
+      var text = t(key);
+      return text === key ? t('update.failed') : text;
+    }
+
     var IDLE_STATUS = { rev: -1, phase: 'idle' };
     var STATUS_ROUTE = 'memo-island/status';
 
@@ -4396,6 +4875,23 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       }, [props.value]);
       return h('span', { className: 'msi-elapsed', 'aria-label': props.value },
         h('span', { ref: host, 'aria-hidden': 'true' })
+      );
+    }
+
+    function UploadCapsuleText(props) {
+      var progress = props.view.progress;
+      var ratio = progress && typeof progress.uploaded === 'number' && typeof progress.total === 'number'
+        ? String(progress.uploaded) + '/' + String(progress.total) : '';
+      var position = ratio ? props.text.indexOf(ratio) : -1;
+      if (position < 0) return h('span', { className: 'msi-capsule__text' }, props.text);
+      return h('span', { className: 'msi-capsule__text', 'aria-label': props.text },
+        props.text.slice(0, position),
+        h('span', { className: 'msi-upload-digits', 'aria-hidden': 'true' },
+          h(ElapsedDigits, { value: String(progress.uploaded) }),
+          h('span', { 'aria-hidden': 'true' }, '/'),
+          h(ElapsedDigits, { value: String(progress.total) })
+        ),
+        props.text.slice(position + ratio.length)
       );
     }
 
@@ -4876,7 +5372,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       // 随显隐从 .6 放大到 1，叠在圆球自身的缩放 / 横向挤压上，像是从圆球里「冒」出来
       var glyphPop = .6 + .4 * glyphReveal;
       var glyphInteractive = glyphVisible && props.detached;
-      var fill = props.open ? 'var(--msi-panel)' : 'var(--msi-bar)';
+      var fill = props.open ? 'var(--msi-capsule-open-bg, var(--msi-panel))' : 'var(--msi-capsule-bg, var(--msi-bar))';
       function shapes(inset, color) {
         function body(filtered) {
           return h('rect', {
@@ -4965,7 +5461,48 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       );
     }
 
+    var THEME_KEY = 'memo-skill-island:theme';
+    function readTheme() {
+      try {
+        var value = window.localStorage.getItem(THEME_KEY);
+        return ['system', 'light', 'dark'].indexOf(value) >= 0 ? value : 'system';
+      } catch (_) { return 'system'; }
+    }
+    function useIslandTheme() {
+      var preference = React.useState(readTheme);
+      var system = React.useState(function () {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      });
+      React.useEffect(function () {
+        var media = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+        function changed() { system[1](media && media.matches ? 'dark' : 'light'); }
+        function stored(e) { if (e.key === THEME_KEY || e.key === null) preference[1](readTheme()); }
+        if (media) {
+          changed();
+          if (media.addEventListener) media.addEventListener('change', changed);
+          else media.addListener(changed);
+        }
+        window.addEventListener('storage', stored);
+        return function () {
+          if (media) {
+            if (media.removeEventListener) media.removeEventListener('change', changed);
+            else media.removeListener(changed);
+          }
+          window.removeEventListener('storage', stored);
+        };
+      }, []);
+      function cycle() {
+        preference[1](function (current) {
+          var next = current === 'system' ? 'light' : current === 'light' ? 'dark' : 'system';
+          try { window.localStorage.setItem(THEME_KEY, next); } catch (_) { /* Still usable for this session. */ }
+          return next;
+        });
+      }
+      return { mode: preference[0], resolved: preference[0] === 'system' ? system[0] : preference[0], cycle: cycle };
+    }
+
     function Island(props) {
+      var theme = useIslandTheme();
       var i18n = props.i18n;
       var t = i18n.t;
       var lang = i18n.active();
@@ -4990,7 +5527,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       );
       var rootStyle = {
         left: Math.round(centerX) + 'px',
-        top: topY + 'px'
+        top: (topY + 3) + 'px'
       };
 
       var openState = React.useState(false);
@@ -5043,6 +5580,17 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       var setProfile = profileState[1];
       var avatarInputRef = React.useRef(null);
       var profileTimer = React.useRef(0);
+      var update = useUpdateInfo();
+      var updateInfo = update.state.info || UPDATE_IDLE;
+      var updateStatus = update.state;
+      var uploadOpenState = React.useState(false);
+      var uploadOpen = uploadOpenState[0];
+      var setUploadOpen = uploadOpenState[1];
+      var updateOpenState = React.useState(false);
+      var updateOpen = updateOpenState[0];
+      var setUpdateOpen = updateOpenState[1];
+      var updateButtonRef = React.useRef(null);
+      var updatePanelRef = React.useRef(null);
       var profileMenuState = React.useState(false);
       var profileMenuOpen = profileMenuState[0];
       var setProfileMenuOpen = profileMenuState[1];
@@ -5113,11 +5661,16 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
             className: 'msi-task__name',
             'data-run': run === 'running' ? 'true' : 'false'
           }, pick(item.label, lang)),
-          h('span', {
+          h('svg', {
             className: 'msi-task__run',
+            viewBox: '0 0 12 12',
             'data-state': run,
-            'aria-hidden': 'true'
-          }),
+            'aria-hidden': 'true',
+            focusable: 'false'
+          },
+            h('circle', { className: 'msi-task__run-track', cx: 6, cy: 6, r: 4.5 }),
+            h('path', { className: 'msi-task__run-arc', d: 'M6 1.5a4.5 4.5 0 0 1 4.5 4.5' })
+          ),
           runLabel ? h('span', { className: 'msi-sr' }, ' ' + runLabel) : null
         );
       }
@@ -5188,6 +5741,20 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
           updateProfile({ name: nameBeforeRef.current });
           setEditingName(false);
         }
+      }
+
+      /* 更新面板：打开聚焦面板，关闭把焦点还给“更新”按钮 */
+      React.useEffect(function () {
+        if (updateOpen && updatePanelRef.current) updatePanelRef.current.focus();
+      }, [updateOpen]);
+      function closeUpdate(restoreFocus) {
+        setUpdateOpen(false);
+        if (restoreFocus && updateButtonRef.current) updateButtonRef.current.focus();
+      }
+      function checkUpdates() {
+        setProfileMenuOpen(false);
+        setUpdateOpen(true);
+        update.refresh(true);
       }
 
       /* 菜单打开时：点外面收起 */
@@ -5272,18 +5839,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         if (memoView.ask.count > 1) detailLines.push(fill(t('task.questions'), { n: memoView.ask.count }));
       }
       if (memoView.approval && memoView.approval.tool) detailLines.push(fill(t('task.tool'), { tool: memoView.approval.tool }));
-      if (memoView.progress) {
-        var pv = memoView.progress;
-        detailLines.push(fill(t('progress.counts'), pv));
-        if (pv.readbackConfirmed) detailLines.push(fill(t('progress.readback'), { n: pv.readbackConfirmed }));
-      }
-      if (memoView.source) detailLines.push(t('progress.source.' + memoView.source));
-      if (memoView.health) {
-        var health = memoView.health;
-        if (health.readAt) detailLines.push(fill(t('progress.updated'), { time: new Date(health.readAt).toLocaleString() }));
-        if (health.code === 'ok' && health.lifecycle === 'running') detailLines.push(t('progress.running'));
-        if (health.waitReason) detailLines.push(t(health.waitReason === 'paused' ? 'phase.paused' : 'progress.' + health.waitReason));
-      }
+      // 计数 / 来源 / 读取时间 / 执行器状态不再平铺在这里：
+      // 统一由下面的“关键数量 → 状态 → 可展开详情”区块呈现（describeUpload 派生）
+      var uploadInfo = display.phase !== 'idle' ? describeUpload(memoView, t, now) : null;
       if (memoView.tasks && memoView.tasks.length > 1) memoView.tasks.forEach(function (task, index) {
         var label = task.progress && typeof task.progress.uploaded === 'number' ? fill(t('progress.uploaded'), { n: task.progress.uploaded, total: task.progress.total }) : t('phase.progress_unavailable');
         detailLines.push(fill(t('progress.task'), { n: index + 1, state: label + ' · ' + (task.phase === 'done' ? t('progress.complete') : t('phase.' + task.phase)) }));
@@ -5298,6 +5856,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'data-morph': capsuleWidth > 0 ? 'true' : 'false',
         'data-light': display.light,
         'data-pulse': display.pulse,
+        'data-theme': theme.resolved,
         'data-phase': display.phase
       },
         h('style', null, STYLE),
@@ -5313,14 +5872,14 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         h('button', {
           type: 'button',
           ref: capsuleRef,
-          className: 'msi-capsule',
+          className: 'msi-capsule' + (display.bubble === 'ring' ? ' msi-capsule--optical' : ''),
           'aria-expanded': open ? 'true' : 'false',
           'aria-controls': 'msi-panel',
           title: display.phase === 'idle' ? t('panel.title') : statusLine,
           onClick: function () { setOpen(!open); }
         },
           h('span', { className: 'msi-capsule__dot', 'aria-hidden': 'true' }),
-          h('span', { className: 'msi-capsule__text' }, display.text),
+          h(UploadCapsuleText, { key: sessionId + ':' + (memoView.taskId || memoView.startedAt || ''), text: display.text, view: memoView }),
           display.trailing ? h('span', { className: 'msi-capsule__meta' },
             display.phase === 'working' ? h(ElapsedDigits, { key: sessionId + ':' + memoView.startedAt, value: display.trailing }) : display.trailing
           ) : null,
@@ -5341,7 +5900,10 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         },
           h('div', { className: 'msi-panel__inner', style: innerStyle },
           h('header', { className: 'msi-panel__head' },
-            h('span', { className: 'msi-panel__title' }, t('panel.title'))
+            h('span', { className: 'msi-panel__title', 'aria-label': t('panel.title') },
+              h('span', { className: 'msi-panel__brand', 'aria-hidden': 'true' }, 'Memo Cardest'),
+              h('span', { className: 'msi-panel__studio', 'aria-hidden': 'true' }, 'STUDIO')
+            )
           ),
           /* 当前任务：只在墨卡大师有任务时出现，在技能目录上方 */
           display.phase !== 'idle' ? h('div', { className: 'msi-current', 'aria-label': t('task.title') },
@@ -5360,10 +5922,40 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                 );
               })
             ),
+            uploadInfo ? h('div', { className: 'msi-upload', 'data-tone': uploadInfo.state.tone },
+              h('div', { className: 'msi-upload__counts' }, uploadInfo.counts.map(function (count) {
+                return h('span', { key: count.key, className: 'msi-upload__count' },
+                  h('span', { className: 'msi-upload__label' }, count.label),
+                  h('span', { className: 'msi-upload__value' }, String(count.value))
+                );
+              })),
+              uploadInfo.state.tone !== 'ok' ? h('div', { className: 'msi-upload__state' },
+                h('span', { className: 'msi-upload__stext' }, uploadInfo.state.text)
+              ) : null,
+              uploadInfo.exceptions.length
+                ? h('p', { className: 'msi-upload__exc' }, uploadInfo.exceptions.join(' · '))
+                : null,
+              h('button', {
+                type: 'button',
+                className: 'msi-upload__toggle',
+                'aria-expanded': uploadOpen ? 'true' : 'false',
+                'aria-controls': 'msi-upload-details',
+                onClick: function () { setUploadOpen(!uploadOpen); }
+              }, uploadOpen ? t('upload.detailsHide') : t('upload.details'),
+                h('svg', { className: 'msi-upload__chevron', viewBox: '0 0 12 12', 'aria-hidden': 'true', focusable: 'false' },
+                  h('path', { d: 'M3 4.5 6 7.5 9 4.5' }))
+              ),
+              uploadOpen
+                ? h('dl', { id: 'msi-upload-details', className: 'msi-upload__detail' }, uploadInfo.details.map(function (row, index) {
+                  return h('div', { key: index, className: 'msi-upload__row' },
+                    h('dt', null, row.label), h('dd', null, row.value));
+                }))
+                : null
+            ) : null,
             detailLines.length ? h('div', { className: 'msi-current__detail' },
               detailLines.map(function (line, index) { return h('p', { key: index }, line); })
             ) : null,
-            display.next ? h('p', { className: 'msi-current__next' }, display.next) : null
+            display.next && !(uploadInfo && uploadInfo.allVerified) ? h('p', { className: 'msi-current__next' }, display.next) : null
           ) : null,
           h('div', { className: 'msi-panel__body' },
             h('div', { className: 'msi-side' },
@@ -5386,7 +5978,16 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                   className: 'msi-profile__item', role: 'menuitem', href: SITE_URL,
                   target: '_blank', rel: 'noopener noreferrer',
                   onClick: function () { setProfileMenuOpen(false); }
-                }, menuIcon(ICON_LINK), h('span', null, t('profile.site')))
+                }, menuIcon(ICON_LINK), h('span', null, t('profile.site'))),
+                h('button', {
+                  type: 'button', role: 'menuitem', className: 'msi-profile__item',
+                  title: t('theme.next') + t('theme.' + (theme.mode === 'system' ? 'light' : theme.mode === 'light' ? 'dark' : 'system')),
+                  onClick: theme.cycle
+                }, menuIcon(['M12 3a9 9 0 1 0 0 18V3z', 'M12 3a9 9 0 0 1 0 18']), h('span', { 'aria-live': 'polite' }, t('theme.' + theme.mode))),
+                h('button', {
+                  type: 'button', role: 'menuitem', className: 'msi-profile__item',
+                  onClick: checkUpdates
+                }, menuIcon(ICON_REFRESH), h('span', null, t('update.check')))
               ) : null,
               editingName
                 ? h('div', { className: 'msi-profile' },
@@ -5426,6 +6027,62 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
                     'data-empty': profile.name ? 'false' : 'true'
                   }, profile.name || t('profile.name'))
                 ),
+              updateInfo.state === 'available'
+                ? h('button', {
+                  ref: updateButtonRef,
+                  type: 'button',
+                  className: 'msi-profile__update',
+                  'aria-haspopup': 'dialog',
+                  'aria-expanded': updateOpen ? 'true' : 'false',
+                  title: t('update.available') + ' · ' + (updateInfo.latest || ''),
+                  onClick: function () { setUpdateOpen(!updateOpen); }
+                }, h('svg', { className: 'msi-profile__update-icon', viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false' },
+                  h('path', { d: 'M12 3v12m-4-4 4 4 4-4M5 15v5h14v-5' })
+                ), h('span', null, t('update.short')))
+                : null,
+              updateOpen
+                ? h('div', {
+                  ref: updatePanelRef,
+                  className: 'msi-update',
+                  role: 'dialog',
+                  tabIndex: -1,
+                  'aria-label': t('update.title'),
+                  onKeyDown: function (event) {
+                    if (event.key === 'Escape') {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      closeUpdate(true);
+                    }
+                  }
+                },
+                  h('div', { className: 'msi-update__head' }, t('update.title')),
+                  h('div', { className: 'msi-update__versions' },
+                    t('update.current') + ' ' + (updateInfo.current || '—') + ' · ' + t('update.latest') + ' ' + (updateInfo.latest || '—')),
+                  h('p', { className: 'msi-update__msg' }, updateMessage(updateInfo, updateStatus.checking, updateStatus.error, t)),
+                  updateInfo.notes ? h('pre', { className: 'msi-update__notes' }, updateInfo.notes) : null,
+                  updateInfo.installMode === 'link' ? h('p', { className: 'msi-update__hint' }, t('update.dev')) : null,
+                  h('div', { className: 'msi-update__actions' },
+                    h('button', {
+                      type: 'button', className: 'msi-update__btn',
+                      onClick: function () { closeUpdate(true); }
+                    }, t('update.later')),
+                    updateInfo.state === 'available' && updateInfo.asset
+                      ? h('a', {
+                        className: 'msi-update__btn msi-update__btn--primary',
+                        href: updateInfo.asset.url, target: '_blank', rel: 'noopener noreferrer',
+                        onClick: function () { closeUpdate(false); }
+                      }, t('update.download'))
+                      : updateInfo.releaseUrl
+                        ? h('a', {
+                          className: 'msi-update__btn msi-update__btn--primary',
+                          href: updateInfo.releaseUrl, target: '_blank', rel: 'noopener noreferrer',
+                          onClick: function () { closeUpdate(false); }
+                        }, t('update.open'))
+                        : null
+                  ),
+                  updateInfo.state === 'available' ? h('p', { className: 'msi-update__hint' }, t('update.install')) : null
+                )
+                : null,
               h('input', {
                 ref: avatarInputRef,
                 className: 'msi-profile__file',

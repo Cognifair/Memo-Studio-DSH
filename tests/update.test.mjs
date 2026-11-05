@@ -4,6 +4,7 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { compareVersions, parseVersion, isPrerelease, pickRelease, pickAsset, createUpdateChecker } from '../update.js';
 import { resolveUpdateConfig, normalizeRepo } from '../update-config.js';
 
@@ -13,7 +14,12 @@ const release = (tag, extra = {}) => ({
   body: `notes for ${tag}`,
   draft: false,
   prerelease: false,
-  assets: [],
+  // 默认带一个符合 assetPattern 的安装包：真实发布就是这个形状
+  assets: [{
+    name: 'dsh-memo-skill-island-' + String(tag).replace(/^v/, '') + '.tgz',
+    browser_download_url: 'https://example.test/' + tag + '.tgz',
+    size: 1024
+  }],
   ...extra
 });
 
@@ -65,7 +71,7 @@ test('安装包按配置的正则挑，没配置或没匹配就不给', () => {
       { name: 'notes.txt', browser_download_url: 'https://example.test/n.txt', size: 1 }
     ]
   });
-  assert.equal(pickAsset(withAsset, resolveUpdateConfig({ repo: 'owner/name' })), null);
+  assert.equal(pickAsset(withAsset, resolveUpdateConfig({ repo: 'owner/name', assetPattern: '' })), null);
   const asset = pickAsset(withAsset, resolveUpdateConfig({ repo: 'owner/name', assetPattern: '\\.tgz$' }));
   assert.equal(asset.name, 'dsh-memo-skill-island-1.2.0.tgz');
   assert.equal(pickAsset(withAsset, resolveUpdateConfig({ repo: 'owner/name', assetPattern: '\\.zip$' })), null);
@@ -93,7 +99,7 @@ test('无正式 Release、无匹配安装包', async () => {
   const none = checker(async () => jsonResponse([release('1.1.0', { draft: true })]));
   assert.equal((await none.check()).state, 'no_release');
 
-  const noAsset = checker(async () => jsonResponse([release('1.1.0')]), { assetPattern: '\\.tgz$' });
+  const noAsset = checker(async () => jsonResponse([release('1.1.0', { assets: [] })]), { assetPattern: '\\.tgz$' });
   assert.equal((await noAsset.check()).state, 'no_asset');
 });
 
@@ -126,7 +132,8 @@ test('离线、超时、限流、坏响应都不谎报最新', async () => {
 test('仓库没配置就不发请求', async () => {
   let called = 0;
   const unconfigured = createUpdateChecker({
-    config: resolveUpdateConfig({}),
+    // 默认仓库已指向正式发布；这里显式清空，验证“关掉检查”
+    config: resolveUpdateConfig({ repo: '' }),
     currentVersion: '1.0.0',
     fetchImpl: async () => { called += 1; return jsonResponse([]); }
   });
@@ -134,7 +141,7 @@ test('仓库没配置就不发请求', async () => {
   assert.equal(called, 0);
   assert.equal(normalizeRepo('https://github.com/a/b'), '');
   assert.equal(normalizeRepo('a/b'), 'a/b');
-  assert.equal(resolveUpdateConfig({}, { MEMO_ISLAND_UPDATE_REPO: 'env/owner' }).repo, 'env/owner');
+  assert.equal(resolveUpdateConfig({ repo: '' }, { MEMO_ISLAND_UPDATE_REPO: 'env/owner' }).repo, 'env/owner');
 });
 
 test('6 小时缓存：命中不再请求，手动刷新绕过，并发只发一次', async () => {
@@ -178,4 +185,36 @@ test('失败不缓存：下一次还能重试', async () => {
   assert.equal((await flaky.check()).state, 'offline');
   mode = 'ok';
   assert.equal((await flaky.check()).state, 'available');
+});
+
+
+test('真实 v0.1.0 响应：当前版本相同时判定已最新，旧版本时给出安装包', async () => {
+  const fixture = JSON.parse(await readFile(new URL('./fixtures/release-v0.1.0.json', import.meta.url), 'utf8'));
+  const releases = fixture.releases;
+  assert.equal(releases[0].draft, false);
+  assert.equal(releases[0].prerelease, false);
+
+  const config = resolveUpdateConfig({});
+  assert.equal(config.repo, 'Cognifair/dsh-memo-skill-island');
+  assert.match(config.assetPattern, /tgz/);
+
+  const same = createUpdateChecker({
+    config,
+    currentVersion: '0.1.0',
+    fetchImpl: async () => jsonResponse(releases)
+  });
+  assert.equal((await same.check()).state, 'up_to_date');
+
+  const older = createUpdateChecker({
+    config,
+    currentVersion: '0.0.9',
+    fetchImpl: async () => jsonResponse(releases)
+  });
+  const result = await older.check();
+  assert.equal(result.state, 'available');
+  assert.equal(result.latest, 'v0.1.0');
+  assert.equal(result.asset.name, 'dsh-memo-skill-island-0.1.0.tgz');
+  assert.match(result.asset.url, /releases\/download\/v0\.1\.0\//);
+  assert.equal(result.asset.size, 112748);
+  assert.match(result.notes, /首个公开版本/);
 });

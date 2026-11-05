@@ -10,11 +10,11 @@
 /** 默认值。repo 留空是刻意的：确认仓库后才由配置填上。 */
 export const DEFAULT_UPDATE_CONFIG = {
   /** GitHub 仓库，形如 "owner/name"；空串 = 未配置，不检查。 */
-  repo: '',
+  repo: 'Cognifair/dsh-memo-skill-island',
   /** GitHub API 根。企业/GHES 可换。 */
   apiBase: 'https://api.github.com',
   /** 安装包文件名正则（字符串）；空串 = 不挑安装包，只给 Release 页面。 */
-  assetPattern: '',
+  assetPattern: '\\.tgz$',
   /** 是否接受预发布版本。正式通道默认 false。 */
   allowPrerelease: false,
   /** 单次请求超时（毫秒）。 */
@@ -44,6 +44,14 @@ export function resolveUpdateConfig(raw, env = {}) {
     } else {
       merged[key] = String(value);
     }
+  }
+  // 显式写 repo: '' 表示关掉检查（否则会退回默认仓库）
+  if (Object.prototype.hasOwnProperty.call(source, 'repo')) {
+    merged.repo = normalizeRepo(typeof source.repo === 'string' ? source.repo : '');
+  }
+  // 显式写 assetPattern: '' 表示不挑安装包，只给 Release 页面
+  if (Object.prototype.hasOwnProperty.call(source, 'assetPattern')) {
+    merged.assetPattern = typeof source.assetPattern === 'string' ? source.assetPattern : '';
   }
   if (!merged.repo && typeof env.MEMO_ISLAND_UPDATE_REPO === 'string') {
     merged.repo = env.MEMO_ISLAND_UPDATE_REPO.trim();

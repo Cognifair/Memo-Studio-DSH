@@ -1,4 +1,5 @@
 *.tgz
+*.zip
 SHA256SUMS.txt
 node_modules/
 test-results.txt

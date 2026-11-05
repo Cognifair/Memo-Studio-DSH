@@ -1,6 +1,8 @@
-# 墨卡大师灵动岛 v0.1.1
+# Memo Studio（DSH） v0.1.2
 
 DSH 桌面端插件：技能指南、会话状态、技能启用指示与 API 上传进度。
+
+> 技术包名/仓库仍是 `dsh-memo-skill-island`，避免破坏已安装用户的更新与安装路径；产品名是 **Memo Studio（DSH）**。
 
 ## 安装
 

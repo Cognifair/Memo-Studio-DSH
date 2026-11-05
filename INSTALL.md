@@ -1,4 +1,4 @@
-# 墨卡大师灵动岛 · 安装
+# Memo Studio（DSH） · 安装
 
 这是 **DSH 桌面端插件**，不是技能。不要把它放进 `skills` 目录，也不要在 Codex / Claude Code 里安装。
 

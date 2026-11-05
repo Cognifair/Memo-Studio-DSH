@@ -6,7 +6,3 @@
 - insert:
     - id: memo-skill-island
       name: dsh-memo-skill-island
-      config:
-        update:
-          repo: Cognifair/dsh-memo-skill-island
-          assetPattern: "^dsh-memo-skill-island-[0-9]+\\.[0-9]+\\.[0-9]+\\.tgz$"

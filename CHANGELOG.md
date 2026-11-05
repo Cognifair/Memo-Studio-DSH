@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.2 — 2026-11-05
+
+影响面：产品命名与最新开发版同步（client.js、index.js、status.js、progress.js、update.js、locale、README、INSTALL.md）
+
+- 产品名改为 **Memo Studio（DSH）**；技术包名/仓库保留 `dsh-memo-skill-island`，避免破坏已安装用户的安装与更新路径。
+- 同步本地最新开发版：动效、状态、进度与上传视图；离线测试 59 项通过。
+- 安装器保留 SHA256 校验与 DSH `plugin_manager` 命令输出。
+
 ## v0.1.1 — 2026-11-05
 
 影响面：安装分发（INSTALL.md、install.ps1、install.cmd、package.json、README）
