@@ -1,8 +1,8 @@
-﻿# Memo Studio v0.1.7
+﻿# Memo Studio v0.1.9
 
 DSH 桌面端插件：技能指南、会话状态、技能启用指示与 API 上传进度。
 
-> 技术包名仍是 `dsh-memo-skill-island`，避免破坏已安装用户的安装与更新路径；GitHub 仓库已改名为 `Memo-Studio-DSH`，产品名是 **Memo Studio**。
+> npm 包名是 `memo-studio-dsh`；本地旧 link 安装仍可用 `dsh-memo-skill-island`，插件会同时识别两者。GitHub 仓库是 `Memo-Studio-DSH`，产品名是 **Memo Studio**。
 
 ## 安装
 

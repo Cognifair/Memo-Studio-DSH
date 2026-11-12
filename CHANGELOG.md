@@ -1,5 +1,21 @@
 # 更新记录
 
+## v0.1.9 — 2026-11-12
+
+影响面：npm 发布版本（package.json, README.md）
+
+- 发布版本推进到 `0.1.9`，避开 npm registry 中已存在的 staging 冲突。
+- 包名仍为 `memo-studio-dsh`；本地旧 link 名 `dsh-memo-skill-island` 继续兼容。
+- 功能代码与 0.1.8 一致。
+
+## v0.1.8 — 2026-11-12
+
+影响面：npm 包名（package.json, cordis.patch.yml, index.js, README.md）
+
+- npm 包名改为 `memo-studio-dsh`；`dsh-memo-skill-island` 作为本地旧 link 兼容名继续识别。
+- 宿主安装模式检测同时支持新旧包名，不破坏当前本地安装。
+- 功能代码不变。
+
 ## v0.1.7 — 2026-11-05
 
 影响面：同步用户最终本地版本（client.js、THIRD_PARTY_NOTICES.md、tests/client.test.mjs、tests/motion-timing.test.mjs、package.json、README.md）

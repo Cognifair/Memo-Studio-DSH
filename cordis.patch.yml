@@ -5,4 +5,4 @@
 # 挂一条只读长轮询路由 /memo-island/status。不写配置、不改会话、不回卡片正文。
 - insert:
     - id: memo-skill-island
-      name: dsh-memo-skill-island
+      name: memo-studio-dsh

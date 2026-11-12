@@ -87,8 +87,14 @@ export function apply(ctx, config = {}) {
     try {
       const profileDir = process.env.DSH_PROFILE_DIR;
       if (profileDir) {
-        const info = await lstat(`${profileDir}/node_modules/dsh-memo-skill-island`);
-        installMode = info.isSymbolicLink() ? 'link' : 'copy';
+        let info = null;
+        for (const packageName of ['memo-studio-dsh', 'dsh-memo-skill-island']) {
+          try {
+            info = await lstat(`${profileDir}/node_modules/${packageName}`);
+            break;
+          } catch { /* try the legacy package name */ }
+        }
+        if (info) installMode = info.isSymbolicLink() ? 'link' : 'copy';
       }
     } catch { /* 判断不了就不声称能自动升级 */ }
     updateChecker = createUpdateChecker({ config: updateConfig, currentVersion });

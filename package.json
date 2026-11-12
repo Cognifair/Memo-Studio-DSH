@@ -1,6 +1,6 @@
 ﻿{
-  "name": "dsh-memo-skill-island",
-  "version": "0.1.7",
+  "name": "memo-studio-dsh",
+  "version": "0.1.9",
   "private": false,
   "publishConfig": {
     "access": "public"
