@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.10 — 2026-11-12
+
+影响面：client.js, status.js, tests/, package.json, README.md, CHANGELOG.md
+
+- 监听面板自动跟手：API 上传开始后自动切到「API 上传」；上传结束且出现新任务后自动切回「当前任务」。
+- 同步本地较新的 Memo Studio 客户端（含监控 tab、任务历史与相关测试）。
+- 测试增至 83 项并通过。
+
 ## v0.1.9 — 2026-11-12
 
 影响面：npm 发布版本（package.json, README.md）

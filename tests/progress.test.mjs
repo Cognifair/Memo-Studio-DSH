@@ -8,12 +8,67 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { summarizeJournal, combineJournals, identityDigest, registeredView, RegistrationReader, registryRoots } from '../progress.js';
 import { apply } from '../index.js';
-import { createState, foldEvent, publicView, journalPathIn, applyJournal } from '../status.js';
+import { createState, foldEvent, publicView, journalPathIn, applyJournal, selectRegisteredTask } from '../status.js';
 
 const fixture = JSON.parse(await readFile(new URL('./fixtures/upload-progress.json', import.meta.url), 'utf8'));
 const clone = x => structuredClone(x);
 const uid = '22222222-2222-4222-8222-222222222222';
 const now = Date.parse('2026-11-04T14:22:00Z');
+
+test('new turn retires completed registrations without hiding live background work', () => {
+  const state = createState();
+  foldEvent(state, { type: 'turn/start', time: now });
+  const old = { taskId: 'old', startedAt: now - 10000, updatedAt: now - 1000,
+    phase: 'done', health: { lifecycle: 'completed', heartbeatAt: now - 1000 } };
+  assert.equal(selectRegisteredTask([old], state), undefined);
+  foldEvent(state, { type: 'turn/end', time: now + 100 });
+  assert.equal(selectRegisteredTask([old], state), undefined);
+  for (const lifecycle of ['running', 'paused']) {
+    const live = { ...old, phase: 'progress_unavailable', health: { lifecycle, code: 'heartbeat_stale' } };
+    assert.equal(selectRegisteredTask([old, live], state), live);
+  }
+  const fresh = { ...old, taskId: 'new', startedAt: now + 1000 };
+  assert.equal(selectRegisteredTask([fresh, old], state), fresh);
+  assert.equal(selectRegisteredTask([old], createState()), old); // restart, before a later turn
+});
+
+test('completed legacy upload starts a new flow from cached skill references', () => {
+  const state = createState();
+  foldEvent(state, { type: 'turn/start', time: now - 5000 });
+  foldEvent(state, { type: 'tool/call', time: now - 4000,
+    data: { name: 'skill', arguments: { name: 'memo-cardest' } } });
+  state.task.journalPath = 'C:/old/journal.json';
+  state.task.progress = { total: 77, uploaded: 77, verified: 77 };
+  foldEvent(state, { type: 'turn/end', time: now - 1000 });
+  foldEvent(state, { type: 'turn/start', time: now });
+  assert.equal(publicView(state, now).phase, 'idle');
+  foldEvent(state, { type: 'tool/call', time: now + 1, data: { name: 'read',
+    arguments: { file_path: 'C:/skills/memo-cardest/references/source-preflight.md' } } });
+  const view = publicView(state, now + 1);
+  assert.equal(view.phase, 'working');
+  assert.equal(view.stage, 'source');
+  assert.equal(view.progress, undefined);
+  assert.equal(state.task.journalPath, undefined);
+});
+
+test('host keeps old completed upload in history while the new workflow takes the island', async t => {
+  const dir = await temp(t);
+  const journal = path.join(dir, 'journal.json');
+  await writeFile(journal, JSON.stringify(fixture.sample96));
+  await writeFile(path.join(dir, uid + '.json'), JSON.stringify(meta(fixture.sample96,
+    { journals: [journal], lifecycle: 'completed' })));
+  const future = Date.now() + 1000;
+  const events = [{ type: 'turn/start', time: future, seq: 1 },
+    { type: 'tool/call', seq: 2, time: future + 1, data: { name: 'skill', arguments: { name: 'memo-cardest' } } }];
+  const h = host(t, dir, events);
+  const view = await h.request();
+  assert.equal(view.phase, 'working');
+  assert.equal(view.stage, 'start');
+  assert.equal(view.progress, undefined);
+  assert.equal(view.tasks.length, 1);
+  assert.equal(view.tasks[0].phase, 'done');
+  assert.equal((await h.request()).phase, 'working'); // registry reread cannot resurrect old upload
+});
 function meta(j, overrides = {}) {
   return { protocol_version: 1, task_uuid: uid, task_id: j.task_id, identity_digest: identityDigest(j),
     session_id: 'session-fixture', total: j.items.length, started_at: '2026-11-04T14:17:00Z',
@@ -49,6 +104,28 @@ function host(t, root, events = []) {
     return output.value;
   } };
 }
+
+test('host exposes workflow and registered upload independently in the same response', async t => {
+  const dir = await temp(t);
+  const journal = path.join(dir, 'journal.json');
+  const pending = atTime(fixture.sample96, Date.parse('2026-11-04T14:18:00Z'));
+  await writeFile(journal, JSON.stringify(pending));
+  await writeFile(path.join(dir, uid + '.json'), JSON.stringify(meta(pending,
+    { journals: [journal], lifecycle: 'running', heartbeat_at: new Date().toISOString() })));
+  const time = Date.now();
+  const h = host(t, dir, [{ type: 'turn/start', time, seq: 1 },
+    { type: 'tool/call', time: time + 1, seq: 2, data: { name: 'skill', arguments: { name: 'memo-cardest' } } },
+    { type: 'tool/call', time: time + 2, seq: 3, data: { name: 'read', arguments: {
+      file_path: 'C:/skills/memo-cardest/references/design-toolbox.md' } } }]);
+  const view = await h.request();
+  assert.equal(view.workflow.phase, 'working');
+  assert.equal(view.workflow.stage, 'design');
+  assert.equal(view.workflow.progress, undefined);
+  assert.equal(view.uploads.length, 1);
+  assert.equal(view.uploads[0].taskId, uid);
+  assert.equal(view.uploads[0].progress.total, 96);
+  assert.equal(view.uploads[0].health.lifecycle, 'running');
+});
 
 test('96-card actual history: hidden path produces snapshot, explicit journal gives 96', () => {
   const state = createState();

@@ -13,6 +13,13 @@ const describe = vm.runInNewContext('(' + source.slice(describeStart, describeEn
 const labels = { 'progress.uploaded': 'Uploaded {n}/{total}', 'bubble.progress': 'Progress {sent}/{total}' };
 const t = key => labels[key] || key;
 
+test('empty monitor uses the Memo Studio brand instead of the empty-state message', () => {
+  const d = describe({ phase: 'idle', monitorEmpty: true }, key => key === 'capsule' ? 'Memo Studio' : key, Date.now());
+  assert.equal(d.text, 'Memo Studio');
+  assert.equal(d.bubble, null);
+  assert.equal(d.progress, null);
+});
+
 test('main text, ring and accessible label share uploaded, never deprecated sent', () => {
   const d = describe({ phase: 'upload', source: 'registered', running: true,
     progress: { uploaded: 16, sent: 99, total: 96 }, health: { code: 'ok' } }, t, Date.now());

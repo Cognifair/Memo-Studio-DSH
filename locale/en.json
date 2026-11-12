@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "title": "Memo Studio",
     "description": "A \"Skill guide\" capsule at the top that doubles as a status light: it changes colour while Memo Studio works, waits for you, finishes or fails. Open it for the current task, or browse skills by task and copy an example request."

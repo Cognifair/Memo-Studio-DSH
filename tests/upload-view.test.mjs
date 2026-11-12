@@ -47,14 +47,18 @@ const view = (over = {}) => ({
   ...over
 });
 
-test('默认区只放关键数量：核验通过 + 待上传（+待核验）', () => {
+test('默认区固定显示核验通过、待上传、待核验、不确定，零值不隐藏', () => {
   const a = describeUpload(view(), NOW);
-  assert.deepEqual(Array.from(a.counts, (c) => c.label), ['核验通过', '待上传']);
-  assert.deepEqual(Array.from(a.counts, (c) => c.value), [5, 3]);
+  assert.deepEqual(Array.from(a.counts, (c) => c.label), ['核验通过', '待上传', '待核验', '不确定']);
+  assert.deepEqual(Array.from(a.counts, (c) => c.value), [5, 3, 0, 0]);
 
   const b = describeUpload(view({ progress: progress({ written: 2 }) }), NOW);
-  assert.deepEqual(Array.from(b.counts, (c) => c.label), ['核验通过', '待上传', '待核验']);
-  assert.deepEqual(Array.from(b.counts, (c) => c.value), [5, 3, 2]);
+  assert.deepEqual(Array.from(b.counts, (c) => c.label), ['核验通过', '待上传', '待核验', '不确定']);
+  assert.deepEqual(Array.from(b.counts, (c) => c.value), [5, 3, 2, 0]);
+  const c = describeUpload(view({ progress: progress({ uncertain: 1 }) }), NOW);
+  assert.deepEqual(Array.from(c.counts, (count) => count.key), Array.from(b.counts, (count) => count.key));
+  assert.deepEqual(Array.from(c.counts, (count) => count.value), [5, 3, 0, 1]);
+  assert.deepEqual(Array.from(c.exceptions), []);
 });
 
 test('零值异常不显示；有异常时逐项列出（不合并成“异常”）', () => {
@@ -63,7 +67,6 @@ test('零值异常不显示；有异常时逐项列出（不合并成“异常�
     progress: progress({ total: 20, verified: 10, failed: 2, uncertain: 3, mismatch: 1, skipped: 4 })
   }), NOW);
   assert.deepEqual(Array.from(mixed.exceptions), [
-    '3 张结果不确定，等待核查',
     '2 张写入失败',
     '1 张回读不一致',
     '4 张被跳过（目标未完成）'

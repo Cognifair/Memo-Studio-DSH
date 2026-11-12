@@ -49,7 +49,7 @@
 
 ## 方式 C：npm（已发布）
 
-npm 包：`memo-studio-dsh@0.1.9`。可以直接在 DSH 里说：
+npm 包：`memo-studio-dsh@0.1.10`。可以直接在 DSH 里说：
 
 ```text
 把 memo-studio-dsh 装上
@@ -58,7 +58,7 @@ npm 包：`memo-studio-dsh@0.1.9`。可以直接在 DSH 里说：
 或指定版本：
 
 ```text
-plugin_manager install_bundle  target = memo-studio-dsh@0.1.9
+plugin_manager install_bundle  target = memo-studio-dsh@0.1.10
 ```
 
 本地旧 link 名 `dsh-memo-skill-island` 继续兼容；新安装请使用 `memo-studio-dsh`。

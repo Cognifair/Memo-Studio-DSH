@@ -276,6 +276,14 @@ export function createState() {
   };
 }
 
+/** Finished registrations remain in history, but cannot own a later turn's island. */
+export function selectRegisteredTask(tasks, state) {
+  const turnStart = state.turnStartedAt || 0;
+  return [...tasks].sort((a, b) => (b.startedAt || 0) - (a.startedAt || 0)).find(t =>
+    ['running', 'paused'].includes(t.health?.lifecycle) || !turnStart || Math.max(t.startedAt || 0,
+    t.updatedAt || 0, t.health?.heartbeatAt || 0) >= turnStart);
+}
+
 function newTask(state, time) {
   state.task = {
     startedAt: time,
@@ -334,7 +342,10 @@ export function foldEvent(state, event) {
         // 新一轮用户消息：已交付的任务算看过了，回到静息。
         // 出错的任务不清：回读失败后你多半是让 AI 重做 / 续传，清掉会丢掉清单和已完成的卡数；
         // 余额 / 连接 / 本轮出错这类轮次级错误，新一轮就是重试，只清错误本身
-        if (task.deliverable && !task.journalPath) state.task = null;
+        if (task.deliverable || (task.progress?.total > 0 && task.progress.verified === task.progress.total)) {
+          state.task = null;
+          state.pending = {};
+        }
         else {
           if (task.error && task.error.kind !== 'verify' && task.error.kind !== 'lint') task.error = null;
           task.ended = null;
@@ -404,6 +415,13 @@ export function foldEvent(state, event) {
         task.updatedAt = time;
         changed = true;
         break;
+      }
+      // A cached skill need not be loaded again: reading its docs or executing its
+      // scripts is enough to begin a fresh workflow after the previous delivery.
+      if (!task && ((name === 'read' && skillFromPath(String(args.file_path || args.path || ''))) ||
+        MEMO_TOUCH.test(typeof data.arguments === 'string' ? data.arguments : JSON.stringify(args)))) {
+        task = newTask(state, time);
+        changed = true;
       }
       if (!task) break;
       // 任务进行中，每个工具调用都照常处理（AI 看 PDF、截图时也可能紧接着弹问题框）。
@@ -518,6 +536,13 @@ export function foldEvent(state, event) {
  * 给岛的公开状态：只有阶段、计数和短文案。
  * phase：idle / working / upload / ask / approval / reply / stopped / done / error
  */
+export function publicWorkflowView(state, now) {
+  // Same event-derived workflow, without letting a journal replace its phase.
+  // The original task and its persistent upload record remain untouched.
+  const task = state.task ? { ...state.task, progress: null, journalPath: undefined } : null;
+  return publicView({ ...state, task }, now);
+}
+
 export function publicView(state, now) {
   const task = state.task;
   const at = typeof now === 'number' ? now : Date.now();

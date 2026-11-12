@@ -14,7 +14,7 @@
 import { randomUUID } from 'node:crypto';
 import { RegistrationReader, registryRoots } from './progress.js';
 import { stat, readFile, lstat } from 'node:fs/promises';
-import { createState, foldEvent, publicView, applyJournal, pendingPreviousJournals, applyCarried } from './status.js';
+import { createState, foldEvent, publicView, publicWorkflowView, applyJournal, pendingPreviousJournals, applyCarried, selectRegisteredTask } from './status.js';
 import { createUpdateChecker } from './update.js';
 import { resolveUpdateConfig } from './update-config.js';
 
@@ -184,14 +184,16 @@ export function apply(ctx, config = {}) {
   function viewFor(record) {
     const legacy = publicView(record.state, Date.now());
     const tasks = record.registered || [];
-    const active = tasks.find(t => t.running || t.health.lifecycle === 'paused') || tasks[0];
-    let value = active ? { ...active, tasks } : legacy;
+    const active = selectRegisteredTask(tasks, record.state);
+    let value = active ? { ...active, tasks } : { ...legacy, tasks };
     if (active && ['ask', 'approval'].includes(legacy.phase)) value = { ...value, phase: legacy.phase, ask: legacy.ask, approval: legacy.approval };
     if (!active && record.registrationError) value = { ...value, phase: 'progress_unavailable', health: { code: record.registrationError } };
     if (!active && record.state.task?.progressHealth && record.state.task.progressHealth !== 'ok') value = { ...value, phase: 'progress_unavailable', health: { code: record.state.task.progressHealth } };
     // 上传登记接管了视图时，本轮启用集合仍要从折叠状态里带上，否则技能圈会在上传期间消失
     value = {
       ...value,
+      workflow: publicWorkflowView(record.state, Date.now()),
+      uploads: tasks.length ? tasks : legacy.progress ? [legacy] : [],
       skills: legacy.skills || [],
       skillsRev: legacy.skillsRev || 0,
       skillsPaused: legacy.skillsPaused === true,
@@ -215,7 +217,7 @@ export function apply(ctx, config = {}) {
         const result = await registrations.read(record.sessionId, Date.now(), rootsFor(record.sessionId));
         record.registered = result.tasks;
         record.registrationError = result.error;
-        if (!result.tasks.length) await syncLegacyJournal(record);
+        if (!selectRegisteredTask(result.tasks, record.state)) await syncLegacyJournal(record);
       } catch { record.registrationError = 'registry_read_failed'; }
       if (viewFor(record).rev !== before) notify(record);
     })().finally(() => { record.syncing = undefined; });
