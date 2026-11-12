@@ -1,4 +1,4 @@
-﻿# Memo Studio v0.1.9
+# Memo Studio v0.1.9
 
 DSH 桌面端插件：技能指南、会话状态、技能启用指示与 API 上传进度。
 
@@ -10,7 +10,7 @@ DSH 桌面端插件：技能指南、会话状态、技能启用指示与 API �
 
 完整步骤、手动安装、卸载与边界见 [INSTALL.md](https://github.com/Cognifair/Memo-Studio-DSH/blob/main/INSTALL.md)。
 
-npm 包名已准备为 `dsh-memo-skill-island`，**目前尚未发布**；发布后可以直接在 DSH 里说「把 dsh-memo-skill-island 装上」。在那之前请使用 Releases 安装脚本。
+npm 包已发布：`memo-studio-dsh@0.1.9`。可直接在 DSH 桌面端说「把 memo-studio-dsh 装上」，或用 Releases 安装脚本。旧的本地 link 名 `dsh-memo-skill-island` 继续兼容。
 
 安装或更新宿主代码后，在没有活跃上传任务时重启 DSH。客户端与宿主必须使用同一版本。不要直接把 GitHub 的 Source code 压缩包当作安装包。
 

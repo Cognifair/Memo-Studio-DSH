@@ -1,4 +1,4 @@
-﻿# Memo Studio · 安装
+# Memo Studio · 安装
 
 这是 **DSH 桌面端插件**，不是技能。不要把它放进 `skills` 目录，也不要在 Codex / Claude Code 里安装。
 
@@ -47,25 +47,31 @@
 
 不要用 GitHub 的 “Source code” 压缩包代替发布包。
 
-## 方式 C：npm（准备中）
+## 方式 C：npm（已发布）
 
-npm 包名已准备为 `dsh-memo-skill-island`，但目前尚未发布。发布后可以直接在 DSH 里说：
+npm 包：`memo-studio-dsh@0.1.9`。可以直接在 DSH 里说：
 
 ```text
-把 dsh-memo-skill-island 装上
+把 memo-studio-dsh 装上
 ```
 
 或指定版本：
 
 ```text
-plugin_manager install_bundle  target = dsh-memo-skill-island@<版本>
+plugin_manager install_bundle  target = memo-studio-dsh@0.1.9
 ```
 
-在 npm 正式发布前，请使用方式 A 或 B。
+本地旧 link 名 `dsh-memo-skill-island` 继续兼容；新安装请使用 `memo-studio-dsh`。
 
 ## 卸载
 
 在 DSH 桌面端发送：
+
+```text
+plugin_manager remove_bundle  target = memo-studio-dsh
+```
+
+旧链接安装如需卸载，使用：
 
 ```text
 plugin_manager remove_bundle  target = dsh-memo-skill-island
