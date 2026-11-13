@@ -2786,6 +2786,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         skill: 'memo-cardlink'
       },
       {
+        id: 'merge',
+        label: { zh: '牌组合并', en: 'Merge decks' },
+        blurb: { zh: '把两个牌组复制成一个', en: 'Merge two decks into one' },
+        skill: 'memo-cardest-merge'
+      },
+      {
         id: 'txt',
         label: { zh: 'TXT 导入', en: 'TXT import' },
         blurb: { zh: '生成能直接导入的文件', en: 'Build a file Markji can import' },
@@ -2812,7 +2818,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
     var TASK_PRIMARY = ['handout', 'txt', 'scan', 'table'].map(function (id) {
       return TASKS.find(function (item) { return item.id === id; });
     });
-    var TASK_AUX = ['help', 'delete', 'anki', 'links'].map(function (id) {
+    var TASK_AUX = ['help', 'delete', 'anki', 'links', 'merge'].map(function (id) {
       return TASKS.find(function (item) { return item.id === id; });
     });
 
@@ -3059,6 +3065,38 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         warning: {
           zh: '删除不可撤销，请先确认范围。',
           en: 'Deletion is irreversible — confirm the scope first.'
+        }
+      },
+      {
+        id: 'memo-cardest-merge',
+        skillId: 'memo-cardest',
+        title: '牌组合并',
+        conciseIntro: true,
+        titleEn: 'Merge decks',
+        alias: '墨卡大师 · 牌组合并',
+        use: {
+          zh: '把两个牌组按章节复制到一个目标牌组，保留卡片正文、图片、音频和内部链接。先只读盘点，你创建并确认目标牌组，复制和核验完成后再由你手动删除源牌组。',
+          en: 'Copy two decks into one target deck, preserving card content, images, audio and internal links. It starts read-only, you create and confirm the target deck, and you delete the source decks only after copy and verification.'
+        },
+        prep: {
+          zh: '两个源牌组，以及你已经在客户端建好的目标牌组名。',
+          en: 'Two source decks, plus the target deck you already created in the client.'
+        },
+        example: {
+          zh: '把「考研词汇」和「考研语法」合并到「考研英语」。',
+          en: 'Merge "Graduate Vocabulary" and "Graduate Grammar" into "Graduate English".'
+        },
+        delivery: {
+          zh: '先只读计划；目标确认后复制并核验。不会自动删除源牌组。',
+          en: 'A read-only plan first; copy and verify after the target is confirmed. Source decks are never deleted automatically.'
+        },
+        detail: {
+          zh: '官方 API 不能新建牌组；目标牌组要你先创建。TXT 路线不能单独修内部链接，需要 API 回读。学习进度不会迁移。',
+          en: 'The official API cannot create decks, so create the target first. TXT alone cannot repair internal links; it needs API readback. Study progress is not migrated.'
+        },
+        warning: {
+          zh: '验收前不要删源牌组；先检查图片、音频、链接和卡片数量。',
+          en: 'Do not delete the source decks before verification. Check images, audio, links and card counts first.'
         }
       }
     ];
@@ -3494,6 +3532,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         'M9.5 14.5l5-5',
         'M8 11.5l-2 2a3.5 3.5 0 0 0 5 5l2-2',
         'M16 12.5l2-2a3.5 3.5 0 0 0-5-5l-2 2'
+      ],
+      merge: [
+        'M4 4.5h6v6H4z',
+        'M14 4.5h6v6h-6z',
+        'M12 10.5v4',
+        'M8 14.5h8v5H8z'
       ],
       txt: ['M6.5 3.5h7l4 4v13h-11z', 'M13.5 3.5v4h4', 'M9 12.5h6', 'M9 16.5h6'],
       help: [

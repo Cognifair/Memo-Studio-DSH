@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.11 — 2026-11-13
+
+影响面：client.js, package.json, README.md, CHANGELOG.md
+
+- 左侧任务导航新增「牌组合并」入口，位于「卡片互链」之后；
+- 入口包含用途、准备材料、示例、交付说明和“验收前不要删源牌组”警告；
+- 对应 `memo-cardest` 的 `merge-decks` 只读计划阶段。
+
 ## v0.1.10 — 2026-11-12
 
 影响面：client.js, status.js, tests/, package.json, README.md, CHANGELOG.md
