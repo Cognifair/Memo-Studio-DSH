@@ -2774,6 +2774,12 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         skill: 'memo-canvas'
       },
       {
+        id: 'style',
+        label: { zh: '墨墨风格', en: 'Markji style' },
+        blurb: { zh: '统一移动端与卡片视觉', en: 'Unify mobile and card visuals' },
+        skill: 'memo-designer'
+      },
+      {
         id: 'anki',
         label: { zh: 'Anki 迁移', en: 'Anki migration' },
         blurb: { zh: '把 Anki 的挖空卡搬过来', en: 'Move occlusion cards out of Anki' },
@@ -2815,7 +2821,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
 
     /** 每条技能只写四处：用途、输入、输出、主要限制，外加一条示例请求。 */
     /** 制卡入口在上，辅助功能在下；显式顺序不受 TASKS 定义位置影响。 */
-    var TASK_PRIMARY = ['handout', 'txt', 'scan', 'table'].map(function (id) {
+    var TASK_PRIMARY = ['handout', 'txt', 'scan', 'table', 'style'].map(function (id) {
       return TASKS.find(function (item) { return item.id === id; });
     });
     var TASK_AUX = ['help', 'delete', 'anki', 'links', 'merge'].map(function (id) {
@@ -2916,6 +2922,34 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
         detail: {
           zh: '扫描图可以按原样高清化，也可以忠实重绘。不负责牌组、上传和 TXT 容器。',
           en: 'Scans can be sharpened as-is or faithfully redrawn. Decks, uploads and TXT files are handled elsewhere.'
+        }
+      },
+      {
+        id: 'memo-designer',
+        repository: '',
+        title: '墨墨风格',
+        conciseIntro: true,
+        titleEn: 'Memo-Designer',
+        alias: 'Memo-Designer',
+        use: {
+          zh: '把移动端界面、设置分组、色块标签和卡片文字色统一到一套墨墨视觉语言；当前移动端已有组件，Web 与卡片设计仍待补充。',
+          en: 'Unifies mobile UI, settings groups, color tags and card text colors under one Markji visual language. Mobile has components today; Web and card design still need references.'
+        },
+        prep: {
+          zh: '要统一的页面/组件截图，或直接说要做哪种移动端界面。',
+          en: 'A screenshot of the page/component to match, or simply name the mobile surface you want.'
+        },
+        example: {
+          zh: '按墨墨风格做一个设置页，数据项右侧用标签，设置项右侧用箭头。',
+          en: 'Build a Markji-style settings page: data rows use right-side tags, settings rows use chevrons.'
+        },
+        delivery: {
+          zh: '输出 HTML/CSS 组件、卡片文字色映射和预览；不临时手调颜色。',
+          en: 'HTML/CSS components, card text-color mappings and previews; no ad-hoc color tweaking.'
+        },
+        detail: {
+          zh: '只负责视觉规则与模版，不负责牌组、API 写入、TXT 容器。移动端组件必须复用 Memo-Designer 的模板；Web 与卡片设计目录为空时不要凭空补。',
+          en: 'Visual rules and templates only — not decks, API writes or TXT containers. Reuse Memo-Designer templates; do not invent Web or card designs while those categories are empty.'
         }
       },
       {
@@ -3527,6 +3561,9 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
       ],
       scan: ['M6.5 17.5L12 5l5.5 12.5', 'M8.8 13.4h6.4'],
       table: ['M4 5.5h16v13H4z', 'M4 15.5l4.5-4.5 4.5 4.5 3-3 4 4'],
+      style: [
+        'M12 3.5l2.1 4.3 4.7.7-3.4 3.3.8 4.7-4.2-2.2-4.2 2.2.8-4.7-3.4-3.3 4.7-.7z'
+      ],
       anki: ['M12 4v10', 'M8 10.5l4 4 4-4', 'M5 19h14'],
       links: [
         'M9.5 14.5l5-5',
@@ -5135,7 +5172,7 @@ return { STANDBY_PRESET: pa, createGlyphRoll: fa };
               h('button', { type: 'button', className: 'msi-skill-hero__try', onClick: props.onTry,
                 title: lang === 'en' ? 'Copy example prompt' : '复制示例提示词', 'aria-live': 'polite' },
                 props.copyState ? props.copyLabel : lang === 'en' ? 'Try it' : '去试试'),
-              h('a', { className: 'msi-skill-hero__github', href: skill.repository, target: '_blank', rel: 'noopener noreferrer' }, 'GitHub ↗')))),
+              skill.repository ? h('a', { className: 'msi-skill-hero__github', href: skill.repository, target: '_blank', rel: 'noopener noreferrer' }, 'GitHub ↗') : null))),
         h('div', { id: 'msi-skill-description', className: 'msi-skill-description' },
           expanded[0] ? h(React.Fragment, null,
             h('p', { className: 'msi-detail__use' }, pick(skill.use, lang)),

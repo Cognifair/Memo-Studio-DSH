@@ -1,5 +1,13 @@
 # 更新记录
 
+## v0.1.12 — 2026-11-14
+
+影响面：client.js, package.json, README.md, CHANGELOG.md
+
+- 左侧任务导航在「图片与表格」后新增「墨墨风格」，对应 `memo-designer`。
+- 详情页展示移动端设计系统说明；暂无 GitHub 仓库时不显示 GitHub 按钮。
+- 现有任务顺序、合并入口和状态栏不变。
+
 ## v0.1.11 — 2026-11-13
 
 影响面：client.js, package.json, README.md, CHANGELOG.md
